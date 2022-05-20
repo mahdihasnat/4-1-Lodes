@@ -152,13 +152,19 @@ char * AES::encrypt(char *plaintext)
 	sub_bytes(state,nb);
 	shift_row(state,nb);
 	add_round_key(state,w+w_index,nb);
-	DBG_STATE(state);
+	// DBG_STATE(state);
 	
-	DBG(plaintext);
-	set_matrix(plaintext,state);
+	// DBG(plaintext);
 
-	delete state;
-	return plaintext;
+	static char ciphertext[257];
+	
+	strcpy(ciphertext,plaintext);
+
+	set_matrix(ciphertext,state);
+
+	delete []state;
+
+	return ciphertext;
 }
 
 inline void AES::add_round_key(uint *state,uint *w,uint col) {
