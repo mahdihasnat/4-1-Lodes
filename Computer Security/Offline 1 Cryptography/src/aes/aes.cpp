@@ -6,7 +6,7 @@ using namespace std;
 #include "aes.h"
 #include "rot.cpp"
 #include "sub.cpp"
-
+#include "gf.cpp"
 
 uint RoundConstants[15] = {
 	(uint)0,
@@ -26,7 +26,7 @@ uint RoundConstants[15] = {
 	(uint)0x4d<<24U
 };
 
-void extract_matrix(char * s, uint * w)
+void get_matrix(char * s, uint * w)
 {
 	while(*s)
 	{
@@ -35,6 +35,18 @@ void extract_matrix(char * s, uint * w)
 		*w |= (*s++)<<16;
 		*w |= (*s++)<<8;
 		*w |= (*s++);
+		w++;
+	}
+}
+
+void set_matrix(char *s,uint *w)
+{
+	while(*s)
+	{
+		*s++ = (*w)>>24;
+		*s++ = ((*w)>>16)&0xff;
+		*s++ = ((*w)>>8)&0xff;
+		*s++ = (*w)&0xff;
 		w++;
 	}
 }
@@ -68,7 +80,7 @@ AES::AES(char *key)
 	this->w = new uint[this->nk*(nr + 1)];
 	curr = key;
 	int i=0;
-	extract_matrix(key,this->w);
+	get_matrix(key,this->w);
 	i+=this->nk;
 
 	for(int round = 1;round <= nr;round++)
@@ -116,23 +128,34 @@ char * AES::encrypt(char *plaintext)
 
 	uint * state = new uint[nb];
 
-	extract_matrix(plaintext,state);
+	get_matrix(plaintext,state);
 	DBG_STATE(state);
 	DBG_STATE(this->w);
 	add_round_key(state,this->w,nb);
 	DBG_STATE(state);
 	uint * curr_wb = this->w;
 	
-	int w_index = nk;
+	int w_index = nb;
 
 	for(int i=1;i<nr;i++){
 		sub_bytes(state,nb);
-		DBG_STATE(state);
+		// DBG_STATE(state);
 		shift_row(state,nb);
-		DBG_STATE(state);
-
-		w_index+=nk;
+		// DBG_STATE(state);
+		mix_column(state,nb);
+		// DBG_STATE(state);
+		add_round_key(state,w+w_index,nb);
+		// DBG_STATE(state);
+		w_index+=nb;
 	}
+
+	sub_bytes(state,nb);
+	shift_row(state,nb);
+	add_round_key(state,w+w_index,nb);
+	DBG_STATE(state);
+	
+	DBG(plaintext);
+	set_matrix(plaintext,state);
 
 	delete state;
 	return plaintext;
@@ -177,8 +200,15 @@ void AES::shift_row(uint *state,uint col) {
 
 }
 
+
 void AES::mix_column(uint *state,uint col) {
-	
+	static uint Mixer [4][4] ={
+		{0x02,0x03,0x01,0x01},
+		{0x01,0x02,0x03,0x01},
+		{0x01,0x01,0x02,0x03},
+		{0x03,0x01,0x01,0x02},
+	};
+	Gf_matrix_mult(Mixer,state,col);
 }
 
 
@@ -195,7 +225,7 @@ void AES_delete(AES *aes){
 }
 void AES_init(){
 	cout<<"In AES init\n";
-
+	Gf_init();
 }
 
 

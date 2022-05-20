@@ -12,12 +12,18 @@ class AES(object):
 
 	def encrypt(self,x):
 		lib.AES_encrypt.restype = ctypes.c_char_p
+		# y = x.ctypes.data_as(ctypes.POINTER(ctypes.c_char))
+		# print(y)
 		r = lib.AES_encrypt(self.obj,ctypes.c_char_p(x.encode()))
 		# print(r)
-		return r.decode()
+		# print(type(r))
+		return "".join(map(chr,r))
 	
 	def __del__(self):
 		lib.AES_delete(self.obj)
 
 a = AES("Thats my Kung Fu")
-print( a.encrypt("Two One Nine Two") )
+s = "Two One Nine Two"
+
+print( a.encrypt(s) )
+print(s)
