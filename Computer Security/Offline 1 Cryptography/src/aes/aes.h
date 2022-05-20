@@ -14,6 +14,11 @@ private:
 	uint *w;
 	int nk;
 	int nr;
+	void add_round_key(uint *state,uint *w,uint col);
+	void sub_bytes(uint *state,uint col);
+	void shift_row(uint *state,uint col);
+	void mix_column(uint *state,uint col);
+	
 };
 
 
