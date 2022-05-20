@@ -113,8 +113,7 @@ char * AES::encrypt(char *plaintext)
 {
 	cout<<"In AES encrypt\n";
 	cout<<"Plaintext: "<<plaintext<<"\n";
-	static char c[] = {'a','b','\0'};
-	cout<<"C: "<<c<<"\n";
+	
 
 	int len = strlen(plaintext);
 	int nb = len/4;
@@ -129,42 +128,61 @@ char * AES::encrypt(char *plaintext)
 	uint * state = new uint[nb];
 
 	get_matrix(plaintext,state);
-	DBG_STATE(state);
-	DBG_STATE(this->w);
-	add_round_key(state,this->w,nb);
-	DBG_STATE(state);
-	uint * curr_wb = this->w;
 	
-	int w_index = nb;
+	// initial task
+	add_round_key(state,this->w,nb);
+	
+	uint * curr_w = this->w+nb;
 
 	for(int i=1;i<nr;i++){
 		sub_bytes(state,nb);
-		// DBG_STATE(state);
 		shift_row(state,nb);
-		// DBG_STATE(state);
 		mix_column(state,nb);
-		// DBG_STATE(state);
-		add_round_key(state,w+w_index,nb);
-		// DBG_STATE(state);
-		w_index+=nb;
+		add_round_key(state,curr_w,nb);
+		
+		curr_w+=nb;
 	}
 
+	// last round
 	sub_bytes(state,nb);
 	shift_row(state,nb);
-	add_round_key(state,w+w_index,nb);
-	// DBG_STATE(state);
+	add_round_key(state,curr_w,nb);
 	
-	// DBG(plaintext);
 
 	static char ciphertext[257];
-	
 	strcpy(ciphertext,plaintext);
-
+	
 	set_matrix(ciphertext,state);
 
 	delete []state;
 
 	return ciphertext;
+}
+
+char * AES::decrypt(char *ciphertext) {
+	cout<<"In AES decrypt\n";
+	cout<<"Ciphertext: "<<ciphertext<<"\n";
+
+	int len = strlen(ciphertext);
+	int nb = len/4;
+	if(len % 4 != 0 or nb != nk)
+	{
+		cout<<"Ciphertext length must be equal to length of key\n";
+		assert(0);
+	}
+
+	uint * state = new uint[nb];
+	get_matrix(ciphertext,state);
+	
+	uint * curr_w = this->w + nb*(nr);
+	add_round_key(state,curr_w,nb);
+	curr_w-=nb;
+
+	for(int i=1;i<nr;i++)
+	{
+		// TODO
+	}
+	// TODO
 }
 
 inline void AES::add_round_key(uint *state,uint *w,uint col) {

@@ -9,6 +9,7 @@ class AES
 public:
 	AES(char *key); // key must be of  len 128, 172, 256
 	char * encrypt(char *plaintext);
+	char * decrypt(char *ciphertext);
 	~AES();
 private:
 	uint *w;
