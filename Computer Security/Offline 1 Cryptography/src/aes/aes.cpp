@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define DBG(x) cout <<"Line "<<__LINE__<<" "<< #x << " = " << (x) << endl
+#define DBG(x) cout <<"Line "<< dec<< __LINE__<<" "<< #x << " = " << hex<< (x) << endl
 #define NL cout<<"\n"
 
 #include "aes.h"
@@ -26,50 +26,47 @@ uint RoundConstants[15] = {
 	(uint)0x4d<<24U
 };
 
-void get_matrix(char * s, uint * w)
+void get_matrix(char * s, uint * w,int len)
 {
-	while(*s)
+	while(len>0)
 	{
 		*w = 0;
-		*w |= (*s++)<<24;
-		*w |= (*s++)<<16;
-		*w |= (*s++)<<8;
-		*w |= (*s++);
+		*w |= ((*s++)&0xFF)<<24;
+		*w |= ((*s++)&0xFF)<<16;
+		*w |= ((*s++)&0xFF)<<8;
+		*w |= ((*s++)&0xFF);
 		w++;
+		len-=4;
 	}
 }
 
-void set_matrix(char *s,uint *w)
+void set_matrix(char *s,uint *w,int len)
 {
-	while(*s)
+	while(len>0)
 	{
 		*s++ = (*w)>>24;
 		*s++ = ((*w)>>16)&0xff;
 		*s++ = ((*w)>>8)&0xff;
 		*s++ = (*w)&0xff;
 		w++;
+		len-=4;
 	}
 }
 
-AES::AES(char *key)
+AES::AES(char *key,int len)
 {
 	// fails if key length is not multiple of 4
 
 	cout<<"In AES constructor\n";
 	cout<<"Key: "<<key<<"\n";
-	this->nk=0;
+	
+	this->nk=len/4;
+	
 	char * curr = key;
-	while( * curr)
-	{
-		this->nk++;
-		curr++;
-		assert( *(curr++) );
-		assert( *(curr++) );
-		assert( *(curr++) );
-	}
-	DBG(this->nk);
+	
+	// DBG(this->nk);
 
-	if(this->nk != 4 and this->nk != 6 and this->nk != 8)
+	if(len%4 != 0 or (this->nk != 4 and this->nk != 6 and this->nk != 8))
 	{
 		cout<<"Key length must be 128, 172, or 256 bits\n";
 		assert(0);
@@ -80,24 +77,20 @@ AES::AES(char *key)
 	this->w = new uint[this->nk*(nr + 1)];
 	curr = key;
 	int i=0;
-	get_matrix(key,this->w);
+	get_matrix(key,this->w,len);
 	i+=this->nk;
 
 	for(int round = 1;round <= nr;round++)
 	{
 		uint g = RotWord(w[i-1]);
-		// DBG(g);
+
 		g = SubWord(g);
-		// DBG(g);
+		
 		g=g^RoundConstants[round];
-		// DBG(g);
+
 		w[i] = g ^ w[i-nk];i++;
 		for(int j=0;j<nk-1;j++,i++)
 			w[i] = w[i-nk] ^ w[i-1];
-		
-		for(int j=0;j<nk;j++)
-			cout<< hex<<w[i-nk+j]<<" ";
-		NL;
 	}
 
 
@@ -109,13 +102,11 @@ AES::~AES()
 		delete [] this->w;
 }
 
-char * AES::encrypt(char *plaintext)
+char * AES::encrypt(char *plaintext,int len)
 {
 	cout<<"In AES encrypt\n";
 	cout<<"Plaintext: "<<plaintext<<"\n";
 	
-
-	int len = strlen(plaintext);
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
 	{
@@ -123,11 +114,11 @@ char * AES::encrypt(char *plaintext)
 		assert(0);
 	}
 
-#define DBG_STATE(x) cout<<"Line "<<__LINE__<<" "<< #x << " = " << (x[0])<<" "<<(x[1])<<" "<<(x[2])<<" "<<(x[3])<<endl
+#define DBG_STATE(x) cout<<"Line "<<dec<<__LINE__<<" "<< #x << " = " << hex << (x[0])<<" "<<(x[1])<<" "<<(x[2])<<" "<<(x[3])<<endl
 
 	uint * state = new uint[nb];
 
-	get_matrix(plaintext,state);
+	get_matrix(plaintext,state,len);
 	
 	// initial task
 	add_round_key(state,this->w,nb);
@@ -139,7 +130,6 @@ char * AES::encrypt(char *plaintext)
 		shift_row(state,nb);
 		mix_column(state,nb);
 		add_round_key(state,curr_w,nb);
-		
 		curr_w+=nb;
 	}
 
@@ -149,21 +139,21 @@ char * AES::encrypt(char *plaintext)
 	add_round_key(state,curr_w,nb);
 	
 
-	static char ciphertext[257];
-	strcpy(ciphertext,plaintext);
-	
-	set_matrix(ciphertext,state);
+	// static char ciphertext[257];
+	char * ciphertext = new char [len];
+	// strcpy(ciphertext,plaintext);
+
+	set_matrix(ciphertext,state,len);
 
 	delete []state;
 
 	return ciphertext;
 }
 
-char * AES::decrypt(char *ciphertext) {
+char * AES::decrypt(char *ciphertext,int len) {
 	cout<<"In AES decrypt\n";
 	cout<<"Ciphertext: "<<ciphertext<<"\n";
 
-	int len = strlen(ciphertext);
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
 	{
@@ -172,17 +162,34 @@ char * AES::decrypt(char *ciphertext) {
 	}
 
 	uint * state = new uint[nb];
-	get_matrix(ciphertext,state);
-	
+	get_matrix(ciphertext,state,len);
+
 	uint * curr_w = this->w + nb*(nr);
 	add_round_key(state,curr_w,nb);
 	curr_w-=nb;
 
 	for(int i=1;i<nr;i++)
 	{
-		// TODO
+		inv_shift_row(state,nb);
+		inv_sub_bytes(state,nb);
+		add_round_key(state,curr_w,nb);
+		inv_mix_column(state,nb);
+		
+		curr_w-=nb;
 	}
-	// TODO
+	
+	// last round
+	inv_shift_row(state,nb);
+	inv_sub_bytes(state,nb);
+	add_round_key(state,curr_w,nb);
+
+	static char plaintext[257];
+	strcpy(plaintext,ciphertext);
+
+	set_matrix(plaintext,state,len);
+
+	delete []state;
+	return plaintext;
 }
 
 inline void AES::add_round_key(uint *state,uint *w,uint col) {
@@ -193,6 +200,13 @@ inline void AES::add_round_key(uint *state,uint *w,uint col) {
 void AES::sub_bytes(uint *state,uint col) {
 	while(col--){
 		*state = SubWord(*state);
+		state++;
+	}
+}
+
+void AES::inv_sub_bytes(uint *state,uint col) {
+	while(col--){
+		*state = Inv_SubWord(*state);
 		state++;
 	}
 }
@@ -224,6 +238,32 @@ void AES::shift_row(uint *state,uint col) {
 
 }
 
+void AES::inv_shift_row(uint *state,uint col) {
+	// right shifting 1 row by 1
+	uint tmp = state[col-1];
+	for(int i=col-1;i>0;i--)
+		state[i] = (state[i]&0xFF00FFFF) | (state[i-1]&0x00FF0000);
+	state[0] = (state[0]&0xFF00FFFF) | (tmp&0x00FF0000);
+
+	// right shifting 2 row by 2
+	tmp = state[col-1];
+	uint tmp2 = state[col-2];
+	for(int i=col-1;i>1;i--)
+		state[i] = (state[i]&0xFFFF00FF)|(state[i-2]&0x0000FF00);
+	state[1] = (state[1]&0xFFFF00FF)|(tmp&0x0000FF00);
+	state[0] = (state[0]&0xFFFF00FF)|(tmp2&0x0000FF00);
+
+	// right shifting 3 row by 3
+	tmp = state[col-1];
+	tmp2 = state[col-2];
+	uint tmp3 = state[col-3];
+	for(int i=col-1;i>2;i--)
+		state[i] = (state[i]&0xFFFFFF00)|(state[i-3]&0x000000FF);
+	state[2] = (state[2]&0xFFFFFF00)|(tmp&0x000000FF);
+	state[1] = (state[1]&0xFFFFFF00)|(tmp2&0x000000FF);
+	state[0] = (state[0]&0xFFFFFF00)|(tmp3&0x000000FF);
+
+}
 
 void AES::mix_column(uint *state,uint col) {
 	static uint Mixer [4][4] ={
@@ -234,16 +274,32 @@ void AES::mix_column(uint *state,uint col) {
 	};
 	Gf_matrix_mult(Mixer,state,col);
 }
-
+void AES::inv_mix_column(uint *state,uint col) {
+	static uint Inv_Mixer [4][4] ={
+		{0x0E,0x0B,0x0D,0x09},
+		{0x09,0x0E,0x0B,0x0D},
+		{0x0D,0x09,0x0E,0x0B},
+		{0x0B,0x0D,0x09,0x0E},
+	};
+	Gf_matrix_mult(Inv_Mixer,state,col);
+}
 
 extern "C"
 {
 
-AES * AES_new(char *key){return new AES(key);}
+AES * AES_new(char *key,int len){return new AES(key,len);}
 
-char * AES_encrypt(AES *aes, char *plaintext){
-	return aes->encrypt(plaintext);
+char * AES_encrypt(AES *aes, char *plaintext,int len){
+	return aes->encrypt(plaintext,len);
 }
+char * AES_decrypt(AES *aes, char *ciphertext,int len){
+	DBG("In AES_decrypt");
+	for(int i=0;i<len;i++)
+		cout<<hex<<(int)ciphertext[i]<<" ";
+	NL;
+	return aes->decrypt(ciphertext,len);
+}
+
 void AES_delete(AES *aes){
 	delete aes;
 }

@@ -7,18 +7,24 @@ typedef unsigned int uint;
 class AES
 {
 public:
-	AES(char *key); // key must be of  len 128, 172, 256
-	char * encrypt(char *plaintext);
-	char * decrypt(char *ciphertext);
+	AES(char *key,int len); // key must be of  len 128, 172, 256
+	char * encrypt(char *plaintext,int len);
+	char * decrypt(char *ciphertext,int len);
 	~AES();
 private:
 	uint *w;
 	int nk;
 	int nr;
 	void add_round_key(uint *state,uint *w,uint col);
+
 	void sub_bytes(uint *state,uint col);
+	void inv_sub_bytes(uint *state,uint col);
+
 	void shift_row(uint *state,uint col);
+	void inv_shift_row(uint *state,uint col);
+
 	void mix_column(uint *state,uint col);
+	void inv_mix_column(uint *state,uint col);
 	
 };
 
