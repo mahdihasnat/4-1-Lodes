@@ -13,3 +13,5 @@
 
 [ctypes 3: memory](https://cvstuff.wordpress.com/2014/11/27/wraping-c-code-with-python-ctypes-memory-and-pointers/)
 
+[miler robin](https://cp-algorithms.com/algebra/primality_tests.html#miller-rabin-primality-test)
+
