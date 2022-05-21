@@ -57,8 +57,8 @@ AES::AES(const char *key,int len)
 {
 	// fails if key length is not multiple of 4
 
-	cout<<"In AES constructor\n";
-	cout<<"Key: "<<key<<"\n";
+	// cout<<"In AES constructor\n";
+	
 	
 	this->nk=len/4;
 	
@@ -97,18 +97,18 @@ AES::AES(const char *key,int len)
 }
 AES::~AES()
 {
-	cout<<"In AES destructor\n";
+	// cout<<"In AES destructor\n";
 	if(this->w)
 		delete [] this->w;
 }
 
 char * AES::encrypt(const char *plaintext,int len)
 {
-	cout<<"In AES encrypt: ";
+	// cout<<"In AES encrypt: ";
 	
-	for(int i=0;i<len;i++)
-		cout<<hex<<(plaintext[i]&0xff)<<" ";
-	cout<<endl;
+	// for(int i=0;i<len;i++)
+	// 	cout<<hex<<(plaintext[i]&0xff)<<" ";
+	// cout<<endl;
 	
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
@@ -154,11 +154,11 @@ char * AES::encrypt(const char *plaintext,int len)
 }
 
 char * AES::decrypt(const char *ciphertext,int len) {
-	cout<<"In AES decrypt: ";
+	// cout<<"In AES decrypt: ";
 	
-	for(int i=0;i<len;i++)
-		cout<<hex<<(ciphertext[i]&0xff)<<" ";
-	cout<<endl;
+	// for(int i=0;i<len;i++)
+	// 	cout<<hex<<(ciphertext[i]&0xff)<<" ";
+	// cout<<endl;
 
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
