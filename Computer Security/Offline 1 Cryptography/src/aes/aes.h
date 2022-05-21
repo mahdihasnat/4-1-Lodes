@@ -7,9 +7,9 @@ typedef unsigned int uint;
 class AES
 {
 public:
-	AES(char *key,int len); // key must be of  len 128, 172, 256
-	char * encrypt(char *plaintext,int len);
-	char * decrypt(char *ciphertext,int len);
+	AES(const char *key,int len); // key must be of  len 128, 172, 256
+	char * encrypt(const char *plaintext,int len);
+	char * decrypt(const char *ciphertext,int len);
 	~AES();
 private:
 	uint *w;

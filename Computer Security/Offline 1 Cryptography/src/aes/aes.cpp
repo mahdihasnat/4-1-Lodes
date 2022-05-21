@@ -26,7 +26,7 @@ uint RoundConstants[15] = {
 	(uint)0x4d<<24U
 };
 
-void get_matrix(char * s, uint * w,int len)
+void get_matrix(const char * s, uint * w,int len)
 {
 	while(len>0)
 	{
@@ -53,7 +53,7 @@ void set_matrix(char *s,uint *w,int len)
 	}
 }
 
-AES::AES(char *key,int len)
+AES::AES(const char *key,int len)
 {
 	// fails if key length is not multiple of 4
 
@@ -62,7 +62,7 @@ AES::AES(char *key,int len)
 	
 	this->nk=len/4;
 	
-	char * curr = key;
+	const char * curr = key;
 	
 	// DBG(this->nk);
 
@@ -102,7 +102,7 @@ AES::~AES()
 		delete [] this->w;
 }
 
-char * AES::encrypt(char *plaintext,int len)
+char * AES::encrypt(const char *plaintext,int len)
 {
 	cout<<"In AES encrypt: ";
 	
@@ -153,7 +153,7 @@ char * AES::encrypt(char *plaintext,int len)
 	return ciphertext;
 }
 
-char * AES::decrypt(char *ciphertext,int len) {
+char * AES::decrypt(const char *ciphertext,int len) {
 	cout<<"In AES decrypt: ";
 	
 	for(int i=0;i<len;i++)
@@ -310,9 +310,5 @@ void AES_init(){
 	cout<<"In AES init\n";
 	Gf_init();
 }
-
-
-
-
 
 }
