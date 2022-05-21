@@ -104,8 +104,11 @@ AES::~AES()
 
 char * AES::encrypt(char *plaintext,int len)
 {
-	cout<<"In AES encrypt\n";
-	cout<<"Plaintext: "<<plaintext<<"\n";
+	cout<<"In AES encrypt: ";
+	
+	for(int i=0;i<len;i++)
+		cout<<hex<<(plaintext[i]&0xff)<<" ";
+	cout<<endl;
 	
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
@@ -140,8 +143,8 @@ char * AES::encrypt(char *plaintext,int len)
 	
 
 	// static char ciphertext[257];
-	char * ciphertext = new char [len];
-	// strcpy(ciphertext,plaintext);
+	char * ciphertext = new char [len+1];
+	ciphertext[len]=0;
 
 	set_matrix(ciphertext,state,len);
 
@@ -151,8 +154,11 @@ char * AES::encrypt(char *plaintext,int len)
 }
 
 char * AES::decrypt(char *ciphertext,int len) {
-	cout<<"In AES decrypt\n";
-	cout<<"Ciphertext: "<<ciphertext<<"\n";
+	cout<<"In AES decrypt: ";
+	
+	for(int i=0;i<len;i++)
+		cout<<hex<<(ciphertext[i]&0xff)<<" ";
+	cout<<endl;
 
 	int nb = len/4;
 	if(len % 4 != 0 or nb != nk)
@@ -183,8 +189,9 @@ char * AES::decrypt(char *ciphertext,int len) {
 	inv_sub_bytes(state,nb);
 	add_round_key(state,curr_w,nb);
 
-	static char plaintext[257];
-	strcpy(plaintext,ciphertext);
+	// static char plaintext[257];
+	char * plaintext = new char [len+1];
+	plaintext[len]=0;
 
 	set_matrix(plaintext,state,len);
 
@@ -293,10 +300,6 @@ char * AES_encrypt(AES *aes, char *plaintext,int len){
 	return aes->encrypt(plaintext,len);
 }
 char * AES_decrypt(AES *aes, char *ciphertext,int len){
-	DBG("In AES_decrypt");
-	for(int i=0;i<len;i++)
-		cout<<hex<<(int)ciphertext[i]<<" ";
-	NL;
 	return aes->decrypt(ciphertext,len);
 }
 
