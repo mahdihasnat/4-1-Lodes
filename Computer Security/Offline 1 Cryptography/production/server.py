@@ -4,6 +4,7 @@ from time import sleep
 import connection
 from rsa import RSA
 import rsa_common
+from files import file_path
 # create socket and bind to port
 
 HOST = '127.0.0.1'
@@ -11,7 +12,7 @@ PORT = 65332
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	s.bind((HOST, PORT))
-	s.listen(100)
+	s.listen(1)
 	conn,addr = s.accept()
 	with conn:
 		
@@ -26,13 +27,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		c = connection.SecureSender(c,rsa)
 		
 		print('Connected by', addr)
-	
-		while True:
-			data = c.recv()
-			if not data:
-				break
-			print("data= ",data , " sz " , len(data))
-			# print(type(data))
-			c.send(data)
+
+		text = "123"*100
+		c.send(text.encode('utf-8'))
+
+		sleep(0.5)
+
+		text2 = ""
+
+		with open(file_path("Don’t Open this/tmp.txt"),"r") as f:
+			text2 = f.read()
+		
+		print("Match : ",text == text2)
+
 	
 	conn.close()
