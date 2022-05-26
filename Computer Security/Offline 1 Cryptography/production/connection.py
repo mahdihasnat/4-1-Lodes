@@ -123,8 +123,9 @@ import pickle
 PADDING_BYTE = b'\x00'
 class SecureSender(ConnectionDecorator):
 	
-	def __init__(self,conn):
+	def __init__(self,conn,rsa_instance):
 		super().__init__(conn)
+		self.rsa_instance = rsa_instance
 
 	def send(self,data:bytes)->None:
 		# print("data to send: ", data)
@@ -138,7 +139,10 @@ class SecureSender(ConnectionDecorator):
 		self.new_aes_key()
 		key_len = len(self.my_aes_key)
 
-		super().send(self.my_aes_key)
+		# encrypt the key with rsa
+		enc_key = self.rsa_instance.encrypt_bytes(self.my_aes_key)
+
+		super().send(pickle.dumps(enc_key))
 
 		aes = AES(self.my_aes_key)
 		pos = 0
@@ -158,8 +162,9 @@ class SecureSender(ConnectionDecorator):
 
 class SecureReceiver(ConnectionDecorator):
 
-	def __init__(self,conn):
+	def __init__(self,conn,rsa_instance):
 		super().__init__(conn)
+		self.rsa_instance = rsa_instance
 
 	def send(self,data:bytes)->None:
 		super().send(data)
@@ -168,20 +173,27 @@ class SecureReceiver(ConnectionDecorator):
 		x = super().recv()
 		if x == b'':
 			return b''
-		print("len data received: ", x)
+		# print("len data received: ", x)
 		data_len = pickle.loads(x)
-		print("data_len=",data_len)
-		aes_key = super().recv()
+		# print("data_len=",data_len)
+
+		enc_aes_key = pickle.loads(super().recv())
+
+		aes_key = self.rsa_instance.decrypt_bytes(enc_aes_key)
 
 		key_len = len(aes_key)
 
 		aes = AES(aes_key)
-		
+		# print("key len:",key_len)
+		# print("data len:",data_len)
 		pos = 0
 		data = b''
 		while pos < data_len:
 			chunk_len = min(data_len-pos,key_len)
-			data += aes.decrypt(super().recv())[:chunk_len]
+			# print("chunk len:",chunk_len)
+			x = super().recv()
+			# print("x len:",len(x))
+			data += aes.decrypt(x)[:chunk_len]
 			pos += chunk_len
 		
 		return data

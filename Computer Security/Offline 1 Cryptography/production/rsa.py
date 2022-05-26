@@ -57,6 +57,11 @@ class RSA():
 	def decrypt(self,cipher):
 		return pow(cipher,self.d,self.n)
 
+	def encrypt_bytes(self,bs):
+		return [ self.encrypt(b) for b in bs ]
+	
+	def decrypt_bytes(self,cipher):
+		return b''.join([ bytes([self.decrypt(c)]) for c in cipher])
 
 def simulation(k,text):
 	
@@ -80,20 +85,21 @@ def perf(msg):
 	for k in [16,32,64,128]:
 		assert(simulation(k,msg)==msg)
 
+if __name__ == '__main__':
 
 
-k=int(input("Enter K:"))
-msg = input("Enter message:")
+	k=int(input("Enter K:"))
+	msg = input("Enter message:")
 
-r = RSA.new_rsa(k)
-print("Private key:",r.get_private_key())
-print("Public key:",r.get_public_key())
+	r = RSA.new_rsa(k)
+	print("Private key:",r.get_private_key())
+	print("Public key:",r.get_public_key())
 
-enc = r.encrypt_str(msg)
+	enc = r.encrypt_str(msg)
 
-r2 = RSA(r.get_private_key()[0],r.get_public_key()[1])
+	r2 = RSA(r.get_private_key()[0],r.get_public_key()[1])
 
-print("Encrypted:",enc)
-print("Decrypted:",r2.decrypt_str(enc))
+	print("Encrypted:",enc)
+	print("Decrypted:",r2.decrypt_str(enc))
 
-perf(msg)
+	perf(msg)

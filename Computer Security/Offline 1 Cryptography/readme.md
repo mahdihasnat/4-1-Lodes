@@ -5,6 +5,11 @@
 5. SubBytes is non-linear layer resistaant for linear & differential attacks
 6. Fast Galois Field multiplication using generator function & memoization in gf.cpp
 
+
+7. Used Decorator design pattern in networking layer for easy code maintenance & extensibility
+
+
+
 <!-- link -->
 
 [ctype 1: c side](https://cvstuff.wordpress.com/2014/11/19/warping-c-libraries-with-python-ctypes/)
