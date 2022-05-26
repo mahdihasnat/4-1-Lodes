@@ -2,7 +2,7 @@
 
 
 from random import random
-from numpy import byte, void
+
 
 
 class Connection():
@@ -115,20 +115,43 @@ class SeperatedConnection(ConnectionDecorator):
 				return b''
 
 
-class SecureConnection(ConnectionDecorator):
+from ..aes.aes import AES 
+import pickle
+class SecureSender(ConnectionDecorator):
+	
+	def __init__(self,conn):
+		super().__init__(conn)
 
+	def send(self,data:bytes)->None:
+		self.super().send(pickle.dumps(len(data)))
+
+		self.new_aes_key()
+		key_len = len(self.my_aes_key)
+
+		self.super().send(self.my_aes_key)
+
+		aes = AES(self.my_aes_key)
+		pos = 0
+		data_len = len(data)
+		while pos < data_len:
+			chunk_len = min(data_len-pos,key_len)
+			self.super().send(aes.encrypt(data[pos:pos+chunk_len]))
+			pos += chunk_len
+		
+	
+	def recv(self)->bytes:
+		return self.super().recv()
+	
 	def new_aes_key(self):
 		self.my_aes_key = random.randbytes(16)
 
+class SecureReceiver(ConnectionDecorator):
+
 	def __init__(self,conn):
 		super().__init__(conn)
-		self.new_aes_key()
-		super().send(self.my_aes_key)
-		self.their_aes_key = super().recv()
-		pass
 
-	def send(data:bytes)->None:
-		pass
-	
-	def recv()->bytes:
+	def send(self,data:bytes)->None:
+		return self.super().send(data)
+
+	def recv(self)->bytes:
 		pass
