@@ -8,14 +8,14 @@ lib.AES_init()
 
 class AES(object):
 
-	def __init__(self,x):
+	def __init__(self,x:bytes):
 		lib.AES_new.argtypes = [
 			ctypes.c_char_p,
 			ctypes.c_int
 		]
-		self.obj = lib.AES_new(x.encode('utf-8'), len(x))
+		self.obj = lib.AES_new(x, len(x))
 
-	def encrypt(self,x):
+	def encrypt(self,x:bytes)->bytes:
 		lib.AES_encrypt.restype = ctypes.c_char_p
 		
 		lib.AES_encrypt.argtypes = [
@@ -26,12 +26,12 @@ class AES(object):
 		
 		r = lib.AES_encrypt(
 							self.obj, 
-							x.encode('utf-8'), 
+							x, 
 							len(x)
 							)
 		return r
 	
-	def decrypt(self,x):
+	def decrypt(self,x:bytes)->bytes:
 		lib.AES_decrypt.restype = ctypes.c_char_p
 		
 		lib.AES_decrypt.argtypes = [ 
@@ -45,16 +45,16 @@ class AES(object):
 							ctypes.c_int(len(x))
 							)
 
-		return r.decode('utf-8')
+		return r
 
 	def __del__(self):
 		lib.AES_delete(self.obj)
 
 
 
-a = AES("Thats my Kung Fu")
+a = AES("Thats my Kung Fu".encode())
 s = "Two One Nine Two"
-en = a.encrypt(s)
+en = a.encrypt(s.encode())
 print("en= ",en)
 print("len en = ",len(en))
-print( a.decrypt(en) )
+print( a.decrypt(en).decode() )
