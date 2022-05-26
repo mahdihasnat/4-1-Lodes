@@ -14,12 +14,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	with conn:
 		c = connection.SocketConnection(conn)
 		c = connection.SeperatedConnection(c)
+		c = connection.SecureReceiver(c)
+		# c = connection.SecureSender(c)
 		print('Connected by', addr)
+	
 		while True:
 			data = c.recv()
-			# print("data= ",data , " sz " , len(data))
 			if not data:
 				break
+			print("data= ",data , " sz " , len(data))
 			# print(type(data))
 			c.send(data)
+	
 	conn.close()

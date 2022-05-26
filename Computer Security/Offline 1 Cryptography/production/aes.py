@@ -51,10 +51,10 @@ class AES(object):
 		lib.AES_delete(self.obj)
 
 
-
-a = AES("Thats my Kung Fu".encode())
-s = "Two One Nine Two"
-en = a.encrypt(s.encode())
-print("en= ",en)
-print("len en = ",len(en))
-print( a.decrypt(en).decode() )
+if __name__ == '__main__':
+	a = AES("Thats my Kung Fu".encode())
+	s = "Two One Nine Two"
+	en = a.encrypt(s.encode())
+	print("en= ",en)
+	print("len en = ",len(en))
+	print( a.decrypt(en).decode() )

@@ -1,7 +1,7 @@
 
 
 
-from random import random
+import random
 
 
 
@@ -62,7 +62,7 @@ class ConnectionDecorator(Connection):
 ESC_BYTE = b'\x1b'
 RECORD_SEPARATOR_BYTE = b'\x1e'
 
-print("ESC_BYTE=",ESC_BYTE , "type" , type(ESC_BYTE))
+# print("ESC_BYTE=",ESC_BYTE , "type" , type(ESC_BYTE))
 
 class SeperatedConnection(ConnectionDecorator):
 
@@ -73,10 +73,13 @@ class SeperatedConnection(ConnectionDecorator):
 		self.row_data = []
 
 	def send(self,data) -> None:
-		# print("in fuunction send: SeperatedConnection")
+		# print("SeperatedConnection data:",data)
+		# print("len(data)=",len(data))
 		modified_data = []
 		for i in data:
-			i = chr(i).encode()
+			# i = chr(i).encode('utf-8')
+			i=bytes([i])
+			# print("i=",i)
 			if i == ESC_BYTE or i == RECORD_SEPARATOR_BYTE:
 				modified_data.append(ESC_BYTE)
 			
@@ -84,7 +87,7 @@ class SeperatedConnection(ConnectionDecorator):
 		modified_data.append(RECORD_SEPARATOR_BYTE)
 
 		# print("modified data:", modified_data)
-		self.conn.send(b''.join(modified_data))
+		super().send(b''.join(modified_data))
 
 
 	def recv(self) -> bytes:
@@ -92,10 +95,9 @@ class SeperatedConnection(ConnectionDecorator):
 		while True:
 			while self.row_data:
 				d = self.row_data.pop(0)
-				d=chr(d).encode('utf-8')
-				# print(d)
-				# print(len(d))
-				# print(RECORD_SEPARATOR_BYTE )
+				# d=chr(d).encode('utf-8')
+				d=bytes([d])
+				# print("d=",d)
 				if self.esc_flag:
 					self.data.append(d)
 					self.esc_flag = False
@@ -109,41 +111,50 @@ class SeperatedConnection(ConnectionDecorator):
 				else:
 					self.data.append(d)
 			
-			self.row_data = list(self.conn.recv())
+			self.row_data = list(super().recv())
 			# print(self.row_data)
 			if not self.row_data:
 				return b''
 
-from .aes import AES
+from aes import AES
 
 import pickle
+
+PADDING_BYTE = b'\x00'
 class SecureSender(ConnectionDecorator):
 	
 	def __init__(self,conn):
 		super().__init__(conn)
 
 	def send(self,data:bytes)->None:
-		self.super().send(pickle.dumps(len(data)))
+		# print("data to send: ", data)
+		data_len = len(data)
+
+		x = pickle.dumps(data_len)
+		# print("data len to send :",x)
+		# print("len(x)=",len(x))
+		super().send(x)
 
 		self.new_aes_key()
 		key_len = len(self.my_aes_key)
 
-		self.super().send(self.my_aes_key)
+		super().send(self.my_aes_key)
 
 		aes = AES(self.my_aes_key)
 		pos = 0
-		data_len = len(data)
 		while pos < data_len:
 			chunk_len = min(data_len-pos,key_len)
-			self.super().send(aes.encrypt(data[pos:pos+chunk_len]))
+			super().send(aes.encrypt(data[pos:pos+chunk_len] + PADDING_BYTE*(key_len-chunk_len))) 
 			pos += chunk_len
 		
 	
 	def recv(self)->bytes:
-		return self.super().recv()
+		return super().recv()
 	
 	def new_aes_key(self):
-		self.my_aes_key = random.randbytes(16)
+		# generate random bytes of length 16
+		self.my_aes_key = random.getrandbits(128)\
+						.to_bytes(16,byteorder='big')
 
 class SecureReceiver(ConnectionDecorator):
 
@@ -151,7 +162,27 @@ class SecureReceiver(ConnectionDecorator):
 		super().__init__(conn)
 
 	def send(self,data:bytes)->None:
-		return self.super().send(data)
+		super().send(data)
 
 	def recv(self)->bytes:
-		pass
+		x = super().recv()
+		if x == b'':
+			return b''
+		print("len data received: ", x)
+		data_len = pickle.loads(x)
+		print("data_len=",data_len)
+		aes_key = super().recv()
+
+		key_len = len(aes_key)
+
+		aes = AES(aes_key)
+		
+		pos = 0
+		data = b''
+		while pos < data_len:
+			chunk_len = min(data_len-pos,key_len)
+			data += aes.decrypt(super().recv())[:chunk_len]
+			pos += chunk_len
+		
+		return data
+		
