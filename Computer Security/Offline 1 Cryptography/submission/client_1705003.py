@@ -2,7 +2,7 @@ import socket
 from time import sleep
 import connection_1705003
 from rsa_1705003 import RSA
-import rsa_common
+import rsa_common_1705003
 
 from files_1705003 import file_path
 
@@ -47,7 +47,7 @@ s= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 s.settimeout(None)
 sleep(0.2)
-private_key = rsa_common.read_private_key()
+private_key = rsa_common_1705003.read_private_key()
 print("Private key:",private_key)
 rsa = RSA(private_key[0],private_key[1])
 

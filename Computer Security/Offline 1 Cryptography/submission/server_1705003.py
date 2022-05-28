@@ -4,7 +4,7 @@ import pickle
 from time import sleep
 import connection_1705003
 from rsa_1705003 import RSA
-import rsa_common
+import rsa_common_1705003
 from files_1705003 import file_path
 # create socket and bind to port
 
@@ -68,7 +68,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	
 	
 	rsa = RSA.new_rsa(32)
-	rsa_common.write_private_key(rsa)
+	rsa_common_1705003.write_private_key(rsa)
 	print("Private key:",rsa.get_private_key())
 
 	c = connection_1705003.SocketConnection(conn)
