@@ -3,10 +3,10 @@ using namespace std;
 #define DBG(x) cout <<"Line "<< dec<< __LINE__<<" "<< #x << " = " << hex<< (x) << endl
 #define NL cout<<"\n"
 
-#include "aes.h"
-#include "rot.cpp"
-#include "sub.cpp"
-#include "gf.cpp"
+#include "aes_1705003.h"
+#include "rot_1705003.cpp"
+#include "sub_1705003.cpp"
+#include "gf_1705003.cpp"
 
 uint RoundConstants[15] = {
 	(uint)0,
