@@ -2,10 +2,10 @@
 import socket
 import pickle
 from time import sleep
-import connection
+import connection_1705003
 from rsa_1705003 import RSA
 import rsa_common
-from files import file_path
+from files_1705003 import file_path
 # create socket and bind to port
 
 
@@ -71,11 +71,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	rsa_common.write_private_key(rsa)
 	print("Private key:",rsa.get_private_key())
 
-	c = connection.SocketConnection(conn)
-	c = connection.SeperatedConnection(c)
+	c = connection_1705003.SocketConnection(conn)
+	c = connection_1705003.SeperatedConnection(c)
 	# c = connection.SecureReceiver(c)
 	
-	c = connection.SecureSender(c,rsa)
+	c = connection_1705003.SecureSender(c,rsa)
 	
 	print('Connected by', addr)
 

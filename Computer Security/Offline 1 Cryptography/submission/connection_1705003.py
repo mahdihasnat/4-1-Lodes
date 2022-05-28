@@ -116,7 +116,7 @@ class SeperatedConnection(ConnectionDecorator):
 			if not self.row_data:
 				return b''
 
-from aes import AES
+from aes_1705003 import AES
 
 import pickle
 

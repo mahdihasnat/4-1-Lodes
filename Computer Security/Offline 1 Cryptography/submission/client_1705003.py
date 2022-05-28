@@ -1,10 +1,10 @@
 import socket
 from time import sleep
-import connection
+import connection_1705003
 from rsa_1705003 import RSA
 import rsa_common
 
-from files import file_path
+from files_1705003 import file_path
 
 def msg_recv(conn):
 
@@ -51,9 +51,9 @@ private_key = rsa_common.read_private_key()
 print("Private key:",private_key)
 rsa = RSA(private_key[0],private_key[1])
 
-c=connection.SocketConnection(s)
-c=connection.SeperatedConnection(c)
-c=connection.SecureReceiver(c,rsa)
+c=connection_1705003.SocketConnection(s)
+c=connection_1705003.SeperatedConnection(c)
+c=connection_1705003.SecureReceiver(c,rsa)
 # c=connection.SecureSender(c)
 
 msg_recv(c)

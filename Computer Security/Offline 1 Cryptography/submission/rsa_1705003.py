@@ -1,6 +1,6 @@
 
-import prime
-import modular
+import prime_1705003
+import modular_1705003
 import random
 import time
 
@@ -11,11 +11,11 @@ class RSA():
 			Create a new RSA keypair with k bit length
 		"""
 		r = RSA()
-		r.p = prime.prime_gen(k//2)
-		r.q = prime.prime_gen(k//2)
+		r.p = prime_1705003.prime_gen(k//2)
+		r.q = prime_1705003.prime_gen(k//2)
 		while r.p == r.q:
 			print(" p == q")
-			q = prime.prime_gen(k/2)
+			q = prime_1705003.prime_gen(k/2)
 		r.n = r.p*r.q
 		r.phi = (r.p-1)*(r.q-1)
 		r.gen_ed()
@@ -34,7 +34,7 @@ class RSA():
 		while True:
 			self.e = random.randint(2, self.phi-1)
 			try:
-				self.d =modular.modinv(self.e,self.phi)
+				self.d =modular_1705003.modinv(self.e,self.phi)
 				break
 			except:
 				pass

@@ -1,6 +1,6 @@
 from rsa_1705003 import RSA
 import pickle
-from files import file_path
+from files_1705003 import file_path
 
 
 def write_private_key(rsa_instance:RSA):
