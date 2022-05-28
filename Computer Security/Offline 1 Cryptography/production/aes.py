@@ -16,7 +16,7 @@ class AES(object):
 		self.obj = lib.AES_new(x, len(x))
 
 	def encrypt(self,x:bytes)->bytes:
-		lib.AES_encrypt.restype = ctypes.c_char_p
+		lib.AES_encrypt.restype = ctypes.POINTER(ctypes.c_char * len(x))
 		
 		lib.AES_encrypt.argtypes = [
 			ctypes.c_void_p,
@@ -31,9 +31,10 @@ class AES(object):
 							buff, 
 							len(x)
 							)
-		return r
+		return r.contents.raw
 	
 	def decrypt(self,x:bytes)->bytes:
+		# print("len(x)",len(x), "x=",x)	
 		lib.AES_decrypt.restype = ctypes.POINTER(ctypes.c_char * len(x))
 		
 		lib.AES_decrypt.argtypes = [ 
