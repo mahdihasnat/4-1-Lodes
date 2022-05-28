@@ -1,7 +1,7 @@
 import ctypes
 import os
 
-os.system("g++ -c -fPIC aes.cpp -o aes.o")
+os.system("g++ -c -fPIC aes_1705003.cpp -o aes.o")
 os.system("g++ -shared -Wl,-soname,libaes.so -o libaes.so  aes.o")
 lib = ctypes.cdll.LoadLibrary('./libaes.so')
 lib.AES_init()

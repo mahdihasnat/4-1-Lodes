@@ -3,7 +3,7 @@ import socket
 import pickle
 from time import sleep
 import connection
-from rsa import RSA
+from rsa_1705003 import RSA
 import rsa_common
 from files import file_path
 # create socket and bind to port
