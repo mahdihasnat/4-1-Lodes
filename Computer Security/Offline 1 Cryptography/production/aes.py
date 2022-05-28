@@ -20,32 +20,36 @@ class AES(object):
 		
 		lib.AES_encrypt.argtypes = [
 			ctypes.c_void_p,
-			ctypes.c_char_p, 
+			ctypes.POINTER(ctypes.c_char * len(x)),
 			ctypes.c_int
 		]
+
+		buff = (ctypes.c_char * len(x)).from_buffer_copy(x)
 		
 		r = lib.AES_encrypt(
 							self.obj, 
-							x, 
+							buff, 
 							len(x)
 							)
 		return r
 	
 	def decrypt(self,x:bytes)->bytes:
-		lib.AES_decrypt.restype = ctypes.c_char_p
+		lib.AES_decrypt.restype = ctypes.POINTER(ctypes.c_char * len(x))
 		
 		lib.AES_decrypt.argtypes = [ 
 			ctypes.c_void_p,
-			ctypes.c_char_p, 
+			ctypes.POINTER(ctypes.c_char * len(x)),
 			ctypes.c_int
 		]
+		buff = (ctypes.c_char * len(x)).from_buffer_copy(x)
 		
 		r = lib.AES_decrypt(self.obj,
-							x,
+							buff,
 							ctypes.c_int(len(x))
 							)
-
-		return r
+		# print("r=",r)
+		# print("rt contents raw",r.contents.raw)
+		return r.contents.raw
 
 	def __del__(self):
 		lib.AES_delete(self.obj)
@@ -55,6 +59,7 @@ if __name__ == '__main__':
 	a = AES("Thats my Kung Fu".encode())
 	s = "Two One Nine Two"
 	en = a.encrypt(s.encode())
+	# en = a.encrypt(b'abvdefghifsagthu')
 	print("en= ",en)
 	print("len en = ",len(en))
 	print( a.decrypt(en).decode() )
