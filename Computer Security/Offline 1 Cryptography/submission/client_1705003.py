@@ -56,5 +56,5 @@ c=connection_1705003.SeperatedConnection(c)
 c=connection_1705003.SecureReceiver(c,rsa)
 # c=connection.SecureSender(c)
 
-msg_recv(c)
-# file_recv(c)
+# msg_recv(c)
+file_recv(c)

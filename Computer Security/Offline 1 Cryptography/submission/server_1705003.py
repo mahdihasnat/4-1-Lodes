@@ -80,8 +80,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 	print('Connected by', addr)
 
 	text = "123"*100
-	msg_send(c,text)
-	# file_send(c,"An_Empirical_Comparison_of_Seven_Programming_Langu.pdf")
+	# msg_send(c,text)
+	file_send(c,"CV Mahdi.pdf")
 	conn.close()
 
 	
