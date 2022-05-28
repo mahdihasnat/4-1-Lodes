@@ -148,7 +148,12 @@ class SecureSender(ConnectionDecorator):
 		pos = 0
 		while pos < data_len:
 			chunk_len = min(data_len-pos,key_len)
-			super().send(aes.encrypt(data[pos:pos+chunk_len] + PADDING_BYTE*(key_len-chunk_len))) 
+			# print("chunk_len=",chunk_len)
+			data_to_send = data[pos:pos+chunk_len] + PADDING_BYTE*(key_len-chunk_len)
+			# print("data_to_send=",data_to_send)
+			enc_msg = aes.encrypt(data_to_send)
+			# print("enc_msg=",enc_msg)
+			super().send(enc_msg)
 			pos += chunk_len
 		
 	
@@ -192,7 +197,8 @@ class SecureReceiver(ConnectionDecorator):
 			chunk_len = min(data_len-pos,key_len)
 			# print("chunk len:",chunk_len)
 			x = super().recv()
-			# print("x len:",len(x))
+			# print("data_to_decrypt=",x)
+			# print("dx ",aes.decrypt(x))
 			data += aes.decrypt(x)[:chunk_len]
 			pos += chunk_len
 		
