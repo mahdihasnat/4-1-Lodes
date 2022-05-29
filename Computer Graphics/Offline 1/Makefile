@@ -6,10 +6,8 @@ LIB =
 run: main
 	./main
 
-main :
+main : ./src/main.cpp ./src/inputListener.h ./src/point.h
 	${CC} -o main ./src/main.cpp -lglut -lGLU -lGL
-	./main
-	${clean}
 
 clean:
 	rm -f main
