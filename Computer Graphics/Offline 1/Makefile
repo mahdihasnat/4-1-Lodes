@@ -3,14 +3,14 @@ MAKEFLAGS += -j8
 CC = g++
 LIB = 
 
-run: main
-	./main
+run: main.o
+	./main.o
 
-main : ./src/main.cpp ./src/inputListener.h ./src/point.h
-	${CC} -o main ./src/main.cpp -lglut -lGLU -lGL
+main.o : ./src/main.cpp ./src/inputListener.h ./src/point.h
+	${CC} -o main.o ./src/main.cpp -lglut -lGLU -lGL
 
 clean:
-	rm -f main
+	rm -f main.o
 
-%.o : %.cpp %.h
-	${CC} -c $< -o $@
+# %.o : %.cpp %.h
+# 	${CC} -c $< -o $@
