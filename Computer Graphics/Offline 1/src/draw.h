@@ -215,7 +215,40 @@ void drawMyCube()
 	glPopMatrix();
 }
 
+void drawMyCylinder(double radius,double squareHalf,int stacks,int slices)
+{
+	double r = sqrt(squareHalf*squareHalf + radius*radius);// radius in each stack
+	point points[stacks+1][slices+1];
+	for(int i=0;i<=stacks;i++)
+	{
+		double z = - squareHalf + i * 2 * squareHalf / stacks;
+		double theta = atan(squareHalf/radius);
+		for(int j=0;j<=slices;j++)
+		{
+			points[i][j].x = r * cos(theta+j*(pi/2 - 2 * theta)/slices);
+			points[i][j].y = r * sin(theta+j*(pi/2- 2 * theta)/slices);
+			points[i][j].z = z;
+		}
+	}
+	for(int i=0;i<stacks;i++)
+	{
+		for(int j=0;j<slices;j++)
+		{
+			glBegin(GL_QUADS);
+			{
+				glVertex3d(points[i][j].x,points[i][j].y,points[i][j].z);
+				glVertex3d(points[i][j+1].x,points[i][j+1].y,points[i][j+1].z);
+				glVertex3d(points[i+1][j+1].x,points[i+1][j+1].y,points[i+1][j+1].z);
+				glVertex3d(points[i+1][j].x,points[i+1][j].y,points[i+1][j].z);
+			}
+			glEnd();
+		}
+	}
+}
+
 void drawMain()
 {
 	drawMyCube();
+	glColor3f(0,1,0);
+	drawMyCylinder(radius,squareHalf,100,100);
 }
