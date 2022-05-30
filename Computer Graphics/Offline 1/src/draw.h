@@ -215,18 +215,31 @@ void drawMyCube()
 	glPopMatrix();
 }
 
-void drawMyCylinder(double radius,double squareHalf,int stacks,int slices)
+void drawMyCylinderSingle(double radius,double squareHalf,int stacks,int slices)
 {
-	double r = sqrt(squareHalf*squareHalf + radius*radius);// radius in each stack
+// y
+// ^
+// | -- squareHalf-- 
+// 	___________.
+// 				|   .
+// 				|    ..
+// 				|     ..
+// 				________.
+// 						|
+// 						|
+// 						|
+// 						|
+// (0,0)   --radius--		| -> x
+
+	double r = radius - squareHalf;// radius in each stack
 	point points[stacks+1][slices+1];
 	for(int i=0;i<=stacks;i++)
 	{
 		double z = - squareHalf + i * 2 * squareHalf / stacks;
-		double theta = atan(squareHalf/radius);
 		for(int j=0;j<=slices;j++)
 		{
-			points[i][j].x = r * cos(theta+j*(pi/2 - 2 * theta)/slices);
-			points[i][j].y = r * sin(theta+j*(pi/2- 2 * theta)/slices);
+			points[i][j].x = r * cos(j*pi/2/slices) + squareHalf;
+			points[i][j].y = r * sin(j*pi/2/slices) + squareHalf;
 			points[i][j].z = z;
 		}
 	}
@@ -245,10 +258,54 @@ void drawMyCylinder(double radius,double squareHalf,int stacks,int slices)
 		}
 	}
 }
+void drawMyCylinder()
+{
+
+	glColor3f(0,1,0);
+	const int stacks = 100;
+	const int slices = 100;
+	drawMyCylinderSingle(radius,squareHalf,stacks,slices);
+	for(int i=1;i<4;i++)
+	{
+		glPushMatrix();
+		{
+			glRotated(90*i,0,0,1);
+			drawMyCylinderSingle(radius,squareHalf,stacks,slices);
+		}
+		glPopMatrix();
+	}
+	
+	for(int i=0;i<4;i++)
+	{
+		glPushMatrix();
+		{
+			glRotated(90*i,0,1,0);
+			glRotated(90,1,0,0);
+			drawMyCylinderSingle(radius,squareHalf,stacks,slices);
+		}
+		glPopMatrix();
+	}
+	
+	for(int i=0;i<4;i++)
+	{
+		glPushMatrix();
+		{
+			glRotated(90*i,1,0,0);
+			glRotated(90,0,1,0);
+			drawMyCylinderSingle(radius,squareHalf,stacks,slices);
+		}
+		glPopMatrix();
+	}
+}
+
+void drawMySphere()
+{
+	
+}
 
 void drawMain()
 {
 	drawMyCube();
-	glColor3f(0,1,0);
-	drawMyCylinder(radius,squareHalf,100,100);
+	drawMyCylinder();
+	drawMySphere();
 }
