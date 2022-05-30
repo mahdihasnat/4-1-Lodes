@@ -190,12 +190,32 @@ void drawMySquare(double radius,double d)
 	glEnd();
 }
 
-void drawMain()
+void drawMyCube()
 {
 	drawMySquare(radius,squareHalf);
+	for(int i=1;i<4;i++){
+		glPushMatrix();
+		{
+			glRotated(90*i,0,0,1);
+			drawMySquare(radius,squareHalf);
+		}
+		glPopMatrix();
+	}
 	glPushMatrix();
 	{
-		glRotated(angle,0,0,1);
+		glRotated(90,0,1,0);
+		drawMySquare(radius,squareHalf);
 	}
 	glPopMatrix();
+	glPushMatrix();
+	{
+		glRotated(-90,0,1,0);
+		drawMySquare(radius,squareHalf);
+	}
+	glPopMatrix();
+}
+
+void drawMain()
+{
+	drawMyCube();
 }
