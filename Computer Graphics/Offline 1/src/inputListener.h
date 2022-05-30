@@ -10,7 +10,7 @@ void keyboardListener(unsigned char key, int x,int y){
 	DBG(cameraUpDir);
 	DBG(cameraRightDir);
 	NL;
-	const double ANGEL_DISTANCE = 3.0/180*pi;
+	const double ANGEL_DISTANCE = 3.0;
 	switch(key){
 		case '1':
 			rotateUnitPlane(
@@ -109,8 +109,10 @@ void specialKeyListener(int key, int x,int y){
 			break;
 
 		case GLUT_KEY_HOME:
+			squareHalf = min(radius , squareHalf + 1);
 			break;
 		case GLUT_KEY_END:
+			squareHalf = max(squareHalf-1 , 0.0);
 			break;
 
 		default:

@@ -95,8 +95,8 @@ point rotateUnitVector(point const & x,
 	// rotate x by angel
 	assert(x.dot(axis)  < EPS);
 	point temp;
-	double cos_a=cos(angel);
-	double sin_a=sin(angel);	
+	double cos_a=cos(angel/180.0*pi);
+	double sin_a=sin(angel/180.0*pi);	
 	temp = x * cos_a + axis.cross(x) * sin_a ; //+ x.cross(axis) * (1-cos_a);
 	assert( abs(abs(temp)-1) < EPS);
 	// temp = temp/abs(temp);

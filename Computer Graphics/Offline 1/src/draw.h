@@ -174,3 +174,28 @@ void drawSS()
     glColor3f(1,1,0);
     drawSquare(5);
 }
+
+void drawMySquare(double radius,double d)
+{
+	// draw plane along yz plane
+	// distance from origin is radius
+	// square side is 2 * d
+	glBegin(GL_QUADS);
+	{
+		glVertex3d(radius,d,d);
+		glVertex3d(radius,d,-d);
+		glVertex3d(radius,-d,-d);
+		glVertex3d(radius,-d,d);
+	}
+	glEnd();
+}
+
+void drawMain()
+{
+	drawMySquare(radius,squareHalf);
+	glPushMatrix();
+	{
+		glRotated(angle,0,0,1);
+	}
+	glPopMatrix();
+}
