@@ -298,9 +298,62 @@ void drawMyCylinder()
 	}
 }
 
+void drawMySphereSingle(double radius,double squareHalf,int stacks,int slices)
+{
+	point points[stacks+1][slices+1];
+	for(int i=0;i<=stacks;i++)
+	{
+		double theta = i * pi/2.0/stacks;
+		double y = (radius-squareHalf)*sin(theta) + squareHalf;
+
+		for(int j=0;j<=slices;j++)
+		{
+			double phi = j * pi/2.0/slices;
+
+			points[i][j].x = (radius-squareHalf) * cos(theta) * cos(phi) + squareHalf;
+			points[i][j].y = y;
+			points[i][j].z = (radius-squareHalf) * cos(theta) * sin(phi) + squareHalf;
+		}
+	}
+	for(int i=0;i<stacks;i++)
+	{
+		for(int j=0;j<slices;j++)
+		{
+			glBegin(GL_QUADS);
+			{
+				glVertex3d(points[i][j].x,points[i][j].y,points[i][j].z);
+				glVertex3d(points[i][j+1].x,points[i][j+1].y,points[i][j+1].z);
+				glVertex3d(points[i+1][j+1].x,points[i+1][j+1].y,points[i+1][j+1].z);
+				glVertex3d(points[i+1][j].x,points[i+1][j].y,points[i+1][j].z);
+			}
+			glEnd();
+		}
+	}
+}
 void drawMySphere()
 {
-	
+	const int stacks = 100;
+	const int slices = 100;
+	glColor3d(1.0,0,0);
+	for(int i=0;i<4;i++)
+	{
+		glPushMatrix();
+		{
+			glRotated(90*i,0,1,0);
+			drawMySphereSingle(radius,squareHalf,stacks,slices);
+		}
+		glPopMatrix();
+	}
+	for(int i=0;i<4;i++)
+	{
+		glPushMatrix();
+		{
+			glRotated(90*i,0,1,0);
+			glRotated(90,1,0,0);
+			drawMySphereSingle(radius,squareHalf,stacks,slices);
+		}
+		glPopMatrix();
+	}
 }
 
 void drawMain()
