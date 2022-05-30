@@ -6,7 +6,25 @@
 void keyboardListener(unsigned char key, int x,int y){
 	
 	switch(key){
-		case '1':
+		case 'q':
+		case 'Q':
+			drawgrid=1-drawgrid;
+			break;
+		case 'a':
+		case 'A':
+			wheelUpRotation+=2.0;
+			break;
+		case 'd':
+		case 'D':
+			wheelUpRotation-=2.0;
+			break;
+		case 'w':
+		case 'W':
+			wheelWalkTheta(-6.0);
+			break;
+		case 's':
+		case 'S':
+			wheelWalkTheta(6.0);
 			break;
 		default:
 			break;

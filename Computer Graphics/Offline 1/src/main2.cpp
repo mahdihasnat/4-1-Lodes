@@ -19,6 +19,17 @@ double cameraAngle;
 int drawgrid;
 int drawaxes;
 double angle;
+double wheelUpRotation; // with x axis
+double wheelAxleRotation; // 
+point wheelPosition;
+const double wheelRadius = 20;
+
+void wheelWalkTheta(double theta)
+{
+	double distance = wheelRadius * theta / 360 * pi;
+	wheelPosition+=point({cos(wheelUpRotation*pi/180),sin(wheelUpRotation*pi/180),0})*distance;
+	wheelAxleRotation+=theta;
+}
 
 #include "draw2.h"
 
@@ -96,12 +107,20 @@ void initCamera(){
 	angle=0;
 }
 
+void initObject()
+{
+	wheelUpRotation = 0;
+	wheelAxleRotation = 0;
+	wheelPosition = {0,0,0};
+}
+
 void init(){
 	//codes for initialization
 	drawgrid=1;
 	drawaxes=1;
 	
 	initCamera();
+	initObject();
 
 	//clear the screen
 	glClearColor(0,0,0,0);

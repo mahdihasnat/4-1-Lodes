@@ -229,8 +229,11 @@ void drawWheelCenter(double radius,double widthHalf)
 {
 	// axle in y axis
 
+	glColor3d(1.0,0,0);
 	drawRing(radius,widthHalf);
+	glColor3d(0,1.0,0);
 	drawRectangle(radius,widthHalf/3.0);
+	glColor3d(0,0,1.0);
 	glPushMatrix();
 	{
 		glRotated(90,0,1,0);
@@ -241,11 +244,19 @@ void drawWheelCenter(double radius,double widthHalf)
 }
 void drawWheel()
 {
-	drawWheelCenter(20,5);
+	const double widthHalf=5;
+	glPushMatrix();
+	{
+		glTranslated(wheelPosition.x,wheelPosition.y,wheelPosition.z);
+		glTranslated(0,0,wheelRadius);
+		glRotated(wheelUpRotation,0,0,1);
+		glRotated(wheelAxleRotation,0,1,0);
+		drawWheelCenter(wheelRadius,widthHalf);
+	}
+	glPopMatrix();
 }
 
 void drawMain()
 {
-	glColor3d(1.0,0,0);
 	drawWheel();
 }
