@@ -5,11 +5,11 @@
 
 void keyboardListener(unsigned char key, int x,int y){
 	// drawgrid=1-drawgrid;
-	DBG(cameraPos);
-	DBG(cameraLookDir);
-	DBG(cameraUpDir);
-	DBG(cameraRightDir);
-	NL;
+	// DBG(cameraPos);
+	// DBG(cameraLookDir);
+	// DBG(cameraUpDir);
+	// DBG(cameraRightDir);
+	// NL;
 	const double ANGEL_DISTANCE = 3.0;
 	switch(key){
 		case '1':
@@ -75,11 +75,11 @@ void keyboardListener(unsigned char key, int x,int y){
 
 void specialKeyListener(int key, int x,int y){
 
-	DBG(cameraPos);
-	DBG(cameraLookDir);
-	DBG(cameraUpDir);
-	DBG(cameraRightDir);
-	NL;
+	// DBG(cameraPos);
+	// DBG(cameraLookDir);
+	// DBG(cameraUpDir);
+	// DBG(cameraRightDir);
+	// NL;
 
 	const double KEY_DISTANCE=5.0; 
 	switch(key){
