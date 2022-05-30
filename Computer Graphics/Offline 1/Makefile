@@ -6,7 +6,7 @@ LIB =
 run: main.o
 	./main.o
 
-main.o : ./src/main.cpp ./src/inputListener.h ./src/point.h
+main.o : ./src/main.cpp ./src/inputListener.h ./src/point.h ./src/draw.h
 	${CC} -o main.o ./src/main.cpp -lglut -lGLU -lGL
 
 clean:

@@ -16,7 +16,7 @@ void keyboardListener(unsigned char key, int x,int y){
 
 
 void specialKeyListener(int key, int x,int y){
-	const double KEY_DISTANCE=3.0; 
+	const double KEY_DISTANCE=5.0; 
 	switch(key){
 		case GLUT_KEY_DOWN:		//down arrow key
 			cameraPos += cameraLookDir * -KEY_DISTANCE;

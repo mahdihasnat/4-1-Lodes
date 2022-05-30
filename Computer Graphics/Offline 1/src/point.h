@@ -27,6 +27,15 @@ class point
 		temp.z=z*p;
 		return temp;
 	}
+	point cross (const point &p) const
+	{
+		point temp;
+		temp.x=y*p.z-z*p.y;
+		temp.y=z*p.x-x*p.z;
+		temp.z=x*p.y-y*p.x;
+		return temp;
+	}
+
 
 };
 ostream & operator<<(ostream &os,const point &p)
