@@ -96,6 +96,7 @@ void animate(){
 void initCamera(){
 
 	cameraPos={0,0,200};
+	// maintain r cross l = u
 	cameraUpDir={0,1,0};
 	cameraRightDir={1,0,0};
 	cameraLookDir={0,0,-1};

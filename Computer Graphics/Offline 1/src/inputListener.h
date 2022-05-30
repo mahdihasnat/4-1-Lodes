@@ -5,6 +5,11 @@
 
 void keyboardListener(unsigned char key, int x,int y){
 	// drawgrid=1-drawgrid;
+	DBG(cameraPos);
+	DBG(cameraLookDir);
+	DBG(cameraUpDir);
+	DBG(cameraRightDir);
+	NL;
 	const double ANGEL_DISTANCE = 3.0/180*pi;
 	switch(key){
 		case '1':
@@ -25,6 +30,43 @@ void keyboardListener(unsigned char key, int x,int y){
 				);
 			break;
 		
+		case '3':
+
+			rotateUnitPlane(
+					cameraLookDir,
+					cameraUpDir,
+					cameraRightDir,
+					ANGEL_DISTANCE
+				);
+			break;
+		case '4':
+
+			rotateUnitPlane(
+					cameraLookDir,
+					cameraUpDir,
+					cameraRightDir,
+					-ANGEL_DISTANCE
+				);
+			break;
+		
+		case '5':
+			rotateUnitPlane(
+					cameraUpDir,
+					cameraRightDir,
+					cameraLookDir,
+					ANGEL_DISTANCE
+				);
+			break;
+		case '6':
+			rotateUnitPlane(
+					cameraUpDir,
+					cameraRightDir,
+					cameraLookDir,
+					-ANGEL_DISTANCE
+				);
+			break;
+
+
 		default:
 			break;
 	}
@@ -32,6 +74,13 @@ void keyboardListener(unsigned char key, int x,int y){
 
 
 void specialKeyListener(int key, int x,int y){
+
+	DBG(cameraPos);
+	DBG(cameraLookDir);
+	DBG(cameraUpDir);
+	DBG(cameraRightDir);
+	NL;
+
 	const double KEY_DISTANCE=5.0; 
 	switch(key){
 		case GLUT_KEY_DOWN:		//down arrow key
