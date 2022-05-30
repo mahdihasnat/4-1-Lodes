@@ -301,6 +301,22 @@ void drawMyCylinder()
 
 void drawMySphereSingle(double radius,double squareHalf,int stacks,int slices)
 {
+// 					y
+// 					^
+// 					|
+
+// 					|
+// 					|
+// 					|
+// 					|
+// 					|
+//  (0,0)				-------------  -> x
+// 					/
+// 				   /
+// 				  /
+// 				 /
+// 				\/	
+// 				z
 	point points[stacks+1][slices+1];
 	for(int i=0;i<=stacks;i++)
 	{
