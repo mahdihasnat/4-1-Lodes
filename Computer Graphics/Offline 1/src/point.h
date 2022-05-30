@@ -4,7 +4,7 @@ class point
 	public:
 	double x,y,z;
 	
-	point operator + (const point &p)
+	point operator + (const point &p) const
 	{
 		point temp;
 		temp.x=x+p.x;
@@ -19,12 +19,20 @@ class point
 		z+=p.z;
 		return *this;
 	}
-	point operator * (const double &p)
+	point operator * (const double &p) const
 	{
 		point temp;
 		temp.x=x*p;
 		temp.y=y*p;
 		temp.z=z*p;
+		return temp;
+	}
+	point operator / (const double &p) const
+	{
+		point temp;
+		temp.x=x/p;
+		temp.y=y/p;
+		temp.z=z/p;
 		return temp;
 	}
 	point cross (const point &p) const
@@ -69,18 +77,22 @@ point rotateUnitVector(point const & x,
 	// rotate x by angel
 	DBG(x);
 	DBG(axis);
+	DBG(angel);
 	NL;
 	point temp;
 	double cos_a=cos(angel);
 	double sin_a=sin(angel);
-	auto tmp2 = linear2(
-		x.y + x.z * axis.z/axis.y , x.z *axis.x / axis.y , axis.x * sin_a
-		,-x.x , x.z , axis.y * sin_a
-	  );
-	temp.z = tmp2.first;
-	temp.x = tmp2.second;
-	temp.y = - (temp.x*axis.x +temp.z * axis.z)/axis.y;
-	assert( abs(abs(temp)-1) < EPS);
+	// auto tmp2 = linear2(
+	// 	x.y + x.z * axis.z/axis.y , x.z *axis.x / axis.y , axis.x * sin_a
+	// 	,-x.x , x.z , axis.y * sin_a
+	//   );
+	// temp.z = tmp2.first;
+	// temp.x = tmp2.second;
+	// temp.y = - (temp.x*axis.x +temp.z * axis.z)/axis.y;
+	// assert( abs(abs(temp)-1) < EPS);
+	
+	temp = x * cos_a + axis.cross(x) * sin_a ; //+ x.cross(axis) * (1-cos_a);
+	temp = temp/abs(temp);
 	return temp;
 }
 

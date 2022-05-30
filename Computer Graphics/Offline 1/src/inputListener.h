@@ -15,6 +15,15 @@ void keyboardListener(unsigned char key, int x,int y){
 					ANGEL_DISTANCE
 				);
 			break;
+		case '2':
+
+			rotateUnitPlane(
+					cameraRightDir,
+					cameraLookDir,
+					cameraUpDir,
+					-ANGEL_DISTANCE
+				);
+			break;
 		
 		default:
 			break;
