@@ -4,9 +4,16 @@
 #include "GL/glut.h"
 
 void keyboardListener(unsigned char key, int x,int y){
+	// drawgrid=1-drawgrid;
+	const double ANGEL_DISTANCE = 3.0/180*pi;
 	switch(key){
 		case '1':
-			drawgrid=1-drawgrid;
+			rotateUnitPlane(
+					cameraRightDir,
+					cameraLookDir,
+					cameraUpDir,
+					ANGEL_DISTANCE
+				);
 			break;
 		
 		default:
