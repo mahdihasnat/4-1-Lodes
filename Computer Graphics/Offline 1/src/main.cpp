@@ -51,8 +51,9 @@ void display(){
 
 	//gluLookAt(100,100,100,	0,0,0,	0,0,1);
 	//gluLookAt(200*cos(cameraAngle), 200*sin(cameraAngle), cameraHeight,		0,0,0,		0,0,1);
-	gluLookAt(cameraPos.x,cameraPos.y,cameraPos.z,
-				0,0,0,	0,1,0);
+	gluLookAt(cameraPos.x,cameraPos.y,cameraPos.z
+				,cameraPos.x + cameraLookDir.x,cameraPos.y + cameraLookDir.y,cameraPos.z + cameraLookDir.z
+				,cameraUpDir.x,cameraUpDir.y,cameraUpDir.z);
 
 
 	//again select MODEL-VIEW
