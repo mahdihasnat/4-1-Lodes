@@ -192,6 +192,7 @@ void drawMySquare(double radius,double d)
 
 void drawMyCube()
 {
+	glColor3d(1,1,1);
 	drawMySquare(radius,squareHalf);
 	for(int i=1;i<4;i++){
 		glPushMatrix();
