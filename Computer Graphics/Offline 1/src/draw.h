@@ -263,7 +263,7 @@ void drawMyCylinder()
 {
 
 	glColor3f(0,1,0);
-	const int stacks = 100;
+	const int stacks = 1;
 	const int slices = 100;
 	drawMyCylinderSingle(radius,squareHalf,stacks,slices);
 	for(int i=1;i<4;i++)

@@ -67,7 +67,8 @@ void display(){
     //glColor3f(1,0,0);
     //drawSquare(10);
 
-    drawSS();
+    // drawSS();
+	drawMain();
 
     // drawCircle(30,24);
 

@@ -174,3 +174,78 @@ void drawSS()
     glColor3f(1,1,0);
     drawSquare(5);
 }
+
+void drawQuarterRing(double radius,double widthHalf,int stacks)
+{
+	// ring is placed in xz plane, axle is along y axis
+	// 
+	point points[stacks+1][2];
+	for(int i=0;i<=stacks;i++)
+	{
+		double theta = (double)i * pi / 2.0 /(double)stacks;
+		points[i][1].x = points[i][0].x = radius * cos(theta);
+		points[i][1].z = points[i][0].z = radius * sin(theta);
+		points[i][0].y=-widthHalf;
+		points[i][1].y=widthHalf;
+	}
+	for(int i=0;i<stacks;i++)
+	{
+		glBegin(GL_QUADS);
+		{
+			glVertex3f(points[i][0].x,points[i][0].y,points[i][0].z);
+			glVertex3f(points[i][1].x,points[i][1].y,points[i][1].z);
+			glVertex3f(points[i+1][1].x,points[i+1][1].y,points[i+1][1].z);
+			glVertex3f(points[i+1][0].x,points[i+1][0].y,points[i+1][0].z);
+		}
+		glEnd();
+	}
+}
+void drawRing(double radius,double widthHalf)
+{
+	// ring in xz plane
+	// axle in y axis
+	for(int rot=0;rot<360;rot+=90)
+	{
+		glPushMatrix();
+		{
+			glRotatef(rot,0,1,0);
+			drawQuarterRing(radius,widthHalf,10);
+		}
+		glPopMatrix();
+	}
+}
+void drawRectangle(double zdirHalf,double ydirHalf)
+{
+	glBegin(GL_QUADS);
+	{
+		glVertex3d(0,-ydirHalf,zdirHalf);
+		glVertex3d(0,-ydirHalf,-zdirHalf);
+		glVertex3d(0,ydirHalf,-zdirHalf);
+		glVertex3d(0,ydirHalf,zdirHalf);
+	}
+	glEnd();
+}
+void drawWheelCenter(double radius,double widthHalf)
+{
+	// axle in y axis
+
+	drawRing(radius,widthHalf);
+	drawRectangle(radius,widthHalf/3.0);
+	glPushMatrix();
+	{
+		glRotated(90,0,1,0);
+		drawRectangle(radius,widthHalf/3.0);
+	}
+	glPopMatrix();
+	
+}
+void drawWheel()
+{
+	drawWheelCenter(20,5);
+}
+
+void drawMain()
+{
+	glColor3d(1.0,0,0);
+	drawWheel();
+}
