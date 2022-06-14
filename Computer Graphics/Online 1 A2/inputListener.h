@@ -63,7 +63,22 @@ void keyboardListener(unsigned char key, int x,int y){
 		case '6':
 			TiltRotate(-ANGEL_DISTANCE);
 			break;
-
+		case '7':
+			UpRotate(ANGEL_DISTANCE);
+			LeftRotate(ANGEL_DISTANCE);
+			break;
+		case '8':
+			UpRotate(ANGEL_DISTANCE);
+			LeftRotate(-ANGEL_DISTANCE);
+			break;
+		case '9':
+			UpRotate(-ANGEL_DISTANCE);
+			LeftRotate(ANGEL_DISTANCE);
+			break;
+		case '0':
+			UpRotate(-ANGEL_DISTANCE);
+			LeftRotate(-ANGEL_DISTANCE);
+			break;
 		default:
 			break;
 	}
