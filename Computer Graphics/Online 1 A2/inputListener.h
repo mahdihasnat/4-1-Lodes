@@ -96,11 +96,13 @@ void specialKeyListener(int key, int x,int y){
 	const double KEY_DISTANCE=5.0; 
 	switch(key){
 		case GLUT_KEY_DOWN:		//down arrow key
-			cameraPos += cameraLookDir * -KEY_DISTANCE;
+			// cameraPos += cameraLookDir * -KEY_DISTANCE;
+			radius --;
 			break;
 		case GLUT_KEY_UP:		// up arrow key
 			
-			cameraPos += cameraLookDir * KEY_DISTANCE;
+			// cameraPos += cameraLookDir * KEY_DISTANCE;
+			radius ++;
 			break;
 
 		case GLUT_KEY_RIGHT:

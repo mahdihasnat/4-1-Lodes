@@ -41,6 +41,7 @@ void specialKeyListener(int key, int x,int y){
 			break;
 		case GLUT_KEY_UP:		// up arrow key
 			cameraHeight += 3.0;
+			
 			break;
 
 		case GLUT_KEY_RIGHT:

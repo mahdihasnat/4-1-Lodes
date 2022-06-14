@@ -21,7 +21,7 @@ point cameraLookDir;
 int drawgrid;
 int drawaxes;
 double angle;
-const double radius = 50;
+double radius = 50;
 double squareHalf;
 
 #include "draw.h"
