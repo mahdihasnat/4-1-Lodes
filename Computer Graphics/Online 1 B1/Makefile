@@ -4,7 +4,7 @@ CC = g++
 LIB = 
 
 run: main.o main2.o
-	./main.o
+	./main2.o
 
 main.o : ./main.cpp ./inputListener.h ./point.h ./draw.h
 	${CC} -o main.o ./main.cpp -lglut -lGLU -lGL

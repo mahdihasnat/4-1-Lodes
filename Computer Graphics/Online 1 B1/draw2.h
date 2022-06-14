@@ -250,6 +250,13 @@ void drawWheel()
 		glTranslated(wheelPosition.x,wheelPosition.y,wheelPosition.z);
 		glTranslated(0,0,wheelRadius);
 		glRotated(wheelUpRotation,0,0,1);
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		{
+			glVertex3d(0,0,0);
+			glVertex3d(wheelRadius+wheelRadius , 0,0);
+		}
+		glEnd();
 		glRotated(wheelAxleRotation,0,1,0);
 		drawWheelCenter(wheelRadius,widthHalf);
 	}
@@ -258,5 +265,11 @@ void drawWheel()
 
 void drawMain()
 {
-	drawWheel();
+	glPushMatrix();
+	{
+		glRotated(inclinationAngel,0,1,0);
+		drawGrid();
+		drawWheel();
+	}
+	glPopMatrix();
 }

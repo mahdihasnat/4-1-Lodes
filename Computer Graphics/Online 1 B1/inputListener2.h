@@ -20,11 +20,11 @@ void keyboardListener(unsigned char key, int x,int y){
 			break;
 		case 'w':
 		case 'W':
-			wheelWalkTheta(-6.0);
+			wheelWalkTheta(6.0);
 			break;
 		case 's':
 		case 'S':
-			wheelWalkTheta(6.0);
+			wheelWalkTheta(-6.0);
 			break;
 		default:
 			break;

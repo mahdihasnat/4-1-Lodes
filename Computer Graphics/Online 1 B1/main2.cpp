@@ -23,6 +23,8 @@ double wheelUpRotation; // with x axis
 double wheelAxleRotation; // 
 point wheelPosition;
 const double wheelRadius = 20;
+double inclinationAngel = 30;
+
 
 void wheelWalkTheta(double theta)
 {
@@ -73,7 +75,7 @@ void display(){
 	//add objects
 
 	drawAxes();
-	drawGrid();
+	// drawGrid();
 
     //glColor3f(1,0,0);
     //drawSquare(10);
