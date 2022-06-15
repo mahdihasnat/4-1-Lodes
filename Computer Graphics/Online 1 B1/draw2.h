@@ -265,11 +265,18 @@ void drawWheel()
 
 void drawMain()
 {
+	double dist = wheelRadius*tan(inclinationAngel*pi/180/2);
+	bool draw_inclined = wheelPosition.x < dist;
 	glPushMatrix();
 	{
 		glRotated(inclinationAngel,0,1,0);
 		drawGrid();
-		drawWheel();
+		if(draw_inclined){
+			glTranslated(-dist*2,0,0);
+			drawWheel();
+		}
 	}
 	glPopMatrix();
+	if(!draw_inclined)
+		drawWheel();
 }

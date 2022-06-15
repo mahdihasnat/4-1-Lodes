@@ -75,7 +75,7 @@ void display(){
 	//add objects
 
 	drawAxes();
-	// drawGrid();
+	drawGrid();
 
     //glColor3f(1,0,0);
     //drawSquare(10);
