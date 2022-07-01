@@ -15,6 +15,16 @@ public:
 		v[2] = z;
 		v[3] = w;
 	}
+	T & operator[](int x)
+	{
+		return v[x];
+	}
+	friend ostream &operator<<(ostream &os, Vec4<T> const &v4)
+	{
+		os << v4.v[0] << " " << v4.v[1] << " " << v4.v[2] << " " << v4.v[3];
+		return os;
+	}
+	
 };
 
 #endif // VEC4_H

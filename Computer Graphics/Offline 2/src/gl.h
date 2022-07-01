@@ -22,6 +22,11 @@ class Gl
 	{
 		
 	}
+
+	void perspective(T fovY, T aspectRatio, T near, T far)
+	{
+		
+	}
 	
 };
 
