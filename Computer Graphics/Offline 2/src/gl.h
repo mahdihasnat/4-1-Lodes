@@ -2,19 +2,27 @@
 #define GL_H
 
 #include "vec3.h"
+#include "mat4.h"
+#include<stack>
 
 template<typename T>
-class gl
+class Gl
 {
+	std::stack<Mat4<T>> m_stack;
 	public:
+	Gl()
+	{
+
+	}
 	void lookAt(
-							vec3<T> eye,
-							vec3<T> look,
-							vec3<T> up
+							Vec3<T> eye,
+							Vec3<T> look,
+							Vec3<T> up
 						)
 	{
 		
 	}
+	
 };
 
 #endif // GL_H
