@@ -12,7 +12,7 @@ class Gl
 	public:
 	Gl()
 	{
-
+		m_stack.push(Mat4<T>::identity());
 	}
 	void lookAt(
 							Vec3<T> eye,
@@ -27,6 +27,28 @@ class Gl
 	{
 		
 	}
+
+	void push()
+	{
+		m_stack.push(m_stack.top());
+	}
+	void pop()
+	{
+		assert(m_stack.size()>1);
+		m_stack.pop();
+	}
+
+	Vec3<T> transformPoint(Vec3<T> p)
+	{
+		return m_stack.top()*p;
+	}
+
+	
+	
+	// void translate(Vec3<T> v)
+	// {
+	// 	m_stack.top() = m_stack.top()*Mat4<T>::translate(v);
+	// }
 	
 };
 

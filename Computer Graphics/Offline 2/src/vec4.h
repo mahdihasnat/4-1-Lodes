@@ -1,5 +1,7 @@
 #ifndef VEC4_H
 #define VEC4_H
+#include<bits/stdc++.h>
+using namespace std;
 
 const double EPS = 1e13; 
 
@@ -15,7 +17,7 @@ public:
 		v[2] = z;
 		v[3] = w;
 	}
-	T & operator[](int x)
+	T & operator[](int const &x) 
 	{
 		return v[x];
 	}

@@ -13,6 +13,12 @@ class Vec3: public Vec4<T>
 	{
 		
 	}
+	
+	T& operator[](int const & x)
+	{
+		return Vec4<T>::operator[](x);
+	}
+
 	friend istream & operator >>(istream & is,Vec3<T> & v3)
 	{
 		is>>v3[0]>>v3[1]>>v3[2];

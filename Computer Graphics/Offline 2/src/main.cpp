@@ -49,7 +49,13 @@ int main(int argc,char *argv[])
 		scene>>cmd;
 		if(cmd == "triangle")
 		{
-
+			Vec3<T> v[3];
+			for(int i=0;i<3;i++)
+			{
+				scene>>v[i];
+				DBG(v[i]);
+				DBG(gl.transformPoint(v[i]));
+			}
 		}
 		else if(cmd == "push")
 		{
