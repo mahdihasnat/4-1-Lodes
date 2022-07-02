@@ -1,17 +1,19 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define DBG(x) cerr << ""<<__FILE__<<":"<<__LINE__<< ": "<<(#x)<<" = "<<(x)<<endl;
+#define NL cerr<<endl;
 
 #include "vec4.h"
 #include "vec3.h"
 #include "mat4.h"
 #include "gl.h"
-#define DBG(x) cerr << "line "<<__LINE__<< ": "<<(#x)<<" = "<<(x)<<endl;
-#define NL cerr<<endl;
 typedef double T;
 
 
 int main(int argc,char *argv[])
 {
+	cerr<<setprecision(3)<<fixed;
+	
 	ifstream scene("scene.txt");
 	Gl<T> gl;
 	
@@ -72,6 +74,13 @@ int main(int argc,char *argv[])
 			scene>>v;
 			gl.translate(v);
 		}
+		else if(cmd == "rotate")
+		{
+			T angle;
+			Vec3<T> v;
+			scene>>angle>>v;
+			gl.rotate(angle,v);
+		}
 		else if(cmd == "push")
 		{
 			gl.push();
@@ -80,8 +89,16 @@ int main(int argc,char *argv[])
 		{
 			gl.pop();
 		}
-		else 
+		else if(cmd == "end")
+		{
 			break;
+		}
+		else
+		{
+			cerr<<"unknown command: "<<cmd<<endl;
+			assert(0);
+			return 1;
+		}
 	}
 
 

@@ -1,6 +1,8 @@
 #ifndef MAT4_H
 #define MAT4_H
 
+#include "vec3.h"
+
 #include<bits/stdc++.h>
 using namespace std;
 template<typename T>
@@ -50,6 +52,24 @@ class Mat4
 		ret[1][1] = v[1];
 		ret[2][2] = v[2];
 		ret[3][3] = T(1);
+		return ret;
+	}
+
+	static Mat4 rotate(T const & angel, Vec3<T> const & axis)
+	{
+		Mat4<T> ret; // zero
+		Vec3<T> a = axis;
+		a.normalize();
+
+		ret[3][3] = T(1);
+		for(int i=0;i<3;i++)
+		{
+			Vec3<T> unit; // (0,0,0,1)
+			unit[i]=T(1);
+			Vec3<T> rotated = unit.rotate(angel,a);
+			for(int j=0;j<3;j++)
+				ret[j][i] = rotated[j];
+		}
 		return ret;
 	}
 
@@ -106,6 +126,7 @@ class Mat4
 
 	friend ostream & operator <<(ostream & os,Mat4 const & m4)
 	{
+		os<<"\n";
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++)
 				os<<m4.m[i][j]<<" ";

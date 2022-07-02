@@ -36,6 +36,10 @@ class Gl
 	{
 		m_stack.top() = m_stack.top() * Mat4<T>::translate(v);
 	}
+	void rotate(T const &angel, Vec3<T> const &axis)
+	{
+		m_stack.top() = m_stack.top() * Mat4<T>::rotate(angel,axis);
+	}
 
 	void push()
 	{
