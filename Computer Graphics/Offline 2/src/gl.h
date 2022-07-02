@@ -18,9 +18,13 @@ class Gl
 	std::stack<Mat4<T>> m_stack;
 	ostream * stage1;
 	ostream * stage2;
-	Mat4<T> m_view;
+	ostream * stage3;
+	Mat4<T> m_view,m_proj;
+	
 	public:
-	Gl():stage1( new ostream(&nullBuffer)),stage2( new ostream(&nullBuffer))
+	Gl():stage1( new ostream(&nullBuffer)),
+			 stage2( new ostream(&nullBuffer)),
+			 stage3( new ostream(&nullBuffer))
 	{
 		m_stack.push(Mat4<T>::identity());
 	}
@@ -32,6 +36,11 @@ class Gl
 	void setStage2(ostream &s)
 	{
 		stage2 = &s;
+	}
+	
+	void setStage3(ostream &s)
+	{
+		stage3 = &s;
 	}
 
 	void lookAt(
@@ -59,7 +68,16 @@ class Gl
 
 	void perspective(T fovY, T aspectRatio, T near, T far)
 	{
-		
+		T fovX = fovY * aspectRatio;
+		T t = near * tan(fovY*PI/T(360));
+		T r = near * tan(fovX*PI/T(360));
+
+		m_proj = Mat4<T>(); // zero matrix
+		m_proj[0][0] = near/r;
+		m_proj[1][1] = near/t;
+		m_proj[2][2] = -(far+near)/(far-near);
+		m_proj[2][3] = -T(2)*far*near/(far-near);
+		m_proj[3][2] = -T(1);
 	}
 
 	void scale(Vec3<T>  &v)
@@ -93,9 +111,13 @@ class Gl
 			(*stage1)<<vv<<"\n";
 			vv = m_view * vv;
 			(*stage2)<<vv<<"\n";
+			vv = m_proj * vv;
+			(*stage3)<<vv<<"\n";
+			
 		}
 		(*stage1)<<"\n";
 		(*stage2)<<"\n";
+		(*stage3)<<"\n";
 		
 	}
 

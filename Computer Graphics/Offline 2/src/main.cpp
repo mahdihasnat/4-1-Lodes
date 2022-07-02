@@ -23,15 +23,17 @@ int main(int argc,char *argv[])
 	ifstream scene(scene_file_name);
 	ofstream stage1("stage1.txt");
 	ofstream stage2("stage2.txt");
+	ofstream stage3("stage3.txt");
 	stage1<<fixed<<setprecision(7);
 	stage2<<fixed<<setprecision(7);
+	stage3<<fixed<<setprecision(7);
+
 	Gl<T> gl;
 	gl.setStage1(stage1);
 	gl.setStage2(stage2);
-
-	T ex,ey,ez;
-	T lx,ly,lz;
-	T ux,uy,uz;
+	gl.setStage3(stage3);
+	
+	
 	Vec3<T> eye,look,up;
 	scene>>eye;
 	scene>>look;

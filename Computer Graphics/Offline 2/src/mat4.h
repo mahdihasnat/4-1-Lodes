@@ -107,6 +107,9 @@ class Mat4
 				ret[i] += m[i][j]*(vec3[j]);
 			}
 		}
+		for(int i=0;i<3;i++)
+			ret[i]/=ret[3];
+		ret[3]=T(1);
 		return ret;
 	}
 
