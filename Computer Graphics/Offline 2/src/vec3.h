@@ -102,6 +102,11 @@ class Vec3: public Vec4<T>
 		v3[3]=T(1);
 		return is;
 	}
+
+	friend ostream & operator <<(ostream & os,Vec3<T> const & v3)
+	{
+		return os<<v3[0]<<" "<<v3[1]<<" "<<v3[2];
+	}
 };
 
 #endif /* VEC3_H */

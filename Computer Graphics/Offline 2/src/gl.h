@@ -3,16 +3,28 @@
 
 #include "vec3.h"
 #include "mat4.h"
-#include<stack>
+#include<bits/stdc++.h>
+using namespace std;
+
+class NullBuffer : public std::streambuf
+{
+public:
+  int overflow(int c) { return c; }
+} nullBuffer;
 
 template<typename T>
 class Gl
 {
 	std::stack<Mat4<T>> m_stack;
+	ostream * stage1;
 	public:
-	Gl()
+	Gl():stage1( new ostream(&nullBuffer))
 	{
 		m_stack.push(Mat4<T>::identity());
+	}
+	void setStage1(ostream &s)
+	{
+		stage1 = &s;
 	}
 	void lookAt(
 							Vec3<T> eye,
@@ -56,12 +68,6 @@ class Gl
 		return m_stack.top()*p;
 	}
 
-	
-	
-	// void translate(Vec3<T> v)
-	// {
-	// 	m_stack.top() = m_stack.top()*Mat4<T>::translate(v);
-	// }
 	
 };
 

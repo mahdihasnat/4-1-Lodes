@@ -15,8 +15,9 @@ int main(int argc,char *argv[])
 	cerr<<setprecision(3)<<fixed;
 	
 	ifstream scene("scene.txt");
+	ofstream stage1("stage1.txt");
 	Gl<T> gl;
-	
+	gl.setStage1(stage1);
 	T ex,ey,ez;
 	T lx,ly,lz;
 	T ux,uy,uz;
