@@ -16,8 +16,10 @@ int main(int argc,char *argv[])
 	
 	ifstream scene("scene.txt");
 	ofstream stage1("stage1.txt");
+	stage1<<fixed<<setprecision(7);
 	Gl<T> gl;
 	gl.setStage1(stage1);
+
 	T ex,ey,ez;
 	T lx,ly,lz;
 	T ux,uy,uz;
@@ -59,9 +61,8 @@ int main(int argc,char *argv[])
 			for(int i=0;i<3;i++)
 			{
 				scene>>v[i];
-				// DBG(v[i]);
-				DBG(gl.transformPoint(v[i]));
 			}
+			gl.triangle(v);
 		}
 		else if(cmd =="scale")
 		{

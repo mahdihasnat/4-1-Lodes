@@ -63,6 +63,13 @@ class Gl
 		m_stack.pop();
 	}
 
+	void triangle(Vec3<T> v[3])
+	{
+		for(int i=0;i<3;i++)
+			(*stage1)<<transformPoint(v[i])<<"\n";
+		(*stage1)<<"\n";
+	}
+
 	Vec3<T> transformPoint(Vec3<T> p)
 	{
 		return m_stack.top()*p;
