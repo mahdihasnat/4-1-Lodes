@@ -53,11 +53,11 @@ int main(int argc,char *argv[])
 	T fovY,aspectRatio,near,far;
 	scene>>fovY>>aspectRatio>>near>>far;
 	
-	DBG(fovY);
-	DBG(aspectRatio);
-	DBG(near);
-	DBG(far);
-	NL;
+	// DBG(fovY);
+	// DBG(aspectRatio);
+	// DBG(near);
+	// DBG(far);
+	// NL;
 	gl.perspective(fovY,aspectRatio,near,far);
 
 	while(1)
