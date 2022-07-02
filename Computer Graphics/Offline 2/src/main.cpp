@@ -66,6 +66,12 @@ int main(int argc,char *argv[])
 			scene>>v;
 			gl.scale(v);
 		}
+		else if(cmd =="translate")
+		{
+			Vec3<T> v;
+			scene>>v;
+			gl.translate(v);
+		}
 		else if(cmd == "push")
 		{
 			gl.push();

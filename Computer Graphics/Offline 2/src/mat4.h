@@ -17,7 +17,7 @@ class Mat4
 		{
 			for(int j=0;j<4;j++)
 			{
-				m[i][j] = 0;
+				m[i][j] = T(0);
 			}
 		}
 	}
@@ -75,12 +75,14 @@ class Mat4
 		}
 		return ret;
 	}
-	Vec3<T> operator *(Vec3<T> & vec3)
+	
+	Vec3<T> operator *(Vec3<T> const& vec3) const
 	{
-		Vec3<T> ret;
-		for(int i=0;i<3;i++)
+		Vec3<T> ret; // (0,0,0,1)
+		ret[3]=0;
+		for(int i=0;i<4;i++)
 		{
-			for(int j=0;j<3;j++)
+			for(int j=0;j<4;j++)
 			{
 				ret[i] += m[i][j]*(vec3[j]);
 			}

@@ -32,6 +32,10 @@ class Gl
 	{
 		m_stack.top() = m_stack.top() * Mat4<T>::scale(v);
 	}
+	void translate(Vec3<T> const &v)
+	{
+		m_stack.top() = m_stack.top() * Mat4<T>::translate(v);
+	}
 
 	void push()
 	{

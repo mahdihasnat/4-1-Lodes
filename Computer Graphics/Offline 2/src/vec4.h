@@ -10,6 +10,8 @@ class Vec4
 {
 	T v[4];
 public:
+
+	// Vec4(T x=T(0), T y=T(0), T z=T(0), T w=T(1))
 	Vec4(T x, T y, T z, T w)
 	{
 		v[0] = x;
