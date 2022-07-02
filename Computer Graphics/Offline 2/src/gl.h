@@ -17,8 +17,10 @@ class Gl
 {
 	std::stack<Mat4<T>> m_stack;
 	ostream * stage1;
+	ostream * stage2;
+	Mat4<T> m_view;
 	public:
-	Gl():stage1( new ostream(&nullBuffer))
+	Gl():stage1( new ostream(&nullBuffer)),stage2( new ostream(&nullBuffer))
 	{
 		m_stack.push(Mat4<T>::identity());
 	}
@@ -26,12 +28,32 @@ class Gl
 	{
 		stage1 = &s;
 	}
+	
+	void setStage2(ostream &s)
+	{
+		stage2 = &s;
+	}
+
 	void lookAt(
 							Vec3<T> eye,
 							Vec3<T> look,
 							Vec3<T> up
 						)
 	{
+		Vec3<T> l = look-eye;
+		l.normalize();
+		Vec3<T> r = l.cross(up);
+		r.normalize();
+		Vec3<T> u = r.cross(l);
+		Mat4<T> tran = Mat4<T>::translate(-eye);
+		
+		Mat4<T> rot = Mat4<T>(); // zero
+		for(int i=0;i<3;i++)	rot[0][i] = r[i];
+		for(int i=0;i<3;i++)	rot[1][i] = u[i];
+		for(int i=0;i<3;i++)	rot[2][i] = -l[i];
+		rot[3][3] = T(1);
+
+		m_view = rot * tran;
 		
 	}
 
@@ -66,8 +88,15 @@ class Gl
 	void triangle(Vec3<T> v[3])
 	{
 		for(int i=0;i<3;i++)
-			(*stage1)<<transformPoint(v[i])<<"\n";
+		{
+			Vec3<T> vv = transformPoint(v[i]);
+			(*stage1)<<vv<<"\n";
+			vv = m_view * vv;
+			(*stage2)<<vv<<"\n";
+		}
 		(*stage1)<<"\n";
+		(*stage2)<<"\n";
+		
 	}
 
 	Vec3<T> transformPoint(Vec3<T> p)

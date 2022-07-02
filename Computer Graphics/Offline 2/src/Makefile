@@ -1,7 +1,7 @@
 MAKEFLAGS += -j8
 
 CC = g++
-PARAMETERS = input.txt
+PARAMETERS = '../resource/Test Cases (Updated)/3/scene.txt'
 HEADERS = vec4.h
 
 

@@ -12,13 +12,22 @@ typedef double T;
 
 int main(int argc,char *argv[])
 {
+	if(argc<2)
+	{
+		cerr<<"Usage: "<<argv[0]<<" <scene.txt> <config.txt> "<<"\n";
+		return 1;
+	}
 	cerr<<setprecision(3)<<fixed;
-	
-	ifstream scene("scene.txt");
+
+	string scene_file_name(argv[1]);
+	ifstream scene(scene_file_name);
 	ofstream stage1("stage1.txt");
+	ofstream stage2("stage2.txt");
 	stage1<<fixed<<setprecision(7);
+	stage2<<fixed<<setprecision(7);
 	Gl<T> gl;
 	gl.setStage1(stage1);
+	gl.setStage2(stage2);
 
 	T ex,ey,ez;
 	T lx,ly,lz;
@@ -28,10 +37,10 @@ int main(int argc,char *argv[])
 	scene>>look;
 	scene>>up;
 
-	DBG(eye);
-	DBG(look);
-	DBG(up);
-	NL;
+	// DBG(eye);
+	// DBG(look);
+	// DBG(up);
+	// NL;
 
 	gl.lookAt(
 		eye,
@@ -53,8 +62,8 @@ int main(int argc,char *argv[])
 	{
 		string cmd;
 		scene>>cmd;
-		DBG(cmd);
-		NL;
+		// DBG(cmd);
+		// NL;
 		if(cmd == "triangle")
 		{
 			Vec3<T> v[3];

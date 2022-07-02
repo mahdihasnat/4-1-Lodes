@@ -73,6 +73,25 @@ class Vec3: public Vec4<T>
 		return ret;	
 	}
 
+	Vec3<T> operator - (Vec3<T> const & v) const
+	{
+		Vec3<T> ret; // (0,0,0,1)
+		for(int i=0;i<3;i++)
+		{
+			ret[i] = this->operator[](i) - v[i];
+		}
+		return ret;
+	}
+	Vec3<T> operator-()const
+	{
+		Vec3<T> ret; // (0,0,0,1)
+		for(int i=0;i<3;i++)
+		{
+			ret[i] = -this->operator[](i);
+		}
+		return ret;
+	}
+
 	Vec3<T> operator *(T const & m) const
 	{
 		Vec3<T> ret; // (0,0,0,1)
