@@ -17,9 +17,9 @@ public:
 		v[2] = z;
 		v[3] = w;
 	}
-	T & operator[](int const &x) 
+	T& operator[](int const &x) const
 	{
-		return v[x];
+		return const_cast<T&>(v[x]);
 	}
 	friend ostream &operator<<(ostream &os, Vec4<T> const &v4)
 	{

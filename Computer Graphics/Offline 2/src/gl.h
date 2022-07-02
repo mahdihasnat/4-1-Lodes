@@ -28,6 +28,11 @@ class Gl
 		
 	}
 
+	void scale(Vec3<T>  &v)
+	{
+		m_stack.top() = m_stack.top() * Mat4<T>::scale(v);
+	}
+
 	void push()
 	{
 		m_stack.push(m_stack.top());

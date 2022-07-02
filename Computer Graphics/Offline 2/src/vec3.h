@@ -14,7 +14,7 @@ class Vec3: public Vec4<T>
 		
 	}
 	
-	T& operator[](int const & x)
+	T& operator[](int const & x) const
 	{
 		return Vec4<T>::operator[](x);
 	}

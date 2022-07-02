@@ -34,12 +34,33 @@ class Mat4
 		return ret;
 	}
 	
-	T * operator [](int const & x)
+	static Mat4 translate(Vec3<T> const& v)
 	{
-		return m[x];
+		Mat4<T> ret = identity();
+		ret[0][3] = v[0];
+		ret[1][3] = v[1];
+		ret[2][3] = v[2];
+		return ret;
 	}
 
-	Mat4 operator*(const Mat4& rhs) const
+	static Mat4 scale(Vec3<T> &v)
+	{
+		Mat4<T> ret ; // zero
+		ret[0][0] = v[0];
+		ret[1][1] = v[1];
+		ret[2][2] = v[2];
+		ret[3][3] = T(1);
+		return ret;
+	}
+
+
+	
+	T * operator [](int const & x) const
+	{
+		return const_cast<T*>(m[x]);
+	}
+
+	Mat4 operator*(Mat4 const& rhs) const
 	{
 		Mat4 ret; // zero matrix
 		for(int i=0;i<4;i++)

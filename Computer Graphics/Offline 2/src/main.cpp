@@ -9,6 +9,7 @@ using namespace std;
 #define NL cerr<<endl;
 typedef double T;
 
+
 int main(int argc,char *argv[])
 {
 	ifstream scene("scene.txt");
@@ -47,19 +48,31 @@ int main(int argc,char *argv[])
 	{
 		string cmd;
 		scene>>cmd;
+		DBG(cmd);
+		NL;
 		if(cmd == "triangle")
 		{
 			Vec3<T> v[3];
 			for(int i=0;i<3;i++)
 			{
 				scene>>v[i];
-				DBG(v[i]);
+				// DBG(v[i]);
 				DBG(gl.transformPoint(v[i]));
 			}
 		}
+		else if(cmd =="scale")
+		{
+			Vec3<T> v;
+			scene>>v;
+			gl.scale(v);
+		}
 		else if(cmd == "push")
 		{
-			
+			gl.push();
+		}
+		else if(cmd == "pop")
+		{
+			gl.pop();
 		}
 		else 
 			break;
