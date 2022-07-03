@@ -27,15 +27,17 @@ int main(int argc,char *argv[])
 	ofstream stage1("stage1.txt");
 	ofstream stage2("stage2.txt");
 	ofstream stage3("stage3.txt");
+	ofstream z_out("z_buffer.txt");
 	stage1<<fixed<<setprecision(7);
 	stage2<<fixed<<setprecision(7);
 	stage3<<fixed<<setprecision(7);
+	z_out<<fixed<<setprecision(6);
 
 	Gl<T> gl;
 	gl.setStage1(stage1);
 	gl.setStage2(stage2);
 	gl.setStage3(stage3);
-	
+	gl.setZOut(z_out);
 	
 	Vec3<T> eye,look,up;
 	scene>>eye;

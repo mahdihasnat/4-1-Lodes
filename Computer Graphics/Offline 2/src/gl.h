@@ -23,13 +23,15 @@ class Gl
 	ostream * stage1;
 	ostream * stage2;
 	ostream * stage3;
+	ostream * z_out;
 	Mat4<T> m_view,m_proj;
 	vector<Triangle<T>> m_triangles;
 
 	public:
 	Gl():stage1( new ostream(&nullBuffer)),
 			 stage2( new ostream(&nullBuffer)),
-			 stage3( new ostream(&nullBuffer))
+			 stage3( new ostream(&nullBuffer)),
+			 z_out( new ostream(&nullBuffer))
 	{
 		m_stack.push(Mat4<T>::identity());
 	}
@@ -46,6 +48,11 @@ class Gl
 	void setStage3(ostream &s)
 	{
 		stage3 = &s;
+	}
+
+	void setZOut(ostream &s)
+	{
+		z_out = &s;
 	}
 
 	void lookAt(
@@ -251,6 +258,14 @@ class Gl
 			}
 
 
+		}
+		for(int i=0;i<screen_height;i++)
+		{
+			for(int j=0;j<screen_width;j++)
+			{
+				(*z_out)<<z_values[j][i]<<" ";
+			}
+			(*z_out)<<"\n";
 		}
 
 		image.save_image(output_file_name);
