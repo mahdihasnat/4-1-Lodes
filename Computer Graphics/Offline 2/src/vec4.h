@@ -3,8 +3,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const double EPS = 1e13; 
-
 template<typename T>
 class Vec4
 {

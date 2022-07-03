@@ -137,6 +137,18 @@ class Gl
 	{
 		return m_stack.top()*p;
 	}
+
+	void setTriangles(ifstream & is)
+	{
+		m_triangles.clear();
+		Vec3<T> v[3];
+		while(is>>v[0])
+		{
+			for(int i=1;i<3;i++)
+				is>>v[i];
+			m_triangles.push_back(Triangle<T>(v,Color::random()));
+		}
+	}
 	
 	void draw(int screen_width, 
 				int screen_height,
@@ -165,6 +177,9 @@ class Gl
 			}
 		}
 
+		// DBG(top_y);
+		// DBG(left_x);
+		// DBG(dy);
 
 		for(Triangle<T> const&t:m_triangles)
 		{
@@ -182,10 +197,15 @@ class Gl
 
 			// t.min(1) <=  top_y - i*dy <= t.max(1)
 			int top_scanline = ceil((top_y - t.max(1))/dy);
-			int bottom_scanline = floor(top_y - t.min(1)/dy);
+			int bottom_scanline = floor((top_y - t.min(1))/dy);
+			
 			top_scanline = max(0,top_scanline);
 			bottom_scanline = min(screen_height-1,bottom_scanline);
 
+			// DBG(t.max(1));
+			// DBG(t.min(1));
+			// DBG(top_scanline);
+			// DBG(bottom_scanline);
 			
 			T y_val = top_y - top_scanline*dy;
 			for(
@@ -194,6 +214,8 @@ class Gl
 				row++,y_val -=dy
 				)
 			{
+				
+
 				// if there is a 3d point inside triangle with y = y_val and minimize/maximize value of x
 				// then that point should lie on border of triangles
 
@@ -221,25 +243,35 @@ class Gl
 				vec = t[2]-t[1];
 				{
 					vec.normalize();
-					// if(abs(vec[1]) < EPS) continue; 
 					T a = (y_val - point[1])/vec[1];
 					if(a>=T(0) and a<=T(1))
 						x_values.push_back(point[0]+a*vec[0]);
 				}
 				assert(x_values.size());
 				if(x_values.empty()) continue;
+
+				// DBG(x_values.size());
+				// for(auto i: x_values)
+				// {
+				// 	cerr<<i<<" ";
+				// }
+				// NL;
+				
 				sort(x_values.begin(),x_values.end());
-
-
+				// DBG(dx);
+				// DBG(dy);
 
 				// x_min <= left_x + i * dx <= x_max
 				int left_intersecting_col = ceil((*x_values.begin() - left_x)/dx);
-				int right_intersecting_col = floor(*x_values.end() - left_x/dx);
+				int right_intersecting_col = floor((*x_values.rbegin() - left_x)/dx); // dont use end() for last value
 				left_intersecting_col = max(0,left_intersecting_col);
 				right_intersecting_col = min(screen_width-1,right_intersecting_col);
 				
+				// DBG(left_intersecting_col);
+				// DBG(right_intersecting_col);
+
 				T x_val = left_x + left_intersecting_col*dx;
-				T z_value = - (a*x_val + d)/c;
+				T z_value = - (a*x_val + d+b*y_val)/c;
 				T z_incr = -a*dx/c;
 				for(
 					int col=left_intersecting_col;
@@ -252,6 +284,7 @@ class Gl
 					if(z_values[col][row] < z_value) continue;
 					if(z_value<mn[2] ) continue;
 					image.set_pixel(col,row,t.c[0],t.c[1],t.c[2]);
+					z_values[col][row] = z_value;
 				}
 
 				
@@ -263,7 +296,10 @@ class Gl
 		{
 			for(int j=0;j<screen_width;j++)
 			{
-				(*z_out)<<z_values[j][i]<<" ";
+				if(z_values[j][i] < mx[2])
+					(*z_out)<<z_values[j][i]<<" ";
+				else 
+					(*z_out)<<string(z_out->precision(),' ')<<" ";
 			}
 			(*z_out)<<"\n";
 		}

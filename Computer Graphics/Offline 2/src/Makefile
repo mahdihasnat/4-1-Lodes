@@ -2,6 +2,7 @@ MAKEFLAGS += -j8
 
 CC = g++
 DIR = '../resource/Test Cases (Updated)/1
+# DIR = '.
 PARAMETERS = ${DIR}/scene.txt' ${DIR}/config.txt'
 HEADERS = vec4.h
 

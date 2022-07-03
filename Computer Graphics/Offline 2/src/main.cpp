@@ -17,7 +17,7 @@ int main(int argc,char *argv[])
 		cerr<<"Usage: "<<argv[0]<<" <scene.txt> <config.txt> "<<"\n";
 		return 1;
 	}
-	cerr<<setprecision(3)<<fixed;
+	cerr<<setprecision(4)<<fixed;
 
 	string scene_file_name(argv[1]);
 	ifstream scene(scene_file_name);
@@ -27,6 +27,7 @@ int main(int argc,char *argv[])
 	ofstream stage1("stage1.txt");
 	ofstream stage2("stage2.txt");
 	ofstream stage3("stage3.txt");
+	// ostream stage3(&nullBuffer);
 	ofstream z_out("z_buffer.txt");
 	stage1<<fixed<<setprecision(7);
 	stage2<<fixed<<setprecision(7);
@@ -132,6 +133,13 @@ int main(int argc,char *argv[])
 	T z_min,z_max;
 	config>>z_min;
 	config>>z_max;
+
+	stage1.close();
+	stage2.close();
+	stage3.close();
+
+	// ifstream stage3_in("stage3.txt");
+	// gl.setTriangles(stage3_in);
 
 	gl.draw(screen_width,screen_height,
 		Vec3<T>(x_min,y_min,z_min),
