@@ -12,7 +12,7 @@ typedef double T;
 
 int main(int argc,char *argv[])
 {
-	if(argc<2)
+	if(argc<3)
 	{
 		cerr<<"Usage: "<<argv[0]<<" <scene.txt> <config.txt> "<<"\n";
 		return 1;
@@ -21,6 +21,9 @@ int main(int argc,char *argv[])
 
 	string scene_file_name(argv[1]);
 	ifstream scene(scene_file_name);
+	string config_file_name(argv[2]);
+	ifstream config(config_file_name);
+
 	ofstream stage1("stage1.txt");
 	ofstream stage2("stage2.txt");
 	ofstream stage3("stage3.txt");
@@ -114,5 +117,20 @@ int main(int argc,char *argv[])
 		}
 	}
 
+	int screen_width,screen_height;
+	config>>screen_width>>screen_height;
+	
+	T x_min,x_max,y_min,y_max;
+	config>>x_min;
+	x_max = -x_min;
+
+	config>>y_min;
+	y_max = -y_min;
+
+	T z_min,z_max;
+	config>>z_min;
+	config>>z_max;
+
+	
 
 }

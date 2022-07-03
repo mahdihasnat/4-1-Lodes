@@ -10,10 +10,10 @@ class Triangle
 	Vec3<T> v[3];
 	Color c;
 	public:
-		Triangle(Vec3<T> v0,Vec3<T> v1,Vec3<T> v2,Color c):c(c){
-			v[0]=v0;
-			v[1]=v1;
-			v[2]=v2;
+		Triangle(Vec3<T> v[3],Color c):c(c){
+			for(int i=0;i<3;i++){
+				this->v[i] = v[i];
+			}
 		}
 };
 

@@ -3,6 +3,8 @@
 
 #include "vec3.h"
 #include "mat4.h"
+#include "triangle.h"
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -20,7 +22,8 @@ class Gl
 	ostream * stage2;
 	ostream * stage3;
 	Mat4<T> m_view,m_proj;
-	
+	vector<Triangle<T>> m_triangles;
+
 	public:
 	Gl():stage1( new ostream(&nullBuffer)),
 			 stage2( new ostream(&nullBuffer)),
@@ -105,27 +108,27 @@ class Gl
 
 	void triangle(Vec3<T> v[3])
 	{
+
 		for(int i=0;i<3;i++)
 		{
-			Vec3<T> vv = transformPoint(v[i]);
-			(*stage1)<<vv<<"\n";
-			vv = m_view * vv;
-			(*stage2)<<vv<<"\n";
-			vv = m_proj * vv;
-			(*stage3)<<vv<<"\n";
-			
+			v[i] = transformPoint(v[i]);
+			(*stage1)<<v[i]<<"\n";
+			v[i] = m_view * v[i];
+			(*stage2)<<v[i]<<"\n";
+			v[i] = m_proj * v[i];
+			(*stage3)<<v[i]<<"\n";
 		}
 		(*stage1)<<"\n";
 		(*stage2)<<"\n";
 		(*stage3)<<"\n";
-		
+		m_triangles.push_back(Triangle<T>(v,Color::random()));
 	}
 
 	Vec3<T> transformPoint(Vec3<T> p)
 	{
 		return m_stack.top()*p;
 	}
-
+	
 	
 };
 
