@@ -183,14 +183,9 @@ class Gl
 
 		for(Triangle<T> const&t:m_triangles)
 		{
-			// bool baire = 0;
-			// for(int i=0;i<3;i++)
-			// 	baire = baire or (t.min(i)>mx[i] or t.max(i)<mn[i]);
-			// if(baire) continue;
-
 			// calculating normal of triangle
-			Vec3<T> n = (t[1]-t[0]).cross(t[2]-t[0]);
 			Vec3<T> p = t[0];
+			Vec3<T> n = (t[1]-t[0]).cross(t[2]-t[0]);
 
 			// calculating coefficient of equation ax+by+cz+d=0;
 			T a = n[0], b = n[1], c = n[2], d = -n.dot(p);
@@ -281,23 +276,20 @@ class Gl
 					)
 				{
 					// Calculate z value from triangle t
-					if(z_values[col][row] < z_value) continue;
+					if(z_values[col][row] <= z_value) continue;
 					if(z_value<mn[2] ) continue;
 					image.set_pixel(col,row,t.c[0],t.c[1],t.c[2]);
 					z_values[col][row] = z_value;
 				}
-
-				
 			}
-
 
 		}
 		for(int i=0;i<screen_height;i++)
 		{
 			for(int j=0;j<screen_width;j++)
 			{
-				if(z_values[j][i] < mx[2])
-					(*z_out)<<z_values[j][i]<<" ";
+				if(z_values[i][j] < mx[2])
+					(*z_out)<<z_values[i][j]<<" ";
 				else 
 					(*z_out)<<string(z_out->precision(),' ')<<" ";
 			}

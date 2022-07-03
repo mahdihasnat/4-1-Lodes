@@ -9,4 +9,6 @@ for i in range(1,5):
 	for j in range(1,4):
 		file = "/stage"+str(j)+".txt"
 		os.system("diff -bB ."+file+" '"+dir+file+"'")
+	file = "/z_buffer.txt"
+	# os.system("diff -bB ."+file+" '"+dir+file+"'")
 	# os.system("diff ")
