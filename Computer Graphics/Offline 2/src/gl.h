@@ -5,13 +5,15 @@
 #include "mat4.h"
 #include "triangle.h"
 
+#include "bitmap_image.hpp"
+
 #include<bits/stdc++.h>
 using namespace std;
 
 class NullBuffer : public std::streambuf
 {
 public:
-  int overflow(int c) { return c; }
+	int overflow(int c) { return c; }
 } nullBuffer;
 
 template<typename T>
@@ -129,6 +131,130 @@ class Gl
 		return m_stack.top()*p;
 	}
 	
+	void draw(int screen_width, 
+				int screen_height,
+				Vec3<T> mn,
+				Vec3<T> mx,
+				string output_file_name
+				)
+	{
+		
+		T dx = (mx[0]-mn[0])/T(screen_width);
+		T dy = (mx[1]-mn[1])/T(screen_height);
+		
+		T top_y = mx[1] - dy/2;
+		T left_x = mn[0] + dx/2;
+
+		// init z-buffer
+		vector< vector<T> > z_values(screen_width,vector<T>(screen_height,mx[2]));
+		bitmap_image image(screen_width,screen_height);
+
+		for(int i=0;i<screen_width;i++)
+		{
+			for(int j=0;j<screen_height;j++)
+			{
+				// init color as black
+				image.set_pixel(i,j,0,0,0);
+			}
+		}
+
+
+		for(Triangle<T> const&t:m_triangles)
+		{
+			// bool baire = 0;
+			// for(int i=0;i<3;i++)
+			// 	baire = baire or (t.min(i)>mx[i] or t.max(i)<mn[i]);
+			// if(baire) continue;
+
+			// calculating normal of triangle
+			Vec3<T> n = (t[1]-t[0]).cross(t[2]-t[0]);
+			Vec3<T> p = t[0];
+
+			// calculating coefficient of equation ax+by+cz+d=0;
+			T a = n[0], b = n[1], c = n[2], d = -n.dot(p);
+
+			// t.min(1) <=  top_y - i*dy <= t.max(1)
+			int top_scanline = ceil((top_y - t.max(1))/dy);
+			int bottom_scanline = floor(top_y - t.min(1)/dy);
+			top_scanline = max(0,top_scanline);
+			bottom_scanline = min(screen_height-1,bottom_scanline);
+
+			
+			T y_val = top_y - top_scanline*dy;
+			for(
+				int row = top_scanline;
+				row<=bottom_scanline;
+				row++,y_val -=dy
+				)
+			{
+				// if there is a 3d point inside triangle with y = y_val and minimize/maximize value of x
+				// then that point should lie on border of triangles
+
+				vector<T> x_values;
+				Vec3<T> point = t[0];
+				Vec3<T> vec = t[1]-t[0];
+				{
+					vec.normalize();
+					// point + a * vec  lies inside segment
+					// now point.y + a * vec.y == y_val
+					T a = (y_val - point[1])/vec[1];
+					if(a>=T(0) and a<=T(1))
+						x_values.push_back(point[0]+a*vec[0]);
+				}
+
+				vec = t[2]-t[0];
+				{
+					vec.normalize();
+					T a = (y_val - point[1])/vec[1];
+					if(a>=T(0) and a<=T(1))
+						x_values.push_back(point[0]+a*vec[0]);
+				}
+				
+				point = t[1];
+				vec = t[2]-t[1];
+				{
+					vec.normalize();
+					// if(abs(vec[1]) < EPS) continue; 
+					T a = (y_val - point[1])/vec[1];
+					if(a>=T(0) and a<=T(1))
+						x_values.push_back(point[0]+a*vec[0]);
+				}
+				assert(x_values.size());
+				if(x_values.empty()) continue;
+				sort(x_values.begin(),x_values.end());
+
+
+
+				// x_min <= left_x + i * dx <= x_max
+				int left_intersecting_col = ceil((*x_values.begin() - left_x)/dx);
+				int right_intersecting_col = floor(*x_values.end() - left_x/dx);
+				left_intersecting_col = max(0,left_intersecting_col);
+				right_intersecting_col = min(screen_width-1,right_intersecting_col);
+				
+				T x_val = left_x + left_intersecting_col*dx;
+				T z_value = - (a*x_val + d)/c;
+				T z_incr = -a*dx/c;
+				for(
+					int col=left_intersecting_col;
+					col<=right_intersecting_col ; 
+					col++,z_value += z_incr
+					// ,x_val += dx
+					)
+				{
+					// Calculate z value from triangle t
+					if(z_values[col][row] < z_value) continue;
+					if(z_value<mn[2] ) continue;
+					image.set_pixel(col,row,t.c[0],t.c[1],t.c[2]);
+				}
+
+				
+			}
+
+
+		}
+
+		image.save_image(output_file_name);
+	}
 	
 };
 

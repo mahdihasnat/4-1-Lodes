@@ -30,6 +30,20 @@ class Color
 		static Color random(){
 			return Color(rand()%255,rand()%255,rand()%255);
 		}
+
+		// << operator overloading
+		friend ostream &operator <<(ostream &os , Color &c)
+		{
+			os<<"("<<c.c[0]<<" "<<c.c[1]<<" "<<c.c[2]<<")";
+			return os;
+		}
+
+		// [] operator overloading
+		int & operator[](int i) const
+		{
+			return const_cast< int &>(c[i]);
+		}
+
 };
 
 #endif /* COLOR_H */

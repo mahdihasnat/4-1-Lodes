@@ -131,6 +131,11 @@ int main(int argc,char *argv[])
 	config>>z_min;
 	config>>z_max;
 
-	
+	gl.draw(screen_width,screen_height,
+		Vec3<T>(x_min,y_min,z_min),
+		Vec3<T>(x_max,y_max,z_max),
+		"out.bmp"
+	);
+
 
 }
