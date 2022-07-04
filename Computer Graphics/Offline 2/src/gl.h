@@ -284,14 +284,15 @@ class Gl
 			}
 
 		}
+		
 		for(int i=0;i<screen_height;i++)
 		{
 			for(int j=0;j<screen_width;j++)
 			{
-				if(z_values[i][j] < mx[2])
-					(*z_out)<<z_values[i][j]<<" ";
-				else 
-					(*z_out)<<string(z_out->precision(),' ')<<" ";
+				if(z_values[j][i] < mx[2])
+					(*z_out)<<z_values[j][i]<<"\t";
+				// else 
+				// 	(*z_out)<<string(z_out->precision(),' ')<<" ";
 			}
 			(*z_out)<<"\n";
 		}
