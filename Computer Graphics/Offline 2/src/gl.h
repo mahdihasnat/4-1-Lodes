@@ -16,6 +16,8 @@ public:
 	int overflow(int c) { return c; }
 } nullBuffer;
 
+ostream nullStream(&nullBuffer);
+
 template<typename T>
 class Gl
 {
@@ -28,10 +30,10 @@ class Gl
 	vector<Triangle<T>> m_triangles;
 
 	public:
-	Gl():stage1( new ostream(&nullBuffer)),
-			 stage2( new ostream(&nullBuffer)),
-			 stage3( new ostream(&nullBuffer)),
-			 z_out( new ostream(&nullBuffer))
+	Gl():stage1( & nullStream),
+			 stage2( & nullStream),
+			 stage3( &nullStream),
+			 z_out( &nullStream)
 	{
 		m_stack.push(Mat4<T>::identity());
 	}
@@ -218,7 +220,7 @@ class Gl
 				Vec3<T> point = t[0];
 				Vec3<T> vec = t[1]-t[0];
 				{
-					vec.normalize();
+					// vec.normalize();
 					// point + a * vec  lies inside segment
 					// now point.y + a * vec.y == y_val
 					T a = (y_val - point[1])/vec[1];
@@ -228,7 +230,7 @@ class Gl
 
 				vec = t[2]-t[0];
 				{
-					vec.normalize();
+					// vec.normalize();
 					T a = (y_val - point[1])/vec[1];
 					if(a>=T(0) and a<=T(1))
 						x_values.push_back(point[0]+a*vec[0]);
@@ -237,7 +239,7 @@ class Gl
 				point = t[1];
 				vec = t[2]-t[1];
 				{
-					vec.normalize();
+					// vec.normalize();
 					T a = (y_val - point[1])/vec[1];
 					if(a>=T(0) and a<=T(1))
 						x_values.push_back(point[0]+a*vec[0]);
