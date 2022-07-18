@@ -193,7 +193,8 @@ class Gl
 			)
 		{
 			
-
+			assert(y_val<=t.max(1));
+			assert(t.min(1)<=y_val);
 			// if there is a 3d point inside triangle with y = y_val and minimize/maximize value of x
 			// then that point should lie on border of triangles
 
@@ -255,9 +256,13 @@ class Gl
 				int col=left_intersecting_col;
 				col<=right_intersecting_col ; 
 				col++,z_value += z_incr
-				// ,x_val += dx
+				,x_val += dx
 				)
 			{
+				//checking if x_value are in range
+				assert(x_val<=*x_values.rbegin());
+				assert(*x_values.begin()<=x_val);
+				
 				// Calculate z value from triangle t
 				if(z_values[col][row] <= z_value) continue;
 				if(z_value<mn[2] ) continue;
