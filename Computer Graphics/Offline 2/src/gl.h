@@ -386,7 +386,7 @@ class Gl
 			{
 				assert(x_p >= x_a);
 				assert(x_p <= x_b);
-				if(z_values[column][row] < z_p) continue;
+				if(z_values[column][row] <= z_p) continue;
 				if(z_p < mn[2]) continue;
 				z_values[column][row] = z_p;
 				image.set_pixel(column,row,t.c[0],t.c[1],t.c[2]);

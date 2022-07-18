@@ -7,7 +7,7 @@ using namespace std;
 #include "vec3.h"
 #include "mat4.h"
 #include "gl.h"
-typedef double T;
+typedef long double T;
 
 
 int main(int argc,char *argv[])
