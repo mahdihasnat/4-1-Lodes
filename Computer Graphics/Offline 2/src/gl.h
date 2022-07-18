@@ -262,7 +262,7 @@ class Gl
 				//checking if x_value are in range
 				assert(x_val<=*x_values.rbegin());
 				assert(*x_values.begin()<=x_val);
-				
+
 				// Calculate z value from triangle t
 				if(z_values[col][row] <= z_value) continue;
 				if(z_value<mn[2] ) continue;
@@ -270,6 +270,129 @@ class Gl
 				z_values[col][row] = z_value;
 			}
 		}
+	}
+	
+
+
+	void draw_method2(
+		int screen_width, 
+		int screen_height,
+		Vec3<T> mn,
+		Vec3<T> mx,
+		T dx,
+		T dy,
+		T top_y,
+		T left_x,
+		vector<vector<T> > &z_values,
+		bitmap_image & image,
+		Triangle<T> const& t
+		)
+	{
+		// y = top_y - i*dy , 0<=i < screen_height
+		// x = left_x + i*dx , 0<=i < screen_width
+		int top_scanline = max(0,(int)(ceil((top_y-t.max(1))/dy)) );
+		int bottom_scanline = min(screen_height-1, (int)(floor((top_y-t.min(1))/dy)));
+		T ys = top_y - top_scanline*dy;
+		for(
+			int row = top_scanline;
+			row<=bottom_scanline;
+			row++, ys-=dy
+			)
+		{
+			//      t[0]
+			//      / \
+			//     /   \
+			//    /     \
+			// t[1]      \
+			//    .       \
+			//      .      \
+			//         .    \
+			//           . t[2]
+			// 
+			vector<pair<T,int> > x_values;
+			for(int i=0;i<3;i++)
+			{
+				// checking intersection point on segment [t[i],t[i+1])
+				
+				int i_1 = (i+1)%3;
+				if(t[i][1] == t[i_1][1]) continue;
+				if(ys < min(t[i][1],t[i_1][1])) continue;
+				if(max(t[i][1],t[i_1][1]) < ys) continue;
+
+				T x = t[i][0] + (ys - t[i][1])*(t[i_1][0]-t[i][0])/(t[i_1][1]-t[i][1]);
+				if(x < min(t[i][0],t[i_1][0])) continue;
+				if(max(t[i][0],t[i_1][0]) < x) continue;
+				x_values.push_back(make_pair(x,i));
+			}
+			assert(!x_values.empty());
+
+			assert(x_values.size()!=1);
+			assert(x_values.size()!=3); // can happen 
+			// line1           line2        intersection  other two
+			// line[0 -> 1] & line[1 -> 2] -> p1 = 1 , (p2,p3) = (0,2)
+			// line[0 -> 1] & line[2 -> 0] -> p1 = 0 , (p2,p3) = (1,2)
+			// line[1 -> 2] & line[2 -> 0] -> p1 = 2 , (p2,p3) = (0,1)
+			int intersec = -1;
+			// x_values are sorted by line index[second]
+			if(x_values[0].second == 0)
+				intersec = x_values[1].second == 1? 1:0;
+			else
+				intersec = 2;
+			int other_1 = (intersec+1)%3;
+			int other_2 = (intersec+2)%3;
+
+			sort(x_values.begin(),x_values.end());
+
+			// left_x + i * dy = x
+			int left_intersecting_column = max(
+					0,
+					(int) ceil( (x_values.begin()->first - left_x)/dx )
+				);
+			int right_intersecting_column = min(
+					screen_width-1,
+					(int) floor( (x_values.rbegin()->first - left_x)/dx )
+				);
+			T x_a = t[intersec][0] + (ys-t[intersec][1])*
+								(t[other_1][0]-t[intersec][0])/
+								(t[other_1][1]-t[intersec][1]);
+			T x_b = t[intersec][0] + (ys-t[intersec][1])*
+								(t[other_2][0]-t[intersec][0])/
+								(t[other_2][1]-t[intersec][1]);
+			T z_a = t[intersec][2] + (ys-t[intersec][1])*
+								(t[other_1][2]-t[intersec][2])/
+								(t[other_1][1]-t[intersec][1]);
+			T z_b = t[intersec][2] + (ys-t[intersec][1])*
+								(t[other_2][2]-t[intersec][2])/
+								(t[other_2][1]-t[intersec][1]);
+			if(x_a > x_b)
+			{
+				swap(x_a,x_b);
+				swap(z_a,z_b);
+				swap(other_1,other_2);
+			}
+			assert(x_a <= x_b);
+			assert(abs(x_a - x_values.begin()->first)<=EPS);
+			assert(abs(x_b - x_values.rbegin()->first)<=EPS);
+			T x_p = left_x + left_intersecting_column*dx;
+			T z_p = z_a + (x_p - x_a)*(z_b-z_a)/(x_b-x_a);
+			T dz = dx*(z_b-z_a)/(x_b-x_a);
+			for(
+				int column = left_intersecting_column;
+				column<=right_intersecting_column;
+				column++,
+				x_p+=dx,
+				z_p+=dz
+				)
+			{
+				assert(x_p >= x_a);
+				assert(x_p <= x_b);
+				if(z_values[column][row] < z_p) continue;
+				if(z_p < mn[2]) continue;
+				z_values[column][row] = z_p;
+				image.set_pixel(column,row,t.c[0],t.c[1],t.c[2]);
+			}
+		}
+
 	}
 	
 	void draw(int screen_width, 
@@ -305,7 +428,7 @@ class Gl
 
 		for(Triangle<T> const&t:m_triangles)
 		{
-			draw_method1(
+			draw_method2(
 				screen_width,
 				screen_height,
 				mn,
