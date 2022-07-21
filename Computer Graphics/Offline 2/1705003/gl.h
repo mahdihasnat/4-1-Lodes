@@ -309,49 +309,33 @@ class Gl
 			//         .    \
 			//           . t[2]
 			// 
-			vector<pair<T,int> > x_values;
+
+			bool in[3] ;
+			int tot=0;
 			for(int i=0;i<3;i++)
 			{
-				// checking intersection point on segment [t[i],t[i+1])
-				
-				int i_1 = (i+1)%3;
-				if(t[i][1] == t[i_1][1]) continue;
-				if(ys < min(t[i][1],t[i_1][1])) continue;
-				if(max(t[i][1],t[i_1][1]) < ys) continue;
-
-				T x = t[i][0] + (ys - t[i][1])*(t[i_1][0]-t[i][0])/(t[i_1][1]-t[i][1]);
-				if(x < min(t[i][0],t[i_1][0])) continue;
-				if(max(t[i][0],t[i_1][0]) < x) continue;
-				x_values.push_back(make_pair(x,i));
+				T y1 = t[i][1];
+				T y2 = t[(i+1)%3][1];
+				in[i] = min(y1,y2)<=ys and ys<=max(y1,y2);
+				tot+=in[i];
 			}
-			assert(!x_values.empty());
-
-			assert(x_values.size()!=1);
-			assert(x_values.size()!=3); // can happen 
+			assert(tot==2);
+			
 			// line1           line2        intersection  other two
 			// line[0 -> 1] & line[1 -> 2] -> p1 = 1 , (p2,p3) = (0,2)
 			// line[0 -> 1] & line[2 -> 0] -> p1 = 0 , (p2,p3) = (1,2)
 			// line[1 -> 2] & line[2 -> 0] -> p1 = 2 , (p2,p3) = (0,1)
 			int intersec = -1;
-			// x_values are sorted by line index[second]
-			if(x_values[0].second == 0)
-				intersec = x_values[1].second == 1? 1:0;
-			else
-				intersec = 2;
+			for(int i=0;i<3;i++)
+			{
+				if(in[i] and in[(i-1+3)%3])
+				{
+					intersec = i;
+				}
+			}
 			int other_1 = (intersec+1)%3;
 			int other_2 = (intersec+2)%3;
 
-			sort(x_values.begin(),x_values.end());
-
-			// left_x + i * dy = x
-			int left_intersecting_column = max(
-					0,
-					(int) ceil( (x_values.begin()->first - left_x)/dx )
-				);
-			int right_intersecting_column = min(
-					screen_width-1,
-					(int) floor( (x_values.rbegin()->first - left_x)/dx )
-				);
 			T x_a = t[intersec][0] + (ys-t[intersec][1])*
 								(t[other_1][0]-t[intersec][0])/
 								(t[other_1][1]-t[intersec][1]);
@@ -370,9 +354,19 @@ class Gl
 				swap(z_a,z_b);
 				swap(other_1,other_2);
 			}
+
 			assert(x_a <= x_b);
-			assert(abs(x_a - x_values.begin()->first)<=EPS);
-			assert(abs(x_b - x_values.rbegin()->first)<=EPS);
+
+			// left_x + i * dy = x
+			int left_intersecting_column = max(
+					0,
+					(int) ceil( (x_a - left_x)/dx )
+				);
+			int right_intersecting_column = min(
+					screen_width-1,
+					(int) floor( (x_b - left_x)/dx )
+				);
+			
 			T x_p = left_x + left_intersecting_column*dx;
 			T z_p = z_a + (x_p - x_a)*(z_b-z_a)/(x_b-x_a);
 			T dz = dx*(z_b-z_a)/(x_b-x_a);
