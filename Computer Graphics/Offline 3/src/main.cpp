@@ -16,7 +16,6 @@ using namespace std;
 #include "vec4.h"
 #include "vec3.h"
 #include "mat4.h"
-#include "gl.h"
 
 point cameraPos;
 point cameraUpDir;
@@ -138,7 +137,12 @@ void init(){
 	//far distance
 }
 
+void loadData(){
+
+}
+
 int main(int argc, char **argv){
+	
 	glutInit(&argc,argv);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(0, 0);

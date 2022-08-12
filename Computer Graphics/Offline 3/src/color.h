@@ -25,6 +25,12 @@ class Color
 			return os;
 		}
 
+		friend istream &operator >>(istream &is , Color &c)
+		{
+			is>>c.c[0]>>c.c[1]>>c.c[2];
+			return is;
+		}
+
 		// [] operator overloading
 		T & operator[](int i) const
 		{

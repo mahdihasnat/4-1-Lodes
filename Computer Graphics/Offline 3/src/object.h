@@ -6,13 +6,19 @@
 template<typename T>
 class Object
 {
-	protected:
-	Color<int> c;
+protected:
+	Color<T> c;
 	T coefficiants[4];
-	
-	public:
+	int shine;
+public:
 	virtual void draw() = 0;
-
+	friend istream operator>>(istream &is, Object &o)
+	{
+		is>>o.c;
+		is>>o.coefficiants[0]>>o.coefficiants[1]>>o.coefficiants[2]>>o.coefficiants[3];
+		is>>o.shine;
+		return is;
+	}
 };
 
 

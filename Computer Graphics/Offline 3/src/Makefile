@@ -6,11 +6,11 @@ LIB = -lglut -lGLU -lGL
 run: main.out
 	./main.out
 
-main.out : main.cpp inputListener.h point.h draw.h object.h
+main.out : *.cpp *.h
 	${CC} -o main.out main.cpp -lglut -lGLU -lGL
 
 clean:
-	rm -f main.o
+	rm -f main.out
 
 # %.o : %.cpp %.h
 # 	${CC} -c $< -o $@
