@@ -14,7 +14,9 @@ class Color
 			
 		}
 		static Color<T> random(){
-			return Color<T>(rand()%255,rand()%255,rand()%255);
+			if(typeid(T) == typeid(int))
+				return Color<T>(rand()%255,rand()%255,rand()%255);
+			else assert(0);
 		}
 		// << operator overloading
 		friend ostream &operator <<(ostream &os , Color &c)
