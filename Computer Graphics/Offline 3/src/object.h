@@ -12,12 +12,19 @@ protected:
 	int shine;
 public:
 	virtual void draw() = 0;
-	friend istream operator>>(istream &is, Object &o)
+	friend istream &operator>>(istream &is, Object &o)
 	{
+		cerr<<"here im in object"<<endl;
 		is>>o.c;
 		is>>o.coefficiants[0]>>o.coefficiants[1]>>o.coefficiants[2]>>o.coefficiants[3];
 		is>>o.shine;
 		return is;
+	}
+	friend ostream &operator<<(ostream &os, Object const &o)
+	{
+		os<<"[o: [color:"<<o.c<<"] [coeff:"<<o.coefficiants[0]<<" "<<o.coefficiants[1]
+		<<" "<<o.coefficiants[2]<<" "<<o.coefficiants[3]<<"] [shine:"<<o.shine<<"] ]";
+		return os;
 	}
 };
 

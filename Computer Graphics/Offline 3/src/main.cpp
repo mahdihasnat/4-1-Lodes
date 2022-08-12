@@ -17,6 +17,9 @@ using namespace std;
 #include "vec3.h"
 #include "mat4.h"
 
+#include "object.h"
+#include "triangle.h"
+
 point cameraPos;
 point cameraUpDir;
 point cameraRightDir;
@@ -138,7 +141,10 @@ void init(){
 }
 
 void loadData(){
-
+	ifstream in("input.txt");
+	Triangle<double> t;
+	in>>t;
+	cout<<t<<endl;
 }
 
 int main(int argc, char **argv){
@@ -160,6 +166,8 @@ int main(int argc, char **argv){
 	glutKeyboardFunc(keyboardListener);
 	glutSpecialFunc(specialKeyListener);
 	glutMouseFunc(mouseListener);
+
+	loadData();
 
 	glutMainLoop();		//The main loop of OpenGL
 

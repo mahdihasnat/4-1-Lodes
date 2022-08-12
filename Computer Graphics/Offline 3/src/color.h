@@ -31,6 +31,12 @@ class Color
 			return is;
 		}
 
+		friend ostream &operator <<(ostream &os , Color const &c)
+		{
+			os<<"("<<c.c[0]<<" "<<c.c[1]<<" "<<c.c[2]<<")";
+			return os;
+		}
+
 		// [] operator overloading
 		T & operator[](int i) const
 		{
