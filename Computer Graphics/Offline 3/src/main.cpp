@@ -20,6 +20,7 @@ using namespace std;
 #include "object.h"
 #include "triangle.h"
 #include "sphere.h"
+#include "generalQuadraticSurface.h"
 
 point cameraPos;
 point cameraUpDir;
@@ -143,7 +144,7 @@ void init(){
 
 void loadData(){
 	ifstream in("input.txt");
-	Sphere<double> t;
+	GeneralQuadraticSurface<double> t;
 	in>>t;
 	cout<<t<<endl;
 }
