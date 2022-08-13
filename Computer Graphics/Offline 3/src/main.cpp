@@ -22,6 +22,10 @@ using namespace std;
 #include "sphere.h"
 #include "generalQuadraticSurface.h"
 
+typedef double T;
+
+Object<T> ** objects;
+
 point cameraPos;
 point cameraUpDir;
 point cameraRightDir;
@@ -143,10 +147,43 @@ void init(){
 }
 
 void loadData(){
-	ifstream in("input.txt");
-	GeneralQuadraticSurface<double> t;
-	in>>t;
-	cout<<t<<endl;
+	ifstream in("inputs.txt");
+	int recursionLevel;
+	int pixelDimension;
+
+	in >> recursionLevel;
+	in >> pixelDimension;
+
+	cerr<<"Recursion Level: "<<recursionLevel<<endl;
+	cerr<<"Pixel Dimension: "<<pixelDimension<<endl;
+
+	int nObjects;
+	in >> nObjects;
+	cerr<<"Number of Objects: "<<nObjects<<endl;
+	objects = new Object<T> *[nObjects];
+
+	for(int i=0;i<nObjects;i++)
+	{
+		string type;
+		in >> type;
+		if(type=="triangle")
+		{
+			objects[i] = new Triangle<T>();
+		}
+		else if(type=="sphere")
+		{
+			objects[i] = new Sphere<T>();
+		}
+		else if(type=="general")
+		{
+			objects[i] = new GeneralQuadraticSurface<T>();
+		}
+		else assert(0);
+		in>>*objects[i];
+		cerr<<*objects[i]<<endl;
+	}
+
+
 }
 
 int main(int argc, char **argv){
