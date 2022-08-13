@@ -19,6 +19,7 @@ using namespace std;
 
 #include "object.h"
 #include "triangle.h"
+#include "sphere.h"
 
 point cameraPos;
 point cameraUpDir;
@@ -142,7 +143,7 @@ void init(){
 
 void loadData(){
 	ifstream in("input.txt");
-	Triangle<double> t;
+	Sphere<double> t;
 	in>>t;
 	cout<<t<<endl;
 }
