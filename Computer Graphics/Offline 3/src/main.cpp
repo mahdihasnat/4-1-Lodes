@@ -21,6 +21,7 @@ using namespace std;
 #include "triangle.h"
 #include "sphere.h"
 #include "generalQuadraticSurface.h"
+#include "floor.h"
 
 #include "light.h"
 #include "pointLight.h"
@@ -95,10 +96,8 @@ void display(){
 
     // drawSS();
 	// drawMain();
-	for(int i=0;i<nObjects;i++)
-	{
-		objects[i]->draw();
-	}
+	for(Object<T> * obj : objects)
+		obj->draw();
 
     // drawCircle(30,24);
 
@@ -168,7 +167,6 @@ void loadData(){
 
 	in >> nObjects;
 	cerr<<"Number of Objects: "<<nObjects<<endl;
-
 	for(int i=0;i<nObjects;i++)
 	{
 		string type;
@@ -191,6 +189,9 @@ void loadData(){
 		objects.push_back(pObject);
 		cerr<<*pObject<<endl;
 	}
+	
+	nObjects++;
+	objects.push_back(new Floor<T>());
 	int nPointLights;
 	in>>nPointLights;
 	for(int i=0;i<nPointLights;i++)
@@ -207,7 +208,7 @@ void loadData(){
 		in>>*light;
 		cerr<<*light<<endl;
 	}
-
+	
 
 }
 
