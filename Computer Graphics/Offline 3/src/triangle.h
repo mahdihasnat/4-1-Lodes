@@ -12,6 +12,13 @@ public:
 	{
 
 	}
+	virtual istream & read(istream & is)
+	{
+		cerr<<"here im in triangle"<<endl;
+		is>>v[0]>>v[1]>>v[2];
+		is=Object::read(is);
+		return is;
+	}
 
 	friend istream &operator >>(istream & is, Triangle & t)
 	{

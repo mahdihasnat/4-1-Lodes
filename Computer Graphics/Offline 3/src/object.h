@@ -12,6 +12,14 @@ protected:
 	int shine;
 public:
 	virtual void draw() = 0;
+	virtual istream & read(istream & is)
+	{
+		cerr<<"here im in object"<<endl;
+		is>>c;
+		is>>coefficiants[0]>>coefficiants[1]>>coefficiants[2]>>coefficiants[3];
+		is>>shine;
+		return is;
+	}
 	friend istream &operator>>(istream &is, Object &o)
 	{
 		cerr<<"here im in object"<<endl;
