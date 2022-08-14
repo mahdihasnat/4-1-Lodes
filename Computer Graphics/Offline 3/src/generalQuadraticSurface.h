@@ -15,23 +15,22 @@ class GeneralQuadraticSurface: public Object<T>
 	{
 
 	}
-	friend istream & operator >> (istream & is, GeneralQuadraticSurface & s)
+
+	virtual istream & read(istream & is)
 	{
 		for(int i=0;i<10;i++)
-			is>>s.v[i];
-		is>>s.cubeReferencePoint>>s.length>>s.width>>s.height;
-		is>>(Object<T>&)s;
+			is>>v[i];
+		is>>cubeReferencePoint>>length>>width>>height;
+		Object<T>::read(is);
 		return is;
 	}
-	friend ostream & operator << (ostream & os, const GeneralQuadraticSurface & s)
+	virtual ostream & write(ostream & os) const
 	{
 		os<<"[gqs: [v: ";
 		for(int i=0;i<10;i++)
-			os<<s.v[i]<<" ";
-		os<<"] [crp: "<<s.cubeReferencePoint<<"] [l: "<<s.length<<"] [w: "<<s.width<<"] [h: "<<s.height<<"]";
-		os<<(Object<T> const&)s;
-		os<<" ]";
-		return os;
+			os<<v[i]<<" ";
+		os<<"] [crp: "<<cubeReferencePoint<<"] [l: "<<length<<"] [w: "<<width<<"] [h: "<<height<<"]";
+		return Object<T>::write(os)<<" ]";
 	}
 
 };

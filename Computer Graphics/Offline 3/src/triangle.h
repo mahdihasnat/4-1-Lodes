@@ -16,23 +16,13 @@ public:
 	{
 		cerr<<"here im in triangle"<<endl;
 		is>>v[0]>>v[1]>>v[2];
-		is=Object::read(is);
+		Object<T>::read(is);
 		return is;
 	}
-
-	friend istream &operator >>(istream & is, Triangle & t)
+	virtual ostream & write(ostream & os) const
 	{
-		is>>t.v[0]>>t.v[1]>>t.v[2];
-		cerr<<" here im in triangle"<<endl;
-		// call the base class's operator >>
-		is >> (Object<T>&)t;
-		return is;
-	}
-	friend ostream &operator<<(ostream &os, Triangle const &t)
-	{
-		os<<"[t: "<<t.v[0]<<" "<<t.v[1]<<" "<<t.v[2]<<"]";
-		os<<(Object<T> const &)t;
-		return os;
+		os<<"[t: [v: "<<v[0]<<" "<<v[1]<<" "<<v[2]<<"]";
+		return Object<T>::write(os)<<" ]";
 	}
 };
 #endif /* D19651B0_6552_4A20_8663_D0DEA6FB1CA3 */

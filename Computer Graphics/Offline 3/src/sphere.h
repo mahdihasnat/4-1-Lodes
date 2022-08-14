@@ -15,20 +15,18 @@ public:
 	{
 
 	}
-	friend ostream & operator <<(ostream & os, const Sphere & s)
+	virtual istream & read(istream & is)
 	{
-		os<<"[s: [c: "<<s.center<<"] [r: "<<s.radius<<"]";
-		os<<(Object<T> const&)s;
-		os<<']';
-		return os;
-	}
-	friend istream & operator >>(istream & is, Sphere & s)
-	{
-		is>>s.center>>s.radius;
-		is>>(Object<T>&)s;
+		is>>center>>radius;
+		Object<T>::read(is);
 		return is;
 	}
-	
+	virtual ostream & write(ostream & os) const
+	{
+		os<<"[s: [c: "<<center<<"] [r: "<<radius<<"]";
+		return Object<T>::write(os)<<" ]";
+	}
+
 };
 
 #endif /* DBE74540_73D9_4EBD_9F04_68CA243F283A */
