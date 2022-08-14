@@ -20,7 +20,6 @@ public:
 	}
 	virtual istream & read(istream & is)
 	{
-		cerr<<"here im in triangle"<<endl;
 		is>>v[0]>>v[1]>>v[2];
 		Object<T>::read(is);
 		return is;
