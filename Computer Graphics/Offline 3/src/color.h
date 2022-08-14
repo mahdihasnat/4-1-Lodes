@@ -4,6 +4,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#include "common.h"
+
 template<typename T>
 class Color
 {
@@ -12,6 +14,11 @@ class Color
 	public:
 		Color(T r=0,T g=0,T b=0):c{r,g,b}{
 			
+		}
+		void draw()
+		{
+			assert(typeid(T) == typeid(double));
+			glColor3f(c[0],c[1],c[2]);
 		}
 		static Color<T> random(){
 			if(typeid(T) == typeid(int))

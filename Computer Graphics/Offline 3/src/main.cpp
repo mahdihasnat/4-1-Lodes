@@ -25,6 +25,9 @@ using namespace std;
 typedef double T;
 
 Object<T> ** objects;
+int recursionLevel;
+int pixelDimension;
+int nObjects;
 
 point cameraPos;
 point cameraUpDir;
@@ -87,7 +90,11 @@ void display(){
     //drawSquare(10);
 
     // drawSS();
-	drawMain();
+	// drawMain();
+	for(int i=0;i<nObjects;i++)
+	{
+		objects[i]->draw();
+	}
 
     // drawCircle(30,24);
 
@@ -148,8 +155,6 @@ void init(){
 
 void loadData(){
 	ifstream in("inputs.txt");
-	int recursionLevel;
-	int pixelDimension;
 
 	in >> recursionLevel;
 	in >> pixelDimension;
@@ -157,7 +162,6 @@ void loadData(){
 	cerr<<"Recursion Level: "<<recursionLevel<<endl;
 	cerr<<"Pixel Dimension: "<<pixelDimension<<endl;
 
-	int nObjects;
 	in >> nObjects;
 	cerr<<"Number of Objects: "<<nObjects<<endl;
 	objects = new Object<T> *[nObjects];

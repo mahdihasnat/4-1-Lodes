@@ -11,7 +11,10 @@ protected:
 	T coefficiants[4];
 	int shine;
 public:
-	virtual void draw() = 0;
+	virtual void draw()
+	{
+		c.draw();
+	}
 	virtual istream & read(istream & is)
 	{
 		// cerr<<"here im in object"<<endl;

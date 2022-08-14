@@ -10,7 +10,13 @@ class Triangle: public Object<T>
 public:
 	void draw()
 	{
-
+		glBegin(GL_TRIANGLES);
+		Object<T>::draw();
+		for(int i=0;i<3;i++)
+		{
+			v[i].draw();
+		}
+		glEnd();
 	}
 	virtual istream & read(istream & is)
 	{

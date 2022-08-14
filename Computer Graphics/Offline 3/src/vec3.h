@@ -14,6 +14,11 @@ class Vec3: public Vec4<T>
 	{
 		
 	}
+	void draw()
+	{
+		assert(typeid(T) == typeid(double));
+		glVertex3f(this->operator[](0), this->operator[](1), this->operator[](2));
+	}
 	T length() const
 	{
 		T len = T(0);
