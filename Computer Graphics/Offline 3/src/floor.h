@@ -35,6 +35,12 @@ public:
 			glPopMatrix();
 		}
 	}
+	
+	Floor()
+	{
+		// TODO : set color,coefficients,etc in base class
+	}
+
 };
 
 #endif /* FB5DDE1F_8D91_4F02_A735_C37A7016D910 */

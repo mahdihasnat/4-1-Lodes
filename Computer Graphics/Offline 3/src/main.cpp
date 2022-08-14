@@ -30,6 +30,7 @@ using namespace std;
 typedef double T;
 
 vector< Object<T> * > objects;
+vector< Light<T> * > lights;
 int recursionLevel;
 int pixelDimension;
 int nObjects;
@@ -207,6 +208,7 @@ void loadData(){
 		Light<T> * light = new SpotLight<T>();
 		in>>*light;
 		cerr<<*light<<endl;
+		lights.push_back(light);
 	}
 	
 
