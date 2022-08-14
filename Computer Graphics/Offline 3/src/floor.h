@@ -8,7 +8,7 @@ class Floor: public Object<T>
 {
 public:
 	const int tile_size = 20;
-	const int tile_count = 20;
+	const int tile_count = 25;
 	void draw()
 	{
 		for(int rot=0;rot<4;rot++)
