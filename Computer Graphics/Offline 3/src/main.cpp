@@ -22,9 +22,13 @@ using namespace std;
 #include "sphere.h"
 #include "generalQuadraticSurface.h"
 
+#include "light.h"
+#include "pointLight.h"
+#include "spotLight.h"
+
 typedef double T;
 
-Object<T> ** objects;
+vector< Object<T> * > objects;
 int recursionLevel;
 int pixelDimension;
 int nObjects;
@@ -164,27 +168,44 @@ void loadData(){
 
 	in >> nObjects;
 	cerr<<"Number of Objects: "<<nObjects<<endl;
-	objects = new Object<T> *[nObjects];
 
 	for(int i=0;i<nObjects;i++)
 	{
 		string type;
 		in >> type;
+		Object<T> * pObject;
 		if(type=="triangle")
 		{
-			objects[i] = new Triangle<T>();
+			pObject = new Triangle<T>();
 		}
 		else if(type=="sphere")
 		{
-			objects[i] = new Sphere<T>();
+			pObject = new Sphere<T>();
 		}
 		else if(type=="general")
 		{
-			objects[i] = new GeneralQuadraticSurface<T>();
+			pObject = new GeneralQuadraticSurface<T>();
 		}
 		else assert(0);
-		in>>*objects[i];
-		cerr<<*objects[i]<<endl;
+		in>>*pObject;
+		objects.push_back(pObject);
+		cerr<<*pObject<<endl;
+	}
+	int nPointLights;
+	in>>nPointLights;
+	for(int i=0;i<nPointLights;i++)
+	{
+		Light<T> * light = new PointLight<T>();
+		in>>*light;
+		cerr<<*light<<endl;
+	}
+	int nSpotLights;
+	in>>nSpotLights;
+	for(int i=0;i<nSpotLights;i++)
+	{
+		Light<T> * light = new SpotLight<T>();
+		in>>*light;
+		cerr<<*light<<endl;
 	}
 
 
