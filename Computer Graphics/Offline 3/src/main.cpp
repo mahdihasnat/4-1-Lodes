@@ -7,10 +7,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define DBG(x) cout<<"Line "<<__LINE__<<": "<<#x" = "<<x<<endl;
-#define NL cout<<endl;
-#define pi (2*acos(0.0))
-
 #include "common.h"
 #include "point.h"
 #include "vec4.h"

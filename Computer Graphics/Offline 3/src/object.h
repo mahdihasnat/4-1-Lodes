@@ -34,6 +34,7 @@ public:
 		<<" "<<coefficiants[2]<<" "<<coefficiants[3]<<"] [shine:"<<shine<<"]";
 		return os;
 	}
+
 	friend istream &operator>>(istream &is, Object &o)
 	{
 		return o.read(is);

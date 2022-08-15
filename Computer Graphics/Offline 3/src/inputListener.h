@@ -1,7 +1,9 @@
 #ifndef INPUTLISTENER_H
 
 #define INPUTLISTENER_H
-#include "GL/glut.h"
+#include <GL/glut.h>
+#include "capture.h"
+
 
 void keyboardListener(unsigned char key, int x,int y){
 	// drawgrid=1-drawgrid;
@@ -12,6 +14,9 @@ void keyboardListener(unsigned char key, int x,int y){
 	// NL;
 	const double ANGEL_DISTANCE = 3.0;
 	switch(key){
+		case '0':
+			capture();
+			break;
 		case '1':
 			rotateUnitPlane(
 					cameraRightDir,
