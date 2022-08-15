@@ -10,7 +10,7 @@ main.out : *.cpp *.h
 	${CC} -o main.out main.cpp -lglut -lGLU -lGL
 
 clean:
-	rm -f main.out
+	rm -f main.out *.bmp
 
 # %.o : %.cpp %.h
 # 	${CC} -c $< -o $@

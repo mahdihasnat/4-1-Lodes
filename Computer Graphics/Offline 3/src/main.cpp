@@ -26,6 +26,8 @@ using namespace std;
 
 #include "draw.h"
 
+#include "bitmap_image.hpp"
+
 #include "capture.h"
 #include "inputListener.h"
 
