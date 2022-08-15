@@ -125,6 +125,15 @@ class Vec3: public Vec4<T>
 		}
 		return *this;
 	}
+
+	Vec3<T> &operator-=(Vec3<T> const & v)
+	{
+		for(int i=0;i<3;i++)
+		{
+			this->operator[](i) -= v[i];
+		}
+		return *this;
+	}
 	
 	T& operator[](int const & x) const
 	{
