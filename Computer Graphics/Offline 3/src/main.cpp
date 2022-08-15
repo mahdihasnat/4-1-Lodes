@@ -1,8 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-
-#include <unistd.h>
 #include <GL/glut.h>
 #include <bits/stdc++.h>
 using namespace std;

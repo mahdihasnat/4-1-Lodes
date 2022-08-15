@@ -166,8 +166,8 @@ Vec3<T> rotateUnitVector(Vec3<T> const & x,
 	// rotate x by angel
 	assert(x.dot(axis)  < EPS);
 	Vec3<T> temp;
-	double cos_a=cos(angel/180.0*pi);
-	double sin_a=sin(angel/180.0*pi);	
+	double cos_a=cos(angel/180.0*PI);
+	double sin_a=sin(angel/180.0*PI);	
 	temp = x * cos_a + axis.cross(x) * sin_a ; //+ x.cross(axis) * (1-cos_a);
 	assert( abs((temp).length()-1) < EPS);
 	// temp = temp/abs(temp);
