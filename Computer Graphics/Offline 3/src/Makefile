@@ -14,3 +14,6 @@ clean:
 
 # %.o : %.cpp %.h
 # 	${CC} -c $< -o $@
+
+# Grep to find every import
+# grep "#include \".*\"" *.h

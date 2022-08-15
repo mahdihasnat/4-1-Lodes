@@ -43,13 +43,10 @@ point cameraLookDir;
 int drawgrid;
 int drawaxes;
 double angle;
-const double radius = 50;
-double squareHalf;
 
 #include "draw.h"
 
 #include "inputListener.h"
-
 
 
 void display(){
@@ -136,7 +133,6 @@ void init(){
 	drawaxes=1;
 	
 	initCamera();
-	squareHalf = radius * 0.7;
 	//clear the screen
 	glClearColor(0,0,0,0);
 

@@ -109,10 +109,10 @@ void specialKeyListener(int key, int x,int y){
 			break;
 
 		case GLUT_KEY_HOME:
-			squareHalf = min(radius , squareHalf + 1);
+			
 			break;
 		case GLUT_KEY_END:
-			squareHalf = max(squareHalf-1 , 0.0);
+			
 			break;
 
 		default:
