@@ -140,10 +140,11 @@ void loadData(){
 	ifstream in("inputs.txt");
 
 	in >> recursionLevel;
-	in >> pixelDimension;
+	in >> imageWidth;
+	imageHeight =  imageWidth;
 
 	cerr<<"Recursion Level: "<<recursionLevel<<endl;
-	cerr<<"Pixel Dimension: "<<pixelDimension<<endl;
+	cerr<<"Pixel Dimension: "<<imageHeight<<endl;
 
 	in >> nObjects;
 	cerr<<"Number of Objects: "<<nObjects<<endl;

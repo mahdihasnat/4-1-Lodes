@@ -17,7 +17,8 @@ class Light;
 vector< Object<Ftype> * > objects;
 vector< Light<Ftype> * > lights;
 int recursionLevel;
-int pixelDimension;
+int imageWidth;
+int imageHeight;
 int nObjects;
 
 Vec3<Ftype> cameraPos;
