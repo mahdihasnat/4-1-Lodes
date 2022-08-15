@@ -6,9 +6,6 @@
 #include "common.h"
 
 
-
-// extern vector<Object*> objects;
-
 void capture()
 {
 	

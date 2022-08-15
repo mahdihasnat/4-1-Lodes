@@ -7,17 +7,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "common.h"
-#include "point.h"
-#include "vec4.h"
-#include "vec3.h"
-#include "mat4.h"
-
 #include "object.h"
 #include "triangle.h"
 #include "sphere.h"
 #include "generalQuadraticSurface.h"
 #include "floor.h"
+
+#include "vec4.h"
+#include "vec3.h"
+#include "mat4.h"
+
 
 #include "light.h"
 #include "pointLight.h"
@@ -25,18 +24,17 @@ using namespace std;
 
 #include "vec3.h"
 
-typedef double T;
-
-vector< Object<T> * > objects;
-vector< Light<T> * > lights;
+typedef double Ftype;
+vector< Object<Ftype> * > objects;
+vector< Light<Ftype> * > lights;
 int recursionLevel;
 int pixelDimension;
 int nObjects;
 
-Vec3<T> cameraPos;
-Vec3<T> cameraUpDir;
-Vec3<T> cameraRightDir;
-Vec3<T> cameraLookDir;
+Vec3<Ftype> cameraPos;
+Vec3<Ftype> cameraUpDir;
+Vec3<Ftype> cameraRightDir;
+Vec3<Ftype> cameraLookDir;
 
 int drawgrid;
 int drawaxes;
@@ -45,6 +43,11 @@ double angle;
 #include "draw.h"
 
 #include "inputListener.h"
+
+#include "common.h"
+
+
+
 
 
 void display(){
@@ -92,7 +95,7 @@ void display(){
 
     // drawSS();
 	
-	for(Object<T> * obj : objects)
+	for(Object<Ftype> * obj : objects)
 		obj->draw();
 
     // drawCircle(30,24);
@@ -115,11 +118,11 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<T>(0,0,200);
+	cameraPos=Vec3<Ftype>(0,0,200);
 	// maintain r cross l = u
-	cameraUpDir= Vec3<T>(0,1,0);
-	cameraRightDir= Vec3<T>(1,0,0);
-	cameraLookDir= Vec3<T>(0,0,-1);
+	cameraUpDir= Vec3<Ftype>(0,1,0);
+	cameraRightDir= Vec3<Ftype>(1,0,0);
+	cameraLookDir= Vec3<Ftype>(0,0,-1);
 	angle=0;
 }
 
@@ -164,18 +167,18 @@ void loadData(){
 	{
 		string type;
 		in >> type;
-		Object<T> * pObject;
+		Object<Ftype> * pObject;
 		if(type=="triangle")
 		{
-			pObject = new Triangle<T>();
+			pObject = new Triangle<Ftype>();
 		}
 		else if(type=="sphere")
 		{
-			pObject = new Sphere<T>();
+			pObject = new Sphere<Ftype>();
 		}
 		else if(type=="general")
 		{
-			pObject = new GeneralQuadraticSurface<T>();
+			pObject = new GeneralQuadraticSurface<Ftype>();
 		}
 		else assert(0);
 		in>>*pObject;
@@ -184,12 +187,12 @@ void loadData(){
 	}
 	
 	nObjects++;
-	objects.push_back(new Floor<T>());
+	objects.push_back(new Floor<Ftype>());
 	int nPointLights;
 	in>>nPointLights;
 	for(int i=0;i<nPointLights;i++)
 	{
-		Light<T> * light = new PointLight<T>();
+		Light<Ftype> * light = new PointLight<Ftype>();
 		in>>*light;
 		cerr<<*light<<endl;
 	}
@@ -197,7 +200,7 @@ void loadData(){
 	in>>nSpotLights;
 	for(int i=0;i<nSpotLights;i++)
 	{
-		Light<T> * light = new SpotLight<T>();
+		Light<Ftype> * light = new SpotLight<Ftype>();
 		in>>*light;
 		cerr<<*light<<endl;
 		lights.push_back(light);
