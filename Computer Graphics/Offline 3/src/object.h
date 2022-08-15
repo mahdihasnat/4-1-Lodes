@@ -2,6 +2,7 @@
 #define D2050A98_D2A4_42BD_9FE4_832315B4365E
 
 #include "color.h"
+#include "ray.h"
 
 template<typename T>
 class Object
@@ -14,6 +15,10 @@ public:
 	virtual void draw()
 	{
 		c.draw();
+	}
+	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	{
+		return T(-1);
 	}
 	virtual istream & read(istream & is)
 	{
