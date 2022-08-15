@@ -3,7 +3,7 @@
 
 #include "ray.h"
 #include "object.h"
-#include "common.h"
+#include "variables.h"
 
 
 void capture()

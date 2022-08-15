@@ -2,45 +2,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "object.h"
-#include "triangle.h"
-#include "sphere.h"
-#include "generalQuadraticSurface.h"
-#include "floor.h"
+// ordered 
+#include "constants.h"
+
+#include "color.h"
 
 #include "vec4.h"
 #include "vec3.h"
-#include "mat4.h"
-
-
+#include "ray.h"
+#include "object.h"
+#include "triangle.h"
+#include "generalQuadraticSurface.h"
+#include "floor.h"
+#include "sphere.h"
 #include "light.h"
 #include "pointLight.h"
 #include "spotLight.h"
 
-#include "vec3.h"
+#include "mat4.h"
 
-typedef double Ftype;
-vector< Object<Ftype> * > objects;
-vector< Light<Ftype> * > lights;
-int recursionLevel;
-int pixelDimension;
-int nObjects;
-
-Vec3<Ftype> cameraPos;
-Vec3<Ftype> cameraUpDir;
-Vec3<Ftype> cameraRightDir;
-Vec3<Ftype> cameraLookDir;
-
-int drawgrid;
-int drawaxes;
-double angle;
+#include "common.h"
+#include "variables.h"
 
 #include "draw.h"
 
+#include "capture.h"
 #include "inputListener.h"
-
-#include "common.h"
-
 
 
 

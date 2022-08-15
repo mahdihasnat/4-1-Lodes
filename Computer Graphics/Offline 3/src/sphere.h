@@ -3,7 +3,6 @@
 
 #include "object.h"
 #include "vec3.h"
-#include "common.h"
 
 template<typename T>
 class Sphere: public Object<T>
