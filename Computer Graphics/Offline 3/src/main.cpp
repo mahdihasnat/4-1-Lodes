@@ -95,15 +95,13 @@ void display(){
     //drawSquare(10);
 
     // drawSS();
-	// drawMain();
+	
 	for(Object<T> * obj : objects)
 		obj->draw();
 
     // drawCircle(30,24);
 
     //drawCone(20,50,24);
-
-	// drawSphere(30,24,20);
 
 
 
