@@ -129,7 +129,7 @@ void init(){
 	glLoadIdentity();
 
 	//give PERSPECTIVE parameters
-	gluPerspective(80,	1,	1,	1000.0);
+	gluPerspective(fieldOfView,	aspectRatio, nearPlane, farPlane);
 	//field of view in the Y (vertically)
 	//aspect ratio that determines the field of view in the X direction (horizontally)
 	//near distance
@@ -195,8 +195,10 @@ void loadData(){
 
 int main(int argc, char **argv){
 	
+	loadData();
+	
 	glutInit(&argc,argv);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitWindowPosition(0, 0);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);	//Depth, Double buffer, RGB color
 
@@ -213,7 +215,6 @@ int main(int argc, char **argv){
 	glutSpecialFunc(specialKeyListener);
 	glutMouseFunc(mouseListener);
 
-	loadData();
 
 	glutMainLoop();		//The main loop of OpenGL
 

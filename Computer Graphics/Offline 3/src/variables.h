@@ -29,4 +29,12 @@ int drawgrid;
 int drawaxes;
 double angle;
 
+// glWindowSize
+const int windowHeight = 500;
+const int windowWidth = 500;
+// glPerspective
+const double fieldOfView = 80;
+const double aspectRatio = windowWidth / windowHeight;
+const double nearPlane = 1;
+const double farPlane = 1000.0;
 #endif /* C01156FF_D2B7_456A_A91A_ED5F655770C0 */
