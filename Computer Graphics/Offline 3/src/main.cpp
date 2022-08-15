@@ -2,6 +2,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define DBG(x) cout<<"Line "<<__LINE__<<": "<<#x" = "<<x<<endl;
+#define NL cout<<endl;
+
 // ordered 
 #include "constants.h"
 

@@ -46,16 +46,36 @@ void capture()
 	Ftype du = windowWidth/imageWidth;
 	Ftype dv = windowHeight/imageHeight;
 
-	Vec3<Ftype> currentLeft = cameraPos + cameraLookDir * planeDistance
+	Vec3<Ftype> currentTopLeft = cameraPos + cameraLookDir * planeDistance
 								-cameraRightDir*(windowWidth/2)
 								+cameraUpDir *(windowHeight/2);
 
+	Ray<Ftype> ray;
+	ray.setOrigin(cameraPos);
 	for(int i=0;i<imageWidth;i++)
 	{
-		for(int j=0;j<imageHeight;j++)
+		Vec3<Ftype> currentPixel = currentTopLeft;
+		for(int j=0;j<imageHeight;j++,currentPixel -= cameraUpDir* dv)
 		{
+			ray.setDirection(currentPixel - cameraPos);
+			Color<Ftype> color;
+			Object<Ftype> * closestObject = 0;
+			Ftype minimumPositiveT = numeric_limits<Ftype>::max();
+			for(Object<Ftype> * object: objects)
+			{
+				Ftype t = object->intersect(ray,color,0);
+				if(t>Ftype(0) and t < minimumPositiveT)
+				{
+					minimumPositiveT = t;
+					closestObject = object;
+				}
+			}
+			if(closestObject)
+			{
 
+			}
 		}
+		currentTopLeft += cameraRightDir*du;
 	}
 	string fileName= getNewFileName();
 	DBG(fileName);
