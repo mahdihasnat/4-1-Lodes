@@ -14,6 +14,7 @@ class Vec3: public Vec4<T>
 	{
 		
 	}
+	// for ray tracing offline
 	void draw()
 	{
 		assert(typeid(T) == typeid(double));
@@ -97,6 +98,16 @@ class Vec3: public Vec4<T>
 		return ret;
 	}
 
+	Vec3<T> operator + (Vec3<T> const & v) const
+	{
+		Vec3<T> ret; // (0,0,0,1)
+		for(int i=0;i<3;i++)
+		{
+			ret[i] = this->operator[](i) + v[i];
+		}
+		return ret;
+	}
+
 	Vec3<T> operator *(T const & m) const
 	{
 		Vec3<T> ret; // (0,0,0,1)
@@ -120,6 +131,18 @@ class Vec3: public Vec4<T>
 		return Vec4<T>::operator[](x);
 	}
 
+	bool operator == (const Vec3<T> & v) const
+	{
+		for(int i=0;i<3;i++)
+		{
+			if((this->operator[](i) - v[i]) > EPS)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
 	friend istream & operator >>(istream & is,Vec3<T> & v3)
 	{
 		is>>v3[0]>>v3[1]>>v3[2];
@@ -132,5 +155,34 @@ class Vec3: public Vec4<T>
 		return os<<v3[0]<<" "<<v3[1]<<" "<<v3[2];
 	}
 };
+
+
+
+template<class T>
+Vec3<T> rotateUnitVector(Vec3<T> const & x,
+						Vec3<T> const & axis,
+						double angel){
+	// given x and axis perpendicular
+	// rotate x by angel
+	assert(x.dot(axis)  < EPS);
+	Vec3<T> temp;
+	double cos_a=cos(angel/180.0*pi);
+	double sin_a=sin(angel/180.0*pi);	
+	temp = x * cos_a + axis.cross(x) * sin_a ; //+ x.cross(axis) * (1-cos_a);
+	assert( abs((temp).length()-1) < EPS);
+	// temp = temp/abs(temp);
+	return temp;
+}
+
+template<typename T>
+void rotateUnitPlane(Vec3<T> &x,Vec3<T> &y,Vec3<T> const & z,double angel)
+{
+	// x * y = z
+	// rotate x and y by angel
+	assert(x.cross(y) ==  z);
+	x = rotateUnitVector(x,z,angel);
+	y = rotateUnitVector(y,z,angel);
+}
+
 
 #endif /* VEC3_H */

@@ -77,43 +77,4 @@ double abs(point const &p)
 	return sqrt(p.x*p.x+p.y*p.y+p.z*p.z);
 }
 
-// pair<double, double > linear2(
-// 	double a1, double b1,double c1
-// 	,double a2, double b2,double c2)
-// {
-// 	cout<<"linear 2 "<<a1<<" "<<b1<<" "<<c1<<" "<<a2<<" "<<b2<<" "<<c2<<endl;
-	
-// 	double x,y;
-// 	double d=a1*b2-a2*b1;
-// 	assert( abs(d)> EPS);
-// 	x=(c1*b2-c2*b1)/d;
-// 	y=(a1*c2-a2*c1)/d;
-// 	return make_pair(x,y);
-// }
-
-point rotateUnitVector(point const & x,
-						point const & axis,
-						double angel){
-	// given x and axis perpendicular
-	// rotate x by angel
-	assert(x.dot(axis)  < EPS);
-	point temp;
-	double cos_a=cos(angel/180.0*pi);
-	double sin_a=sin(angel/180.0*pi);	
-	temp = x * cos_a + axis.cross(x) * sin_a ; //+ x.cross(axis) * (1-cos_a);
-	assert( abs(abs(temp)-1) < EPS);
-	// temp = temp/abs(temp);
-	return temp;
-}
-
-void rotateUnitPlane(point &x,point &y,point const & z,double angel)
-{
-	// x * y = z
-	// rotate x and y by angel
-	assert(x.cross(y) ==  z);
-	x = rotateUnitVector(x,z,angel);
-	y = rotateUnitVector(y,z,angel);
-}
-
-
 #endif /* AC7C476B_76ED_4768_9979_014D5E7C094E */

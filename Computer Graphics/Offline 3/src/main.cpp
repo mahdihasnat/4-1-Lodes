@@ -27,6 +27,8 @@ using namespace std;
 #include "pointLight.h"
 #include "spotLight.h"
 
+#include "vec3.h"
+
 typedef double T;
 
 vector< Object<T> * > objects;
@@ -35,10 +37,10 @@ int recursionLevel;
 int pixelDimension;
 int nObjects;
 
-point cameraPos;
-point cameraUpDir;
-point cameraRightDir;
-point cameraLookDir;
+Vec3<T> cameraPos;
+Vec3<T> cameraUpDir;
+Vec3<T> cameraRightDir;
+Vec3<T> cameraLookDir;
 
 int drawgrid;
 int drawaxes;
@@ -72,9 +74,9 @@ void display(){
 
 	//gluLookAt(100,100,100,	0,0,0,	0,0,1);
 	//gluLookAt(200*cos(cameraAngle), 200*sin(cameraAngle), cameraHeight,		0,0,0,		0,0,1);
-	gluLookAt(cameraPos.x,cameraPos.y,cameraPos.z
-				,cameraPos.x + cameraLookDir.x,cameraPos.y + cameraLookDir.y,cameraPos.z + cameraLookDir.z
-				,cameraUpDir.x,cameraUpDir.y,cameraUpDir.z);
+	gluLookAt(cameraPos[0],cameraPos[1],cameraPos[2]
+				,cameraPos[0] + cameraLookDir[0],cameraPos[1] + cameraLookDir[1],cameraPos[2] + cameraLookDir[2]
+				,cameraUpDir[0],cameraUpDir[1],cameraUpDir[2]);
 
 
 	//again select MODEL-VIEW
@@ -119,11 +121,11 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos={0,0,200};
+	cameraPos=Vec3<T>(0,0,200);
 	// maintain r cross l = u
-	cameraUpDir={0,1,0};
-	cameraRightDir={1,0,0};
-	cameraLookDir={0,0,-1};
+	cameraUpDir= Vec3<T>(0,1,0);
+	cameraRightDir= Vec3<T>(1,0,0);
+	cameraLookDir= Vec3<T>(0,0,-1);
 	angle=0;
 }
 
