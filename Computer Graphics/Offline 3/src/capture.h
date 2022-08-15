@@ -27,9 +27,36 @@ string getNewFileName()
 void capture()
 {
 	DBG("capture");
-	bitmap_image bmp(pixelDimension, pixelDimension);
+
+	// (0,0) ....................(imageWidth-1,0)
+	// ..
+	// ..
+	// ..
+	// (0,imageHeight-1).........(imageWidth-1,imageHeight-1)
+
+	bitmap_image bmp(imageWidth,imageHeight);
 	// set the background color to black
 	bmp.set_all_channels(0, 0, 0);
+
+	Ftype planeDistance = windowHeight / 2.0 / tan(fieldOfView * PI /2 / 180.0);
+
+	Vec3<Ftype> topLeft = cameraPos + cameraLookDir*planeDistance 
+							-cameraRightDir*(windowWidth/2)
+							+cameraUpDir *(windowHeight/2);
+	Ftype du = windowWidth/imageWidth;
+	Ftype dv = windowHeight/imageHeight;
+
+	Vec3<Ftype> currentLeft = cameraPos + cameraLookDir * planeDistance
+								-cameraRightDir*(windowWidth/2)
+								+cameraUpDir *(windowHeight/2);
+
+	for(int i=0;i<imageWidth;i++)
+	{
+		for(int j=0;j<imageHeight;j++)
+		{
+
+		}
+	}
 	string fileName= getNewFileName();
 	DBG(fileName);
 	bmp.save_image(fileName);
