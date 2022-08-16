@@ -69,7 +69,6 @@ void capture()
 			
 			ray.setDirection(currentPixel - cameraPos);
 			
-			Color<Ftype> color;
 			Object<Ftype> * closestObject = 0;
 			Ftype minimumPositiveT = numeric_limits<Ftype>::max();
 			for(Object<Ftype> * object: objects)
@@ -83,8 +82,11 @@ void capture()
 			}
 			if(closestObject)
 			{
-				// assert(0);
-				image.set_pixel(i,j,255,255,255);
+				Color<Ftype> color;
+				Vec3<Ftype > point = ray.getOrigin() + ray.getDirection()*minimumPositiveT;
+				color=closestObject->getColorAt(point);
+				assert(typeid(Ftype) == typeid(double));
+				image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
 			}
 		}
 		currentTopLeft += cameraRightDir*du;

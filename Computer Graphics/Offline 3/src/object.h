@@ -25,7 +25,7 @@ public:
 		return T(-1);
 	}
 	
-	Color<T> getColor() const
+	virtual Color<T> getColorAt(Vec3<T> point) const
 	{
 		return c;
 	}

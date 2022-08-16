@@ -35,6 +35,16 @@ public:
 			glPopMatrix();
 		}
 	}
+	virtual Color<T> getColorAt(Vec3<T> point) const
+	{
+		int i = abs(point[0])/tile_size;
+		int j = abs(point[1])/tile_size;
+		if((i+j)%2)
+			return Color<T>(0,0,0);
+		else if(typeid(T) == typeid(double))
+			return Color<T>(1,1,1);
+		else assert(0);
+	}
 	virtual T getIntersectingT(Ray<T> const& ray)
 	{
 		// (ray.o + t * ray.d ) dot (0,0,1) =0
