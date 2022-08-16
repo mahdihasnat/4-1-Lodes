@@ -49,8 +49,8 @@ void capture()
 							-cameraRightDir*(windowWidth/2)
 							+cameraUpDir *(windowHeight/2);
 
-	Ftype du = windowWidth/imageWidth;
-	Ftype dv = windowHeight/imageHeight;
+	Ftype du = Ftype(windowWidth)/Ftype(imageWidth);
+	Ftype dv = Ftype(windowHeight)/Ftype(imageHeight);
 
 	topLeft = topLeft+cameraRightDir*(du/2.0)-cameraUpDir*(dv/2.0);
 
