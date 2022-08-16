@@ -54,7 +54,10 @@ class Window(Frame):
 
 root = Tk()
 app = Window(root)
+
 root.wm_title("Tkinter window")
+root.attributes('-topmost', True)
 root.geometry(app.get_geomety())
 root.after(1000,lambda :app.reload(root))
+
 root.mainloop()
