@@ -49,6 +49,9 @@ class Window(Frame):
 		render = ImageTk.PhotoImage(self.load)
 		self.img.configure(image=render)
 		self.img.image=render
+
+		root.geometry(self.get_geomety())
+
 		print("reloaded")
 		root.after(1000,lambda:self.reload(root))
 
