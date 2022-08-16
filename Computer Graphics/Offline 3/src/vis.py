@@ -1,23 +1,9 @@
 #!/bin/python3
 
-# from tkinter import *
-# from PIL import Image, ImageTk
-
-# root=Tk()
-
-# root.title("My Image")
-
-# image = Image.open("Output_11.bmp")
-# # get width and height of image
-# (width, height) = image.size
-# w = Canvas(root, width=width, height=height)
-# w.create_image((0, 0), image=ImageTk.PhotoImage(image))
-
-# w.pack(expand=1)
-
-# root.mainloop()
-
-# 
+# install tkinter and pillow
+# possible commands:
+# pip install tkinter
+# pip install pillow
 
 import imghdr
 from tkinter import *
@@ -58,7 +44,7 @@ class Window(Frame):
 root = Tk()
 app = Window(root)
 
-root.wm_title("Tkinter window")
+root.wm_title("Pray for Mahdi")
 root.attributes('-topmost', True)
 root.geometry(app.get_geomety())
 root.after(1000,lambda :app.reload(root))
