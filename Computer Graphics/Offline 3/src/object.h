@@ -16,6 +16,10 @@ public:
 	{
 		c.draw();
 	}
+	virtual T getIntersectingT(Ray<T> const& ray)
+	{
+		return T(-1);
+	}
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		return T(-1);

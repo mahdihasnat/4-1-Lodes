@@ -35,9 +35,8 @@ public:
 			glPopMatrix();
 		}
 	}
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	virtual T getIntersectingT(Ray<T> const& ray)
 	{
-		return T(-1); // TODO: remove later
 		// (ray.o + t * ray.d ) dot (0,0,1) =0
 		// t = -ray.o.z / ray.d.z
 		T tMin = T(-1);
@@ -53,7 +52,6 @@ public:
 			tMin = -ray.getOrigin()[2] / ray.getDirection()[2];
 		}
 
-
 		Vec3<T> point = ray.getOrigin()+ray.getDirection()*tMin;
 		const int MAXPOINT = tile_count * tile_size;
 		bool inside = 1;
@@ -63,6 +61,12 @@ public:
 		if(!inside)
 			tMin = T(-1);
 		
+		return tMin;
+	}
+	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	{
+		return T(-1); // TODO: remove later
+		T tMin = getIntersectingT(ray);
 		if(level == 0)
 			return tMin;
 		assert(0);

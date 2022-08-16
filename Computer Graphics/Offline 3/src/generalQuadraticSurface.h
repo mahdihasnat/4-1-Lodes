@@ -15,10 +15,8 @@ class GeneralQuadraticSurface: public Object<T>
 	{
 
 	}
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	virtual T getIntersectingT(Ray<T> const& ray)
 	{
-		return T(-1); // TODO: remove this line
-		
 		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Eyz + Fxz + Gx + Hy + Iz +J = 0
 		// A = v[0], B = v[1], C = v[2], D = v[3], E = v[4], F = v[5], G = v[6], H = v[7], I = v[8], J = v[9]
 
@@ -109,6 +107,12 @@ class GeneralQuadraticSurface: public Object<T>
 				tMin = t2;
 			}
 		}
+		return tMin;
+	}
+	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	{
+		return T(-1); // TODO: remove this line
+		T tMin = getIntersectingT(ray);
 
 		if(level == 0)
 			return tMin;
