@@ -36,16 +36,23 @@ void capture()
 	// (0,imageHeight-1).........(imageWidth-1,imageHeight-1)
 
 	bitmap_image image(imageWidth,imageHeight);
+
 	// set the background color to black
 	image.set_all_channels(0,0,0);
+
+	DBG(imageWidth);
+	DBG(imageHeight);
 
 	Ftype planeDistance = windowHeight / 2.0 / tan(fieldOfView * PI /2 / 180.0);
 
 	Vec3<Ftype> topLeft = cameraPos + cameraLookDir*planeDistance 
 							-cameraRightDir*(windowWidth/2)
 							+cameraUpDir *(windowHeight/2);
+
 	Ftype du = windowWidth/imageWidth;
 	Ftype dv = windowHeight/imageHeight;
+
+	topLeft = topLeft+cameraRightDir*(du/2.0)-cameraUpDir*(dv/2.0);
 
 	Vec3<Ftype> currentTopLeft = cameraPos + cameraLookDir * planeDistance
 								-cameraRightDir*(windowWidth/2)
@@ -55,10 +62,13 @@ void capture()
 	ray.setOrigin(cameraPos);
 	for(int i=0;i<imageWidth;i++)
 	{
-		Vec3<Ftype> currentPixel = currentTopLeft;
-		for(int j=0;j<imageHeight;j++,currentPixel -= cameraUpDir* dv)
+		currentTopLeft;
+		for(int j=0;j<imageHeight;j++)
 		{
+			Vec3<Ftype> currentPixel = topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
+			
 			ray.setDirection(currentPixel - cameraPos);
+			
 			Color<Ftype> color;
 			Object<Ftype> * closestObject = 0;
 			Ftype minimumPositiveT = numeric_limits<Ftype>::max();

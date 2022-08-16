@@ -144,7 +144,7 @@ class Vec3: public Vec4<T>
 	{
 		for(int i=0;i<3;i++)
 		{
-			if((this->operator[](i) - v[i]) > EPS)
+			if(abs(this->operator[](i) - v[i]) > EPS)
 			{
 				return false;
 			}

@@ -3,6 +3,13 @@
 
 #include "object.h"
 #include "vec3.h"
+
+template <class T>
+T getTriangleArea(Vec3<T> const &a, Vec3<T> const &b, Vec3<T> const &c)
+{
+	return (b-a).cross(c-a).length() / T(2);
+}
+
 template <class T>
 class Triangle: public Object<T>
 {
@@ -22,30 +29,25 @@ public:
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		Vec3<T> normal = (v[1]-v[0]).cross(v[2]-v[0]);
-		T tMin = (v[0]-ray.getOrigin()).dot(normal)/ray.getDirection().dot(normal);
-
-		Vec3<T> point = ray.getOrigin()+ray.getDirection()*tMin;
-		// check if point is withing triangle
-		Vec3<T> mn = v[0];
-		Vec3<T> mx = v[0];
-		for(int i=1;i<3;i++)
+		normal.normalize();
+		// T tMin = (v[0]-ray.getOrigin()).dot(normal)/ray.getDirection().dot(normal);
+		T niche = ray.getDirection().dot(normal);
+		if(abs(niche)<EPS)
 		{
-			for(int j=0;j<3;j++)
-				mn[j]=min(mn[j],v[i][j]),
-				mx[j]=max(mx[j],v[i][j]);
+			return T(-1);
 		}
-		bool withinTriangle = true;
-		for(int i=0;i<3;i++)
-		{
-			withinTriangle = withinTriangle and ((mn[i]<=point[i]) and (point[i]<=mx[i]));
-		}
-		if(withinTriangle)
-		{
-			// assert(0);
-		}
-		if(!withinTriangle)
-			tMin = T(-1);
+		T tMin = (v[0]-ray.getOrigin()).dot(normal)/niche;
 		
+		Vec3<T> point = ray.getOrigin()+ray.getDirection()*tMin;
+		// check if point is within triangle
+		
+		if( abs(
+			getTriangleArea(v[0],v[1],v[2])
+			-getTriangleArea(v[0],v[1],point) 
+			-getTriangleArea(v[1],v[2],point) 
+			-getTriangleArea(v[2],v[0],point)
+			) > EPS)
+			tMin = T(-1);
 
 		if(level == 0)
 			return tMin;
