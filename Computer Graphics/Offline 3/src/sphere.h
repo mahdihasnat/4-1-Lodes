@@ -74,6 +74,8 @@ public:
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
+		return T(-1); // TODO: remove this later
+
 		// (ray.o + t * ray.d  - center) dot  (ray.o + t * ray.d  - center) 
 		//  - radius* radius = 0
 

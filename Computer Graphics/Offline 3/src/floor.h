@@ -35,6 +35,37 @@ public:
 			glPopMatrix();
 		}
 	}
+	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	{
+		// (ray.o + t * ray.d ) dot (0,0,1) =0
+		// t = -ray.o.z / ray.d.z
+		T tMin = T(-1);
+		if(abs(ray.getDirection()[2]) < EPS) // ray parallel to xy-plane
+		{
+			if(abs(ray.getOrigin()[2]) < EPS) // ray origin on xy-plane
+				tMin = T(0);
+			else
+				tMin=T(-1);
+		}
+		else
+		{
+			tMin = -ray.getOrigin()[2] / ray.getDirection()[2];
+		}
+
+
+		Vec3<T> point = ray.getOrigin()+ray.getDirection()*tMin;
+		const int MAXPOINT = tile_count * tile_size;
+		bool inside = 1;
+		for(int i=0;i<2;i++)
+			inside = inside and abs(point[i])<=MAXPOINT;
+		
+		if(!inside)
+			tMin = T(-1);
+		
+		if(level == 0)
+			return tMin;
+		assert(0);
+	}
 	
 	Floor()
 	{
