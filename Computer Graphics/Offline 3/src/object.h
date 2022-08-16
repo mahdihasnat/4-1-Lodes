@@ -20,6 +20,11 @@ public:
 	{
 		return T(-1);
 	}
+	
+	Color<T> getColor() const
+	{
+		return c;
+	}
 	virtual istream & read(istream & is)
 	{
 		// cerr<<"here im in object"<<endl;
