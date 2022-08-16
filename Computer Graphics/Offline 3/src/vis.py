@@ -42,7 +42,7 @@ class Window(Frame):
 
 	def get_geomety(self):
 		(width,height) = self.load.size
-		return "{}x{}".format(width,height)
+		return "{}x{}".format(width+2,height+2)
 	def reload(self,root):
 		# update frame with image
 		self.load = Image.open("Output_11.bmp")
