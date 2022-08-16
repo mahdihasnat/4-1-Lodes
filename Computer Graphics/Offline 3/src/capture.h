@@ -34,9 +34,9 @@ void capture()
 	// ..
 	// (0,imageHeight-1).........(imageWidth-1,imageHeight-1)
 
-	bitmap_image bmp(imageWidth,imageHeight);
+	bitmap_image image(imageWidth,imageHeight);
 	// set the background color to black
-	bmp.set_all_channels(0, 0, 0);
+	image.set_all_channels(0, 0, 0);
 
 	Ftype planeDistance = windowHeight / 2.0 / tan(fieldOfView * PI /2 / 180.0);
 
@@ -72,14 +72,15 @@ void capture()
 			}
 			if(closestObject)
 			{
-
+				// assert(0);
+				image.set_pixel(i,j,255,255,255);
 			}
 		}
 		currentTopLeft += cameraRightDir*du;
 	}
 	string fileName= getNewFileName();
 	DBG(fileName);
-	bmp.save_image(fileName);
+	image.save_image(fileName);
 }
 
 #endif /* C6E292E4_7E6B_4D02_93A3_71317D11FCD6 */
