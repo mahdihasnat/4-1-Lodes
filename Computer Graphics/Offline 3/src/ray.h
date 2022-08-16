@@ -18,6 +18,14 @@ public:
 		direction = d;
 		direction.normalize();
 	}
+	Vec3<T> getOrigin() const
+	{
+		return origin;
+	}
+	Vec3<T> getDirection() const
+	{
+		return direction;
+	}
 };
 
 #endif /* D46B3C26_2DFF_4FE7_8F21_2ECB686E278C */
