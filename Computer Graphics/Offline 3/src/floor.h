@@ -37,6 +37,7 @@ public:
 	}
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
+		return T(-1); // TODO: remove later
 		// (ray.o + t * ray.d ) dot (0,0,1) =0
 		// t = -ray.o.z / ray.d.z
 		T tMin = T(-1);
