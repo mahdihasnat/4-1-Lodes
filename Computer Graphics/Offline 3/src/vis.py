@@ -25,6 +25,7 @@ class Window(Frame):
 		self.img = img
 		img.image = render
 		img.place(x=0, y=0)
+		self.cnt =0
 
 	def get_geomety(self):
 		(width,height) = self.load.size
@@ -38,7 +39,8 @@ class Window(Frame):
 
 		root.geometry(self.get_geomety())
 
-		print("reloaded")
+		print("reloaded ",self.cnt)
+		self.cnt+=1
 		root.after(1000,lambda:self.reload(root))
 
 root = Tk()
