@@ -28,6 +28,7 @@ public:
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
+		return T(-1); // TODO: remove later
 		Vec3<T> normal = (v[1]-v[0]).cross(v[2]-v[0]);
 		normal.normalize();
 		// T tMin = (v[0]-ray.getOrigin()).dot(normal)/ray.getDirection().dot(normal);

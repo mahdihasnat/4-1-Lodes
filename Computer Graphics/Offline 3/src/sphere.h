@@ -21,7 +21,6 @@ protected:
 			points[j][2]=h;
 		}
 	}
-public:
 	void drawAtOrigin()
 	{
 		const int SLICES = 100;
@@ -61,6 +60,7 @@ public:
 			}
 		}
 	}
+public:
 	void draw()
 	{
 		Object<T>::draw();
@@ -71,6 +71,48 @@ public:
 		}
 		glPopMatrix();
 	}
+
+	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
+	{
+		// (ray.o + t * ray.d  - center) dot  (ray.o + t * ray.d  - center) 
+		//  - radius* radius = 0
+
+		// t^2 ( ray.d dot ray.d) + t * 2 * (ray.o - center) dot (ray.o - center)  
+		// + (ray.o dot ray.o  - radius * radius) = 0;
+
+		//  SOLVING a * t^2 + b * t + c = 0
+
+		T a = ray.getDirection().dot(ray.getDirection());
+		T b = 2 * (ray.getOrigin() - center).dot(ray.getDirection());
+		T c = ((ray.getOrigin() - center).dot((ray.getOrigin() - center)) - radius * radius);
+
+		T tMin = -1;
+		T determinant = b * b - 4 * a * c;
+
+		
+
+		if(determinant < T(0)) // imaginary roots
+			tMin = -1;
+		else
+		{
+			
+			T t1 = (-b + sqrt(determinant)) / (2 * a);
+			T t2 = (-b - sqrt(determinant)) / (2 * a);
+			if(t1 > t2)
+				swap(t1,t2);
+			
+			if(T(0) < t1)
+				tMin = t1;
+			else if(T(0) < t2)
+				tMin = t2;
+		}
+		if(level==0)
+			return tMin;
+
+		assert(0);
+
+	}
+
 	virtual istream & read(istream & is)
 	{
 		is>>center>>radius;
