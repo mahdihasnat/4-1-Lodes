@@ -75,6 +75,7 @@ void keyboardListener(unsigned char key, int x,int y){
 		default:
 			break;
 	}
+	
 }
 
 
@@ -123,6 +124,11 @@ void specialKeyListener(int key, int x,int y){
 		default:
 			break;
 	}
+	DBG(cameraPos);
+	DBG(cameraUpDir);
+	DBG(cameraRightDir);
+	DBG(cameraLookDir);
+	NL;
 }
 
 
