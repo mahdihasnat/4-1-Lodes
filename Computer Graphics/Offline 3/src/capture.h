@@ -12,6 +12,7 @@ string getNewFileName()
 	while(true)
 	{
 		string fileName = "Output_1"+to_string(fileNumber)+".bmp";
+		return fileName; // TODO: remove on submit
 		ifstream ifs(fileName.c_str());
 		if(!ifs.good())
 		{
@@ -36,7 +37,7 @@ void capture()
 
 	bitmap_image image(imageWidth,imageHeight);
 	// set the background color to black
-	image.set_all_channels(0, 0, 0);
+	image.set_all_channels(0,0,0);
 
 	Ftype planeDistance = windowHeight / 2.0 / tan(fieldOfView * PI /2 / 180.0);
 
