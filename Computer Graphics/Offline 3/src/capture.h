@@ -74,7 +74,7 @@ void capture()
 			Ftype minimumPositiveT = numeric_limits<Ftype>::max();
 			for(Object<Ftype> * object: objects)
 			{
-				Ftype t = object->intersect(ray,color,0);
+				Ftype t = object->getIntersectingT(ray);
 				if(t>Ftype(0) and t < minimumPositiveT)
 				{
 					minimumPositiveT = t;
