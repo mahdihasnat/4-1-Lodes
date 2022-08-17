@@ -81,15 +81,6 @@ public:
 		else
 			return Vec3<T>(0,0,T(+1));
 	}
-
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
-	{
-		return T(-1); // TODO: remove later
-		T tMin = getIntersectingT(ray);
-		if(level == 0)
-			return tMin;
-		assert(0);
-	}
 	
 	Floor()
 	{

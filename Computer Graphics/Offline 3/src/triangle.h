@@ -58,20 +58,7 @@ public:
 			normal = -normal;
 		return normal;
 	}
-
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
-	{
-		return T(-1); // TODO: remove later
-		T tMin = getIntersectingT(ray);
-
-		if(level == 0)
-			return tMin;
-		
-		DBG("Not implemented");
-		assert(0);
-		return T(-1);
-	}
-
+	
 	virtual istream & read(istream & is)
 	{
 		is>>v[0]>>v[1]>>v[2];

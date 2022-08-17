@@ -168,18 +168,7 @@ class GeneralQuadraticSurface: public Object<T>
 			normal = -normal;
 		return normal;
 	}
-
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
-	{
-		return T(-1); // TODO: remove this line
-		T tMin = getIntersectingT(ray);
-
-		if(level == 0)
-			return tMin;
-		
-		assert(0);
-	}
-
+	
 	virtual istream & read(istream & is)
 	{
 		for(int i=0;i<10;i++)

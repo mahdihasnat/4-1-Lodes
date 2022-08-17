@@ -109,17 +109,6 @@ public:
 		return normal;
 	}
 
-	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
-	{
-		return T(-1); // TODO: remove this later
-		T tMin = getIntersectingT(ray);
-		if(level==0)
-			return tMin;
-
-		assert(0);
-
-	}
-
 	virtual istream & read(istream & is)
 	{
 		is>>center>>radius;
