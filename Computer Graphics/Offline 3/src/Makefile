@@ -7,7 +7,7 @@ run: main.out
 	./main.out
 
 main.out : *.cpp *.h
-	${CC} -o main.out main.cpp -lglut -lGLU -lGL
+	${CC} -o main.out main.cpp -lglut -lGLU -lGL -Ofast
 
 clean:
 	rm -f main.out *.bmp
