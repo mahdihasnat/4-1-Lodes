@@ -10,6 +10,18 @@ class GeneralQuadraticSurface: public Object<T>
 	T v[10];
 	Vec3<T> cubeReferencePoint;
 	T dimension[3];
+	bool isClipped(Vec3<T> const & point)
+	{
+		Vec3<T> tmp = point-cubeReferencePoint;
+		for(int i=0;i<3;i++)
+		{
+			if(abs(dimension[i]) > EPS and (point[i]<0 or point[i]>dimension[i]))
+			{
+				return 1;
+			}
+		}
+		return 0;
+	}
 	public:
 	void draw()
 	{
@@ -105,6 +117,8 @@ class GeneralQuadraticSurface: public Object<T>
 			else
 			{
 				tMin = -c/b;
+				if(isClipped(ray.getOrigin() + ray.getDirection() * tMin))
+					tMin= T(-1);
 			}
 		}
 		else 
@@ -121,26 +135,13 @@ class GeneralQuadraticSurface: public Object<T>
 
 				if(t1>t2)
 					swap(t1,t2);
-				
-				if(t1>0)
+				if(t1>0 and !isClipped(ray.getOrigin() + ray.getDirection() * t1))
 				{
 					tMin = t1;
 				}
-				else if(t2>0)
+				else if(t2>0 and !isClipped(ray.getOrigin() + ray.getDirection() * t2))
 				{
 					tMin = t2;
-				}
-			}
-		}
-
-		if(T(0)<=tMin)
-		{
-			Vec3<T> point = ray.getOrigin() + ray.getDirection() * tMin - cubeReferencePoint;
-			for(int i=0;i<3;i++)
-			{
-				if(abs(dimension[i]) > EPS and (point[i]<0 or point[i]>dimension[i]))
-				{
-					tMin = T(-1);
 				}
 			}
 		}
