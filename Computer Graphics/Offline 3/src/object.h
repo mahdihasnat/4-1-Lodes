@@ -20,10 +20,14 @@ public:
 	{
 		return T(-1);
 	}
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point) = 0;
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) = 0;
 	T getAmbiantCoef()
 	{
 		return coefficiants[0];
+	}
+	T getDiffuseCoef()
+	{
+		return coefficiants[1];
 	}
 	
 	// implementation at intersect.h

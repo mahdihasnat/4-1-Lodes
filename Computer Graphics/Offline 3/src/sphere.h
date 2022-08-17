@@ -109,9 +109,14 @@ public:
 		return tMin;
 	}
 
-	Vec3<T> getNormalAt(Vec3<T> const& point) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) override
 	{
-		return (point - center).normalize();
+		Vec3<T> normal  = (point - center);
+		normal.normalize();
+		if((incidentRay.getOrigin()-center).length() <= radius)
+			normal=-normal;
+		
+		return normal;
 	}
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
