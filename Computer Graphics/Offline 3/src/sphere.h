@@ -30,7 +30,7 @@ public:
 		}
 		glPopMatrix();
 	}
-	virtual T getIntersectingT(Ray<T> const& ray)
+	virtual T getIntersectingT(Ray<T> const& ray) override
 	{
 
 		// (ray.o + t * ray.d  - center) dot  (ray.o + t * ray.d  - center) 
@@ -46,25 +46,49 @@ public:
 		T c = ((ray.getOrigin() - center).dot((ray.getOrigin() - center)) - radius * radius);
 
 		T tMin = -1;
-		T determinant = b * b - 4 * a * c;
-
-		
-
-		if(determinant < T(0)) // imaginary roots
-			tMin = -1;
-		else
+		if(abs(a)<EPS) // a == 0
 		{
-			
-			T t1 = (-b + sqrt(determinant)) / (2 * a);
-			T t2 = (-b - sqrt(determinant)) / (2 * a);
-			if(t1 > t2)
-				swap(t1,t2);
-			
-			if(T(0) < t1)
-				tMin = t1;
-			else if(T(0) < t2)
-				tMin = t2;
+			if(abs(b)<EPS) // b == 0
+			{
+				if(abs(c)<EPS) // c == 0
+				{
+					tMin = 0;
+				}
+				else
+				{
+					tMin = T(-1);
+				}
+			}
+			else
+			{
+				tMin = -c/b;
+			}
 		}
+		else 
+		{
+			T determinant = b * b - 4 * a * c;
+			if(determinant<0) // imaginary solution
+			{
+				tMin=T(-1);
+			}
+			else
+			{
+				T t1 = (-b - sqrt(determinant)) / (2 * a);
+				T t2 = (-b + sqrt(determinant)) / (2 * a);
+
+				if(t1>t2)
+					swap(t1,t2);
+				if(t1>0)
+				{
+					tMin = t1;
+				}
+				else if(t2>0)
+				{
+					tMin = t2;
+				}
+			}
+		}
+
 		return tMin;
 	}
 
@@ -72,8 +96,8 @@ public:
 	{
 		Vec3<T> normal  = (point - center);
 		normal.normalize();
-		if((incidentRay.getOrigin()-center).length() <= radius)
-			normal=-normal;
+		// if((incidentRay.getOrigin()-center).length() <= radius)
+		// 	normal=-normal;
 		
 		return normal;
 	}
