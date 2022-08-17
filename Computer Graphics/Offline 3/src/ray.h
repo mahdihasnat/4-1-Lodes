@@ -35,6 +35,11 @@ public:
 	{
 		return origin + direction * t;
 	}
+	friend ostream & operator <<(ostream& os, Ray const & r)
+	{
+		os << "[r: [o: " << r.origin << "] [d: " << r.direction<<"] ]";
+		return os;
+	}
 };
 
 #endif /* D46B3C26_2DFF_4FE7_8F21_2ECB686E278C */

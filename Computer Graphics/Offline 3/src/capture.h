@@ -39,8 +39,16 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	{
 		DBG(currentT);
 		DBG(*object);
+		DBG(incidentRay);
+		DBG(point);
+		DBG(cameraPos);
+		DBG(cameraLookDir);
+		DBG(cameraUpDir);
 	}
-	assert(currentT >= 0);
+	if(currentT<0)
+	{
+		return true;
+	}
 	for(Object<Ftype> * obj: objects)
 	{
 		if(obj!= object)

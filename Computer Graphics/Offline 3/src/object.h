@@ -10,7 +10,7 @@ class Object
 protected:
 	Color<T> c;
 	T coefficiants[4]; //ambient, diffuse, specular, recursive reflection coefficient
-	int shine;
+	T shine;
 public:
 	virtual void draw()
 	{
@@ -45,7 +45,7 @@ public:
 	{
 		coefficiants[3] = reflection;
 	}
-	void setShine(int shine)
+	void setShine(T shine)
 	{
 		this->shine = shine;
 	}
