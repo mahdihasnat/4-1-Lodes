@@ -8,21 +8,26 @@
 template<typename T>
 class Light
 {
-private:
-	Vec3<T> pos;
+protected:
+	Vec3<T> position;
 	Color<T> color;
 public:
+	virtual bool isReachable(Vec3<T> const& point) = 0;
 	Vec3<T> getPosition()
 	{
-		return pos;
+		return position;
+	}
+	Color<T> getColor()
+	{
+		return color;
 	}
 	virtual istream & read(istream & is)
 	{
-		return is>>pos>>color;
+		return is>>position>>color;
 	}
 	virtual ostream & write(ostream & os) const
 	{
-		return os<<"[p: "<<pos<<"] [c: "<<color<<"]";
+		return os<<"[p: "<<position<<"] [c: "<<color<<"]";
 	}
 
 	friend istream & operator >> (istream & is, Light<T> & l)

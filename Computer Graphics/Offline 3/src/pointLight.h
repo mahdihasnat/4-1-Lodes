@@ -7,6 +7,10 @@ template<typename T>
 class PointLight: public Light<T>
 {
 	public:
+	virtual bool isReachable(Vec3<T> const& point) override
+	{
+		return true;
+	}
 	ostream & write(ostream & os) const
 	{
 		os<<"[pl: ";
