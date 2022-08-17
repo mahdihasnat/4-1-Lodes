@@ -105,10 +105,10 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<Ftype>(91.9407 ,-2.31622, 27.1059);
+	cameraPos=Vec3<Ftype>(27.253 ,-102.934, 47.588);
 	// maintain r cross l = u
-	cameraUpDir= Vec3<Ftype>( -0.224984 ,0.0736769, 0.971573);
-	cameraRightDir= Vec3<Ftype>( 0.772715 ,0.620908, 0.13185);
+	cameraUpDir= Vec3<Ftype>(0.0312734 ,0.099422 ,0.994554);
+	cameraRightDir= Vec3<Ftype>(0.969694, 0.238213, -0.0543049);
 	cameraUpDir.normalize();
 	cameraRightDir.normalize();
 	cameraLookDir= cameraUpDir.cross(cameraRightDir);
@@ -197,6 +197,20 @@ void loadData(){
 		lights.push_back(light);
 	}
 	
+	for(Light<Ftype> * l: lights)
+	{
+		Sphere<Ftype> * o = new Sphere<Ftype>();
+		Ftype r = 1;
+		o->setCenter(l->getPosition()+Vec3<Ftype>(0,0,0.1+r));
+		o->setRadius(r);
+		o->setColor(l->getColor());
+		o->setAmbient(1);
+		o->setDiffuse(1);
+		o->setSpecular(1);
+		o->setShine(1);
+		objects.push_back(o);
+		
+	}
 
 }
 

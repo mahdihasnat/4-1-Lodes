@@ -35,6 +35,11 @@ string getNewFileName()
 bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 {
 	Ftype currentT = object->getIntersectingT(incidentRay);
+	if(currentT<0)
+	{
+		DBG(currentT);
+		DBG(*object);
+	}
 	assert(currentT >= 0);
 	for(Object<Ftype> * obj: objects)
 	{
