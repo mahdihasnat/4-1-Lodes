@@ -26,6 +26,10 @@ public:
 	{
 		return direction;
 	}
+	Vec3<T> getPoint(T t) const
+	{
+		return origin + direction * t;
+	}
 };
 
 #endif /* D46B3C26_2DFF_4FE7_8F21_2ECB686E278C */

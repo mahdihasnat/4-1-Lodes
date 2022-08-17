@@ -117,7 +117,7 @@ class GeneralQuadraticSurface: public Object<T>
 			else
 			{
 				tMin = -c/b;
-				if(isClipped(ray.getOrigin() + ray.getDirection() * tMin))
+				if( isClipped( ray.getPoint(tMin)) )
 					tMin= T(-1);
 			}
 		}
@@ -135,11 +135,11 @@ class GeneralQuadraticSurface: public Object<T>
 
 				if(t1>t2)
 					swap(t1,t2);
-				if(t1>0 and !isClipped(ray.getOrigin() + ray.getDirection() * t1))
+				if(t1>0 and !isClipped( ray.getPoint(t1) ))
 				{
 					tMin = t1;
 				}
-				else if(t2>0 and !isClipped(ray.getOrigin() + ray.getDirection() * t2))
+				else if(t2>0 and !isClipped( ray.getPoint(t2) ))
 				{
 					tMin = t2;
 				}
