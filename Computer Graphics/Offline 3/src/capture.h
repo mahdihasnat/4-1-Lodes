@@ -40,7 +40,6 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 		DBG(currentT);
 		DBG(*object);
 		DBG(incidentRay);
-		DBG(point);
 		DBG(cameraPos);
 		DBG(cameraLookDir);
 		DBG(cameraUpDir);
