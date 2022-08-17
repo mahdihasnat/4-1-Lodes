@@ -60,9 +60,9 @@ class GeneralQuadraticSurface: public Object<T>
 		T b = 2 * v[0] * ray.getDirection()[0] * ray.getOrigin()[0] +
 			  2 * v[1] * ray.getDirection()[1] * ray.getOrigin()[1] +
 			  2 * v[2] * ray.getDirection()[2] * ray.getOrigin()[2] +
-			  v[3] * (ray.getOrigin()[0] * ray.getDirection()[0] + ray.getOrigin()[1] * ray.getDirection()[1]) +
-			  v[4] * (ray.getOrigin()[1] * ray.getDirection()[1] + ray.getOrigin()[2] * ray.getDirection()[2]) +
-			  v[5] * (ray.getOrigin()[2] * ray.getDirection()[2] + ray.getOrigin()[0] * ray.getDirection()[0]) +
+			  v[3] * (ray.getOrigin()[0] * ray.getDirection()[1] + ray.getOrigin()[1] * ray.getDirection()[0]) +
+			  v[4] * (ray.getOrigin()[1] * ray.getDirection()[2] + ray.getOrigin()[2] * ray.getDirection()[1]) +
+			  v[5] * (ray.getOrigin()[2] * ray.getDirection()[0] + ray.getOrigin()[0] * ray.getDirection()[2]) +
 			  v[6] * ray.getDirection()[0] +
 			  v[7] * ray.getDirection()[1] +
 			  v[8] * ray.getDirection()[2];
