@@ -25,6 +25,25 @@ string getNewFileName()
 	}
 }
 
+
+bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
+{
+	Ftype currentT = object->getIntersectingT(incidentRay);
+	assert(currentT >= 0);
+	for(Object<Ftype> * obj: objects)
+	{
+		if(obj!= object)
+		{
+			Ftype t = obj->getIntersectingT(incidentRay);
+			if(t >= 0 && t < currentT)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void capture()
 {
 	DBG("capture");
