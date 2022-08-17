@@ -10,57 +10,16 @@ class Sphere: public Object<T>
 protected:
 	Vec3<T> center;
 	T radius;
-	void calculatePointsAtHeight(Vec3<T> * points,int i,int stacks, int slices)
-	{
-		T h = radius*sin(PI*i/2/stacks);
-		T r = radius*cos(PI*i/2/stacks);
-		for(int j=0;j<=slices;j++)
-		{
-			points[j][0]=r * cos(j*PI*2/slices);
-			points[j][1]=r * sin(j*PI*2/slices);
-			points[j][2]=h;
-		}
-	}
-	void drawAtOrigin()
-	{
-		const int SLICES = 100;
-		const int STACKS = 100;
-		Vec3<T> points[2][SLICES+1];
-		calculatePointsAtHeight(points[0%2],0,STACKS,SLICES);
-		for(int i=0;i<STACKS;i++)
-		{
-			calculatePointsAtHeight(points[(i+1)%2],i+1,STACKS,SLICES);
-			for(int j=0;j<SLICES;j++)
-			{
-				glBegin(GL_QUADS);{
-					// upper hemisphere
-					points[0][j].draw();
-					points[0][j+1].draw();
-					points[1][j+1].draw();
-					points[1][j].draw();
-
-					// Lower hemisphere
-					points[0][j][2] = -points[0][j][2];
-					points[0][j+1][2] = -points[0][j+1][2];
-					points[1][j+1][2] = -points[1][j+1][2];
-					points[1][j][2] = -points[1][j][2];
-					
-					points[0][j].draw();
-					points[0][j+1].draw();
-					points[1][j+1].draw();
-					points[1][j].draw();
-
-					points[0][j][2] = -points[0][j][2];
-					points[0][j+1][2] = -points[0][j+1][2];
-					points[1][j+1][2] = -points[1][j+1][2];
-					points[1][j][2] = -points[1][j][2];
-					
-				
-				}glEnd();
-			}
-		}
-	}
+	
 public:
+	void setCenter(Vec3<T> center)
+	{
+		this->center = center;
+	}
+	void setRadius(T radius)
+	{
+		this->radius = radius;
+	}
 	void draw()
 	{
 		Object<T>::draw();
@@ -142,6 +101,57 @@ public:
 		return Object<T>::write(os)<<" ]";
 	}
 
+private:
+	void calculatePointsAtHeight(Vec3<T> * points,int i,int stacks, int slices)
+	{
+		T h = radius*sin(PI*i/2/stacks);
+		T r = radius*cos(PI*i/2/stacks);
+		for(int j=0;j<=slices;j++)
+		{
+			points[j][0]=r * cos(j*PI*2/slices);
+			points[j][1]=r * sin(j*PI*2/slices);
+			points[j][2]=h;
+		}
+	}
+	void drawAtOrigin()
+	{
+		const int SLICES = 100;
+		const int STACKS = 100;
+		Vec3<T> points[2][SLICES+1];
+		calculatePointsAtHeight(points[0%2],0,STACKS,SLICES);
+		for(int i=0;i<STACKS;i++)
+		{
+			calculatePointsAtHeight(points[(i+1)%2],i+1,STACKS,SLICES);
+			for(int j=0;j<SLICES;j++)
+			{
+				glBegin(GL_QUADS);{
+					// upper hemisphere
+					points[0][j].draw();
+					points[0][j+1].draw();
+					points[1][j+1].draw();
+					points[1][j].draw();
+
+					// Lower hemisphere
+					points[0][j][2] = -points[0][j][2];
+					points[0][j+1][2] = -points[0][j+1][2];
+					points[1][j+1][2] = -points[1][j+1][2];
+					points[1][j][2] = -points[1][j][2];
+					
+					points[0][j].draw();
+					points[0][j+1].draw();
+					points[1][j+1].draw();
+					points[1][j].draw();
+
+					points[0][j][2] = -points[0][j][2];
+					points[0][j+1][2] = -points[0][j+1][2];
+					points[1][j+1][2] = -points[1][j+1][2];
+					points[1][j][2] = -points[1][j][2];
+					
+				
+				}glEnd();
+			}
+		}
+	}
 };
 
 #endif /* DBE74540_73D9_4EBD_9F04_68CA243F283A */

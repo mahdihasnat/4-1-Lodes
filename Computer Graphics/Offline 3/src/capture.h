@@ -84,6 +84,8 @@ void capture()
 								+cameraUpDir *(windowHeight/2);
 	currentTopLeft = currentTopLeft+cameraRightDir*(du/2.0)-cameraUpDir*(dv/2.0);
 
+	assert(currentTopLeft == topLeft);
+
 	Ray<Ftype> ray;
 	ray.setOrigin(cameraPos);
 	for(int i=0;i<imageWidth;i++,currentTopLeft+=cameraRightDir*du)
@@ -91,7 +93,7 @@ void capture()
 		Vec3<Ftype> currentPixel=currentTopLeft;
 		for(int j=0;j<imageHeight;j++,currentPixel-=cameraUpDir*dv)
 		{
-			//  currentPixel= topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
+			// currentPixel= topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
 			
 			ray.setDirection(currentPixel - cameraPos);
 			
@@ -111,7 +113,7 @@ void capture()
 				Color<Ftype> color;
 				Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
 				const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
-				color=intersectionPointColor*closestObject->getAmbiantCoef();
+				color=intersectionPointColor*closestObject->getAmbientCoef();
 				
 				for(Light<Ftype> * l: lights)
 				{
@@ -130,7 +132,6 @@ void capture()
 				image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
 			}
 		}
-		currentTopLeft += cameraRightDir*du;
 	}
 	auto stop = high_resolution_clock::now();
 

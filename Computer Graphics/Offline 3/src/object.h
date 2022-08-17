@@ -21,7 +21,36 @@ public:
 		return T(-1);
 	}
 	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) = 0;
-	T getAmbiantCoef()
+	
+	void setColor(Color<T> c)
+	{
+		this->c = c;
+	}
+
+	void setAmbient(T ambient)
+	{
+		coefficiants[0] = ambient;
+	}
+
+	void setDiffuse(T diffuse)
+	{
+		coefficiants[1] = diffuse;
+	}
+
+	void setSpecular(T specular)
+	{
+		coefficiants[2] = specular;
+	}
+	void setReflection(T reflection)
+	{
+		coefficiants[3] = reflection;
+	}
+	void setShine(int shine)
+	{
+		this->shine = shine;
+	}
+
+	T getAmbientCoef()
 	{
 		return coefficiants[0];
 	}
