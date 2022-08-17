@@ -29,7 +29,14 @@ public:
 	{
 		return coefficiants[1];
 	}
-	
+	T getSpecularCoef()
+	{
+		return coefficiants[2];
+	}
+	T getShininess()
+	{
+		return shine;
+	}
 	// implementation at intersect.h
 	T intersect(Ray<T> const& ray, Color<T> &color, int level);
 

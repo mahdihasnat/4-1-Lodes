@@ -111,18 +111,13 @@ void capture()
 				{
 					Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
 					if(!l->isReachable(point)) continue;
-					// PointLight<Ftype> *p = dynamic_cast<PointLight<Ftype>*>(l);
-					// assert(p== 0);
 					if(isInShadow(closestObject,incidentRay)) continue;
 					Vec3<Ftype> normal = closestObject->getNormalAt(point,incidentRay);
-					assert(abs(normal.length()-1)<EPS);
-					assert(abs(incidentRay.getDirection().length()-1)<EPS);
-
 					Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
-					// DBG(lambertValue);
-					// DBG(closestObject->getDiffuseCoef());
-					// DBG((closestObject->getDiffuseCoef() * lambertValue));
 					color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
+					Vec3<Ftype> reflectedRayDirection = incidentRay.getDirection() - normal*(2*normal.dot(incidentRay.getDirection()));
+					Ftype phongValue = pow(max(-reflectedRayDirection.dot(ray.getDirection()),Ftype(0)),closestObject->getShininess());
+					color += l-> getColor() * (closestObject->getSpecularCoef() * phongValue);
 				}
 
 				color.clip();
