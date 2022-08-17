@@ -59,6 +59,14 @@ class Color
 		{
 			return Color(c[0]*t,c[1]*t,c[2]*t);
 		}
+
+		Color operator*(Color const & cc) const
+		{
+			Color ret;
+			for(int i=0;i<3;i++)
+				ret.c[i] = c[i]*cc.c[i];
+			return ret;
+		}
 		Color operator += (Color const &cc)
 		{
 			c[0] += cc.c[0];
