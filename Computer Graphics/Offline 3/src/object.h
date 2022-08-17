@@ -32,7 +32,7 @@ public:
 	
 	// implementation at intersect.h
 	T intersect(Ray<T> const& ray, Color<T> &color, int level);
-	
+
 	virtual Color<T> getColorAt(Vec3<T> point) const
 	{
 		return c;

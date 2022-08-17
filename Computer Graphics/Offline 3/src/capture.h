@@ -3,6 +3,7 @@
 
 #include "ray.h"
 #include "object.h"
+#include "light.h"
 #include "variables.h"
 #include "bitmap_image.hpp"
 
@@ -102,13 +103,29 @@ void capture()
 			if(closestObject)
 			{
 				Color<Ftype> color;
-				Vec3<Ftype > point = ray.getOrigin() + ray.getDirection()*minimumPositiveT;
-				color=closestObject->getColorAt(point)*closestObject->getAmbiantCoef();
+				Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
+				const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
+				color=intersectionPointColor*closestObject->getAmbiantCoef();
 				
-				
-				assert(typeid(Ftype) == typeid(double));
-				for(int i=0;i<3;i++)
-					color[i] = max(min(color[i],Ftype(1)),Ftype(0));
+				for(Light<Ftype> * l: lights)
+				{
+					Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
+					if(!l->isReachable(point)) continue;
+					// PointLight<Ftype> *p = dynamic_cast<PointLight<Ftype>*>(l);
+					// assert(p== 0);
+					if(isInShadow(closestObject,incidentRay)) continue;
+					Vec3<Ftype> normal = closestObject->getNormalAt(point,incidentRay);
+					assert(abs(normal.length()-1)<EPS);
+					assert(abs(incidentRay.getDirection().length()-1)<EPS);
+
+					Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
+					// DBG(lambertValue);
+					// DBG(closestObject->getDiffuseCoef());
+					// DBG((closestObject->getDiffuseCoef() * lambertValue));
+					color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
+				}
+
+				color.clip();
 				image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
 			}
 		}
