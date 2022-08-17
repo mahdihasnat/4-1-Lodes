@@ -173,7 +173,6 @@ void loadData(){
 		else assert(0);
 		in>>*pObject;
 		objects.push_back(pObject);
-		cerr<<*pObject<<endl;
 	}
 	
 	nObjects++;
@@ -184,7 +183,6 @@ void loadData(){
 	{
 		Light<Ftype> * light = new PointLight<Ftype>();
 		in>>*light;
-		cerr<<*light<<endl;
 		lights.push_back(light);
 	}
 	int nSpotLights;
@@ -193,7 +191,6 @@ void loadData(){
 	{
 		Light<Ftype> * light = new SpotLight<Ftype>();
 		in>>*light;
-		cerr<<*light<<endl;
 		lights.push_back(light);
 	}
 	
@@ -209,10 +206,19 @@ void loadData(){
 		o->setSpecular(1);
 		o->setShine(1);
 		objects.push_back(o);
-		
 	}
 
-}
+	DBG(objects.size());
+	for(Object<Ftype> * o: objects)
+	{
+		cerr<<*o<<endl;
+	}
+	DBG(lights.size());
+	for(Light<Ftype> * l: lights)
+	{
+		cerr<<*l<<endl;
+	}
+}	
 
 int main(int argc, char **argv){
 	
