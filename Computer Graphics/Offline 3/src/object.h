@@ -62,6 +62,10 @@ public:
 	{
 		return coefficiants[2];
 	}
+	T getReflectionCoef()
+	{
+		return coefficiants[3];
+	}
 	T getShininess()
 	{
 		return shine;

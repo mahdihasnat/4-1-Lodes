@@ -55,6 +55,54 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	return false;
 }
 
+Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
+{
+	Color<Ftype> color;//0,0,0
+	if(level == 0)
+	{
+		return color;
+	}
+	Object<Ftype> * closestObject = 0;
+	Ftype minimumPositiveT = numeric_limits<Ftype>::max();
+	for(Object<Ftype> * object: objects)
+	{
+		Ftype t = object->getIntersectingT(ray);
+		if(t>Ftype(0) and t < minimumPositiveT)
+		{
+			minimumPositiveT = t;
+			closestObject = object;
+		}
+	}
+	if(closestObject)
+	{
+		Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
+		const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
+		color += intersectionPointColor*closestObject->getAmbientCoef();
+		Ray<Ftype> viewRay(point,cameraPos-point);
+		// assert(-ray.getDirection() == viewRay.getDirection());
+		Vec3<Ftype> normal = closestObject->getNormalAt(point,viewRay);
+		
+		for(Light<Ftype> * l: lights)
+		{
+			Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
+			if(!l->isReachable(point)) continue;
+			if(isInShadow(closestObject,incidentRay)) continue;
+			Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
+			color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
+			Vec3<Ftype> reflectedIncidentRayDirection = incidentRay.getDirection() - normal*(2*normal.dot(incidentRay.getDirection()));
+			Ftype phongCosAngle = max(reflectedIncidentRayDirection.dot(viewRay.getDirection()),Ftype(0));
+			Ftype phongValue = pow(phongCosAngle,closestObject->getShininess());
+			color += l-> getColor() * (closestObject->getSpecularCoef() * phongValue);
+		}
+		Vec3<Ftype> reflectedRayDirection = ray.getDirection() - normal*(2*normal.dot(ray.getDirection()));
+		Ray<Ftype> reflectedRay(point + reflectedRayDirection*1e-5,reflectedRayDirection);
+		Color<Ftype> colorReflected = illuminateRecursive(reflectedRay,level-1);
+		color += colorReflected * closestObject->getReflectionCoef();
+	}
+	// DBG(color);
+	return color;
+}
+
 void capture()
 {
 	DBG("capture");
@@ -101,43 +149,9 @@ void capture()
 			// currentPixel= topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
 			
 			ray.setDirection(currentPixel - cameraPos);
-			
-			Object<Ftype> * closestObject = 0;
-			Ftype minimumPositiveT = numeric_limits<Ftype>::max();
-			for(Object<Ftype> * object: objects)
-			{
-				Ftype t = object->getIntersectingT(ray);
-				if(t>Ftype(0) and t < minimumPositiveT)
-				{
-					minimumPositiveT = t;
-					closestObject = object;
-				}
-			}
-			if(closestObject)
-			{
-				Color<Ftype> color;
-				Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
-				const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
-				color=intersectionPointColor*closestObject->getAmbientCoef();
-				
-				for(Light<Ftype> * l: lights)
-				{
-					Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
-					if(!l->isReachable(point)) continue;
-					if(isInShadow(closestObject,incidentRay)) continue;
-					Ray<Ftype> viewRay(point,cameraPos-point);
-					Vec3<Ftype> normal = closestObject->getNormalAt(point,viewRay);
-					Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
-					color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
-					Vec3<Ftype> reflectedRayDirection = incidentRay.getDirection() - normal*(2*normal.dot(incidentRay.getDirection()));
-					Ftype phongCosAngle = max(reflectedRayDirection.dot(viewRay.getDirection()),Ftype(0));
-					Ftype phongValue = pow(phongCosAngle,closestObject->getShininess());
-					color += l-> getColor() * (closestObject->getSpecularCoef() * phongValue);
-				}
-
-				color.clip();
-				image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
-			}
+			Color<Ftype> color = illuminateRecursive(ray,recursionLevel);
+			color.clip();
+			image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
 		}
 	}
 	auto stop = high_resolution_clock::now();

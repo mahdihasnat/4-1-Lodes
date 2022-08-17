@@ -198,14 +198,14 @@ void loadData(){
 	{
 		Sphere<Ftype> * o = new Sphere<Ftype>();
 		Ftype r = 1;
-		o->setCenter(l->getPosition()+Vec3<Ftype>(0,0,0.1+r));
+		o->setCenter(l->getPosition()+Vec3<Ftype>(0,0,1+r));
 		o->setRadius(r);
 		o->setColor(l->getColor());
 		o->setAmbient(1);
 		o->setDiffuse(1);
 		o->setSpecular(1);
 		o->setShine(1);
-		objects.push_back(o);
+		// objects.push_back(o);
 	}
 
 	DBG(objects.size());
