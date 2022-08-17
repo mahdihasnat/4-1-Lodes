@@ -74,9 +74,12 @@ public:
 		return tMin;
 	}
 
-	Vec3<T> getNormalAt(Vec3<T> const& point) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) override
 	{
-		return Vec3<T>(0,0,1);
+		if(incidentRay.getDirection()[2] >0)
+			return Vec3<T>(0,0,-1);
+		else
+			return Vec3<T>(0,0,1);
 	}
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
