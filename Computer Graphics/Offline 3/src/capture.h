@@ -85,7 +85,11 @@ void capture()
 				Color<Ftype> color;
 				Vec3<Ftype > point = ray.getOrigin() + ray.getDirection()*minimumPositiveT;
 				color=closestObject->getColorAt(point);
+				
+				
 				assert(typeid(Ftype) == typeid(double));
+				for(int i=0;i<3;i++)
+					color[i] = max(min(color[i],Ftype(1)),Ftype(0));
 				image.set_pixel(i,j,round(color[0]*255),round(color[1]*255),round(color[2]*255));
 			}
 		}
