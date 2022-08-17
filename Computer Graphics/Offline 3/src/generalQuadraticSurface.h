@@ -9,12 +9,13 @@ class GeneralQuadraticSurface: public Object<T>
 {
 	T v[10];
 	Vec3<T> cubeReferencePoint;
-	T length,width,height;
+	T dimension[3];
 	public:
 	void draw()
 	{
 
 	}
+
 	virtual T getIntersectingT(Ray<T> const& ray)
 	{
 		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Eyz + Fxz + Gx + Hy + Iz +J = 0
@@ -87,26 +88,63 @@ class GeneralQuadraticSurface: public Object<T>
 			  v[8] * ray.getOrigin()[2] +
 			  v[9];
 		
-		T determinant = b * b - 4 * a * c;
 		T tMin =T(-1);
-		if(determinant<0) // imaginary solution
+		if(abs(a)<EPS) // a == 0
 		{
-			tMin=T(-1);
+			if(abs(b)<EPS) // b == 0
+			{
+				if(abs(c)<EPS) // c == 0
+				{
+					tMin = 0;
+				}
+				else
+				{
+					tMin = T(-1);
+				}
+			}
+			else
+			{
+				tMin = -c/b;
+			}
 		}
-		else
+		else 
 		{
-			T t1 = (-b - sqrt(determinant)) / (2 * a);
-			T t2 = (-b + sqrt(determinant)) / (2 * a);
+			T determinant = b * b - 4 * a * c;
+			if(determinant<0) // imaginary solution
+			{
+				tMin=T(-1);
+			}
+			else
+			{
+				T t1 = (-b - sqrt(determinant)) / (2 * a);
+				T t2 = (-b + sqrt(determinant)) / (2 * a);
 
-			if(t1>0)
-			{
-				tMin = t1;
-			}
-			else if(t2>0)
-			{
-				tMin = t2;
+				if(t1>t2)
+					swap(t1,t2);
+				
+				if(t1>0)
+				{
+					tMin = t1;
+				}
+				else if(t2>0)
+				{
+					tMin = t2;
+				}
 			}
 		}
+
+		if(T(0)<=tMin)
+		{
+			Vec3<T> point = ray.getOrigin() + ray.getDirection() * tMin - cubeReferencePoint;
+			for(int i=0;i<3;i++)
+			{
+				if(abs(dimension[i]) > EPS and (point[i]<0 or point[i]>dimension[i]))
+				{
+					tMin = T(-1);
+				}
+			}
+		}
+
 		return tMin;
 	}
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
@@ -124,7 +162,7 @@ class GeneralQuadraticSurface: public Object<T>
 	{
 		for(int i=0;i<10;i++)
 			is>>v[i];
-		is>>cubeReferencePoint>>length>>width>>height;
+		is>>cubeReferencePoint>>dimension[0]>>dimension[1]>>dimension[2];
 		Object<T>::read(is);
 		return is;
 	}
@@ -133,7 +171,11 @@ class GeneralQuadraticSurface: public Object<T>
 		os<<"[gqs: [v: ";
 		for(int i=0;i<10;i++)
 			os<<v[i]<<" ";
-		os<<"] [crp: "<<cubeReferencePoint<<"] [l: "<<length<<"] [w: "<<width<<"] [h: "<<height<<"]";
+		os<<"] [crp: "<<cubeReferencePoint<<"] ";
+		os<<"[d:";
+		for(int i=0;i<3;i++)
+			os<<" "<<dimension[i];
+		os<<"] ";
 		return Object<T>::write(os)<<" ]";
 	}
 
