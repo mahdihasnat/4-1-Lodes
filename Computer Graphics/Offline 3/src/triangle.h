@@ -50,6 +50,12 @@ public:
 			tMin = T(-1);
 		return tMin;
 	}
+	Vec3<T> getNormalAt(Vec3<T> const& point) override
+	{
+		Vec3<T> normal = (v[1]-v[0]).cross(v[2]-v[0]);
+		normal.normalize();
+		return normal;
+	}
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{

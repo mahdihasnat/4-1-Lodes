@@ -30,13 +30,14 @@ class Vec3: public Vec4<T>
 		len = sqrt(len);
 		return len;
 	}
-	void normalize()
+	Vec3<T> normalize()
 	{
 		T len = length();
 		for(int i=0;i<3;i++)
 		{
 			this->operator[](i) /= len;
 		}
+		return *this;
 	}
 	T dot(Vec3<T> const & v) const
 	{

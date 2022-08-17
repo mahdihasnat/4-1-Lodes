@@ -30,6 +30,7 @@ class GeneralQuadraticSurface: public Object<T>
 
 	virtual T getIntersectingT(Ray<T> const& ray)
 	{
+		// TODO: fix equation to xy,xz,yz
 		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Eyz + Fxz + Gx + Hy + Iz +J = 0
 		// A = v[0], B = v[1], C = v[2], D = v[3], E = v[4], F = v[5], G = v[6], H = v[7], I = v[8], J = v[9]
 
@@ -148,6 +149,23 @@ class GeneralQuadraticSurface: public Object<T>
 
 		return tMin;
 	}
+
+	Vec3<T> getNormalAt(Vec3<T> const& point) override
+	{
+		// Equation:  Ax^2   +  By^2   + Cz^2    + Dxy    + Exz    + Fyz    + Gx    +  Hy   + Iz    + J    = 0
+		// Equation: v[0]x^2 + v[1]y^2 + v[2]z^2 + v[3]xy + v[4]xz + v[5]yz + v[6]x + v[7]y + v[8]z + v[9] = 0
+		// normal.x = (2*A, D , E) dot (point) + G
+		// normal.y = (D, 2*B, F) dot (point) + H
+		// normal.z = (E, F, 2*C) dot (point) + I
+		Vec3<T> normal(
+			Vec3<T> (2*v[0], v[3], v[4]).dot(point) + v[6],
+			Vec3<T> (v[3], 2*v[1], v[5]).dot(point) + v[7],
+			Vec3<T> (v[4], v[5], 2*v[2]).dot(point) + v[8]
+		);
+		normal.normalize();
+		return normal;
+	}
+
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		return T(-1); // TODO: remove this line

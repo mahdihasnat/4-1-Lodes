@@ -108,6 +108,12 @@ public:
 		}
 		return tMin;
 	}
+
+	Vec3<T> getNormalAt(Vec3<T> const& point) override
+	{
+		return (point - center).normalize();
+	}
+
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		return T(-1); // TODO: remove this later

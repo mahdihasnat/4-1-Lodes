@@ -20,13 +20,13 @@ public:
 	{
 		return T(-1);
 	}
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point) = 0;
 	T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		T tMin = getIntersectingT(ray);
 		if(level == 0)
 			return tMin;
 		assert(0);
-		
 	}
 	
 	virtual Color<T> getColorAt(Vec3<T> point) const
