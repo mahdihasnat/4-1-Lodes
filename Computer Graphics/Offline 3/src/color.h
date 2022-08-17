@@ -24,6 +24,12 @@ class Color
 				return Color<T>(rand()%255,rand()%255,rand()%255);
 			else assert(0);
 		}
+		void clip()
+		{
+			assert(typeid(T) == typeid(double));
+			for(int i=0;i<3;i++)
+				c[i] = max(min(c[i],T(1)),T(0));
+		}
 		// << operator overloading
 		friend ostream &operator <<(ostream &os , Color &c)
 		{

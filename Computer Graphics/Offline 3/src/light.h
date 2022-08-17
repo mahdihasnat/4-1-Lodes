@@ -12,6 +12,10 @@ private:
 	Vec3<T> pos;
 	Color<T> color;
 public:
+	Vec3<T> getPosition()
+	{
+		return pos;
+	}
 	virtual istream & read(istream & is)
 	{
 		return is>>pos>>color;

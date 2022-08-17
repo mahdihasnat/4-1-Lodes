@@ -9,6 +9,11 @@ class Ray
 	Vec3<T> origin;
 	Vec3<T> direction;
 public:
+	Ray(){}
+	Ray(Vec3<T> origin, Vec3<T> direction):origin(origin),direction(direction)
+	{
+		direction.normalize();
+	}
 	void setOrigin(Vec3<T> const & o)
 	{
 		origin = o;

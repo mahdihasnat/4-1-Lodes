@@ -25,14 +25,9 @@ public:
 	{
 		return coefficiants[0];
 	}
-	T intersect(Ray<T> const& ray, Color<T> &color, int level)
-	{
-		T tMin = getIntersectingT(ray);
-		if(level == 0)
-			return tMin;
-		
-		assert(0);
-	}
+	
+	// implementation at intersect.h
+	T intersect(Ray<T> const& ray, Color<T> &color, int level);
 	
 	virtual Color<T> getColorAt(Vec3<T> point) const
 	{
