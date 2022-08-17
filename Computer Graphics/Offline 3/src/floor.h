@@ -74,12 +74,12 @@ public:
 		return tMin;
 	}
 
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
 	{
-		if(incidentRay.getDirection()[2] >0)
-			return Vec3<T>(0,0,-1);
+		if(viewRay.getDirection()[2] <0)
+			return Vec3<T>(0,0,T(-1));
 		else
-			return Vec3<T>(0,0,1);
+			return Vec3<T>(0,0,T(+1));
 	}
 
 	virtual T intersect(Ray<T> const& ray, Color<T> &color, int level)
@@ -98,7 +98,7 @@ public:
 		Object<T>::coefficiants[1] = T(0.25);
 		Object<T>::coefficiants[2] = T(0.25);
 		Object<T>::coefficiants[3] = T(0.25);
-
+		Object<T>:: shine = 1;
 	}
 
 };

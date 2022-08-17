@@ -150,7 +150,7 @@ class GeneralQuadraticSurface: public Object<T>
 		return tMin;
 	}
 
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & incidentRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
 	{
 		// Equation:  Ax^2   +  By^2   + Cz^2    + Dxy    + Exz    + Fyz    + Gx    +  Hy   + Iz    + J    = 0
 		// Equation: v[0]x^2 + v[1]y^2 + v[2]z^2 + v[3]xy + v[4]xz + v[5]yz + v[6]x + v[7]y + v[8]z + v[9] = 0
@@ -164,6 +164,8 @@ class GeneralQuadraticSurface: public Object<T>
 		);
 		normal.normalize();
 		// TODO: check condition for reverse
+		if(normal.dot(viewRay.getDirection())>0)
+			normal = -normal;
 		return normal;
 	}
 
