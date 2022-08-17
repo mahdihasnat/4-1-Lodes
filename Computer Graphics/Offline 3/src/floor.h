@@ -94,10 +94,10 @@ public:
 	Floor()
 	{
 		// TODO : set color,coefficients,etc in base class
-		Object<T>::coefficiants[0] = T(0.4);
-		Object<T>::coefficiants[1] = T(1.0);
-		Object<T>::coefficiants[2] = T(0);
-		Object<T>::coefficiants[3] = T(0);
+		Object<T>::coefficiants[0] = T(0.25);
+		Object<T>::coefficiants[1] = T(0.25);
+		Object<T>::coefficiants[2] = T(0.25);
+		Object<T>::coefficiants[3] = T(0.25);
 
 	}
 
