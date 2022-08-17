@@ -7,6 +7,11 @@
 #include "variables.h"
 #include "bitmap_image.hpp"
 
+
+#include <chrono>
+using namespace std::chrono;
+
+
 string getNewFileName()
 {
 	int fileNumber = 1;
@@ -60,9 +65,9 @@ void capture()
 	// set the background color to black
 	image.set_all_channels(0,0,0);
 
-	DBG(imageWidth);
-	DBG(imageHeight);
+	auto start = high_resolution_clock::now();
 
+	
 	Ftype planeDistance = windowHeight / 2.0 / tan(fieldOfView * PI /2 / 180.0);
 
 	Vec3<Ftype> topLeft = cameraPos + cameraLookDir*planeDistance 
@@ -77,15 +82,16 @@ void capture()
 	Vec3<Ftype> currentTopLeft = cameraPos + cameraLookDir * planeDistance
 								-cameraRightDir*(windowWidth/2)
 								+cameraUpDir *(windowHeight/2);
+	currentTopLeft = currentTopLeft+cameraRightDir*(du/2.0)-cameraUpDir*(dv/2.0);
 
 	Ray<Ftype> ray;
 	ray.setOrigin(cameraPos);
-	for(int i=0;i<imageWidth;i++)
+	for(int i=0;i<imageWidth;i++,currentTopLeft+=cameraRightDir*du)
 	{
-		currentTopLeft;
-		for(int j=0;j<imageHeight;j++)
+		Vec3<Ftype> currentPixel=currentTopLeft;
+		for(int j=0;j<imageHeight;j++,currentPixel-=cameraUpDir*dv)
 		{
-			Vec3<Ftype> currentPixel = topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
+			//  currentPixel= topLeft + cameraRightDir*(i*du) - cameraUpDir*(j*dv);
 			
 			ray.setDirection(currentPixel - cameraPos);
 			
@@ -126,9 +132,15 @@ void capture()
 		}
 		currentTopLeft += cameraRightDir*du;
 	}
+	auto stop = high_resolution_clock::now();
+
+	auto duration = duration_cast<microseconds>(stop - start);
+
+	cerr<<"Time taken: "<<duration.count()/1e6<<" Second"<<endl<<endl;
+
 	string fileName= getNewFileName();
-	DBG(fileName);
 	image.save_image(fileName);
+
 }
 
 #endif /* C6E292E4_7E6B_4D02_93A3_71317D11FCD6 */
