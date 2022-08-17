@@ -185,6 +185,7 @@ void loadData(){
 		Light<Ftype> * light = new PointLight<Ftype>();
 		in>>*light;
 		cerr<<*light<<endl;
+		lights.push_back(light);
 	}
 	int nSpotLights;
 	in>>nSpotLights;
