@@ -32,7 +32,12 @@ class Window(Frame):
 		return "{}x{}".format(width+2,height+2)
 	def reload(self,root):
 		# update frame with image
-		self.load = Image.open("Output_11.bmp")
+		try:
+			self.load = Image.open("Output_11.bmp")
+		except:
+			print("Error: Image not found")
+			root.after(1000,lambda:self.reload(root))
+			return
 		render = ImageTk.PhotoImage(self.load)
 		self.img.configure(image=render)
 		self.img.image=render
