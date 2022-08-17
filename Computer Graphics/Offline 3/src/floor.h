@@ -39,7 +39,7 @@ public:
 	{
 		int i = abs(point[0])/tile_size;
 		int j = abs(point[1])/tile_size;
-		if((i+j)%2)
+		if((i+j+(point[0]>0)+(point[1]>0))%2)
 			return Color<T>(0,0,0);
 		else if(typeid(T) == typeid(double))
 			return Color<T>(1,1,1);
@@ -91,6 +91,11 @@ public:
 	Floor()
 	{
 		// TODO : set color,coefficients,etc in base class
+		Object<T>::coefficiants[0] = T(0.4);
+		Object<T>::coefficiants[1] = T(0);
+		Object<T>::coefficiants[2] = T(0);
+		Object<T>::coefficiants[3] = T(0);
+
 	}
 
 };

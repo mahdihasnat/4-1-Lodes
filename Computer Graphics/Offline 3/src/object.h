@@ -9,7 +9,7 @@ class Object
 {
 protected:
 	Color<T> c;
-	T coefficiants[4];
+	T coefficiants[4]; //ambient, diffuse, specular, recursive reflection coefficient
 	int shine;
 public:
 	virtual void draw()
@@ -21,11 +21,16 @@ public:
 		return T(-1);
 	}
 	virtual Vec3<T> getNormalAt(Vec3<T> const& point) = 0;
+	T getAmbiantCoef()
+	{
+		return coefficiants[0];
+	}
 	T intersect(Ray<T> const& ray, Color<T> &color, int level)
 	{
 		T tMin = getIntersectingT(ray);
 		if(level == 0)
 			return tMin;
+		
 		assert(0);
 	}
 	

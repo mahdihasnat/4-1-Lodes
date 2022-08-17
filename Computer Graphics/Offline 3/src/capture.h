@@ -84,7 +84,7 @@ void capture()
 			{
 				Color<Ftype> color;
 				Vec3<Ftype > point = ray.getOrigin() + ray.getDirection()*minimumPositiveT;
-				color=closestObject->getColorAt(point);
+				color=closestObject->getColorAt(point)*closestObject->getAmbiantCoef();
 				
 				
 				assert(typeid(Ftype) == typeid(double));

@@ -49,6 +49,11 @@ class Color
 			return const_cast< T &>(c[i]);
 		}
 
+		Color operator*(T const &t) const
+		{
+			return Color(c[0]*t,c[1]*t,c[2]*t);
+		}
+
 };
 
 #endif /* COLOR_H */
