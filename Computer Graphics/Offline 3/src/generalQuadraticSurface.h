@@ -31,7 +31,7 @@ class GeneralQuadraticSurface: public Object<T>
 	virtual T getIntersectingT(Ray<T> const& ray)
 	{
 		// TODO: fix equation to xy,xz,yz
-		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Eyz + Fxz + Gx + Hy + Iz +J = 0
+		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Exz + Fyz + Gx + Hy + Iz = 0
 		// A = v[0], B = v[1], C = v[2], D = v[3], E = v[4], F = v[5], G = v[6], H = v[7], I = v[8], J = v[9]
 
 		// putting x = (ray.origin.x +  t * ray.direction.x)
@@ -42,8 +42,8 @@ class GeneralQuadraticSurface: public Object<T>
 		// +B * (ray.o.y + t * ray.d.y)^2
 		// +C * (ray.o.z + t * ray.d.z)^2
 		// +D * (ray.o.x + t * ray.d.x) * (ray.o.y + t * ray.d.y)
-		// +E * (ray.o.y + t * ray.d.y) * (ray.o.z + t * ray.d.z)
-		// +F * (ray.o.z + t * ray.d.z) * (ray.o.x + t * ray.d.x)
+		// +E * (ray.o.x + t * ray.d.x) * (ray.o.z + t * ray.d.z)
+		// +F * (ray.o.y + t * ray.d.y) * (ray.o.z + t * ray.d.z)
 		// +G * (ray.o.x + t * ray.d.x)
 		// +H * (ray.o.y + t * ray.d.y)
 		// +I * (ray.o.z + t * ray.d.z)
@@ -51,22 +51,21 @@ class GeneralQuadraticSurface: public Object<T>
 		
 		// this is quadratic equation with variable t: at^2 + bt + c = 0
 		// where a = A *ray.d.x^2 + B * ray.d.y^2 + C * ray.d.z^2 +
-		//          D * ray.d.x * ray.d.y + E * ray.d.y * ray.d.z + F * ray.d.x * ray.d.z
+		//          D * ray.d.x * ray.d.y + E * ray.d.x * ray.d.z + F * ray.d.y * ray.d.z +
 
 		T a = v[0] *  ray.getDirection()[0] * ray.getDirection()[0] +
 			  v[1] *  ray.getDirection()[1] * ray.getDirection()[1] +
 			  v[2] *  ray.getDirection()[2] * ray.getDirection()[2] +
 			  v[3] * (ray.getDirection()[0] * ray.getDirection()[1]) +
-			  v[4] * (ray.getDirection()[1] * ray.getDirection()[2]) +
-			  v[5] * (ray.getDirection()[2] * ray.getDirection()[0]);
-
+			  v[4] * (ray.getDirection()[0] * ray.getDirection()[2]) +
+			  v[5] * (ray.getDirection()[1] * ray.getDirection()[2]);
 
 		// b = 2 * A * ray.d.x * ray.o.x 
 		// + 2 * B * ray.d.y * ray.o.y
 		// + 2 * C * ray.d.z * ray.o.z
-		// + D * (ray.o.x * ray.d.x + ray.o.y * ray.d.y)
-		// + E * (ray.o.y * ray.d.y + ray.o.z * ray.d.z)
-		// + F * (ray.o.z * ray.d.z + ray.o.x * ray.d.x)
+		// + D * (ray.o.x * ray.d.y + ray.o.y * ray.d.x)
+		// + E * (ray.o.x * ray.d.z + ray.o.z * ray.d.x)
+		// + F * (ray.o.y * ray.d.z + ray.o.z * ray.d.y)
 		// + G * ray.d.x
 		// + H * ray.d.y
 		// + I * ray.d.z
@@ -75,16 +74,16 @@ class GeneralQuadraticSurface: public Object<T>
 			  2 * v[1] * ray.getDirection()[1] * ray.getOrigin()[1] +
 			  2 * v[2] * ray.getDirection()[2] * ray.getOrigin()[2] +
 			  v[3] * (ray.getOrigin()[0] * ray.getDirection()[1] + ray.getOrigin()[1] * ray.getDirection()[0]) +
-			  v[4] * (ray.getOrigin()[1] * ray.getDirection()[2] + ray.getOrigin()[2] * ray.getDirection()[1]) +
-			  v[5] * (ray.getOrigin()[2] * ray.getDirection()[0] + ray.getOrigin()[0] * ray.getDirection()[2]) +
+			  v[4] * (ray.getOrigin()[0] * ray.getDirection()[2] + ray.getOrigin()[2] * ray.getDirection()[0]) +
+			  v[5] * (ray.getOrigin()[1] * ray.getDirection()[2] + ray.getOrigin()[2] * ray.getDirection()[1]) +
 			  v[6] * ray.getDirection()[0] +
 			  v[7] * ray.getDirection()[1] +
 			  v[8] * ray.getDirection()[2];
 
 		// c = A * ray.o.x^2 + B * ray.o.y^2 + C * ray.o.z^2
 		// + D * ray.o.x * ray.o.y
-		// + E * ray.o.y * ray.o.z
-		// + F * ray.o.z * ray.o.x
+		// + E * ray.o.x * ray.o.z
+		// + F * ray.o.y * ray.o.z
 		// + G * ray.o.x
 		// + H * ray.o.y
 		// + I * ray.o.z
@@ -93,9 +92,9 @@ class GeneralQuadraticSurface: public Object<T>
 		T c = v[0] * ray.getOrigin()[0] * ray.getOrigin()[0] +
 			  v[1] * ray.getOrigin()[1] * ray.getOrigin()[1] +
 			  v[2] * ray.getOrigin()[2] * ray.getOrigin()[2] +
-			  v[3] * (ray.getOrigin()[0] * ray.getOrigin()[1]) +
-			  v[4] * (ray.getOrigin()[1] * ray.getOrigin()[2]) +
-			  v[5] * (ray.getOrigin()[2] * ray.getOrigin()[0]) +
+			  v[3] * ray.getOrigin()[0] * ray.getOrigin()[1] +
+			  v[4] * ray.getOrigin()[0] * ray.getOrigin()[2] +
+			  v[5] * ray.getOrigin()[1] * ray.getOrigin()[2] +
 			  v[6] * ray.getOrigin()[0] +
 			  v[7] * ray.getOrigin()[1] +
 			  v[8] * ray.getOrigin()[2] +
