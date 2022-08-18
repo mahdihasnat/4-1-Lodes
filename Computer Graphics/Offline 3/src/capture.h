@@ -93,6 +93,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		{
 			Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
 			if(!l->isReachable(point)) continue;
+			if(incidentRay.getDirection().dot(normal)>0) continue;
 			if(isInShadow(closestObject,incidentRay)) continue;
 			Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
 			color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
@@ -106,6 +107,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		Color<Ftype> colorReflected = illuminateRecursive(reflectedRay,level-1);
 		color += colorReflected * closestObject->getReflectionCoef();
 	}
+	
 	// DBG(color);
 	return color;
 }
