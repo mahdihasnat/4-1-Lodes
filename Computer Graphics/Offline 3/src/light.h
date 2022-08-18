@@ -21,6 +21,14 @@ public:
 	{
 		return color;
 	}
+	void setPosition(Vec3<T> position)
+	{
+		this->position = position;
+	}
+	void setColor(Color<T> color)
+	{
+		this->color = color;
+	}
 	virtual istream & read(istream & is)
 	{
 		return is>>position>>color;

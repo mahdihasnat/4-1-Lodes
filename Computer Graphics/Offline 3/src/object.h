@@ -22,6 +22,11 @@ public:
 	}
 	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) = 0;
 	
+	virtual bool isTransparent()
+	{
+		return false;
+	}
+
 	void setColor(Color<T> c)
 	{
 		this->c = c;
@@ -68,6 +73,7 @@ public:
 	}
 	T getShininess()
 	{
+		assert(shine>0);
 		return shine;
 	}
 	virtual Color<T> getColorAt(Vec3<T> point) const

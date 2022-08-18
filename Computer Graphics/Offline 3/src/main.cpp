@@ -36,6 +36,7 @@ using namespace std;
 
 
 
+#include "transTriangle.h"
 
 void display(){
 	
@@ -105,10 +106,10 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<Ftype>(0 ,-200, 50);
+	cameraPos=Vec3<Ftype>(-65 ,160, 75);
 	// maintain r cross l = u
 	cameraUpDir= Vec3<Ftype>(0 ,0,1);
-	cameraLookDir= Vec3<Ftype>(-1,-1,0);
+	cameraLookDir= Vec3<Ftype>(0,-1,0);
 	cameraLookDir.normalize();
 	cameraUpDir.normalize();
 	cameraRightDir= cameraLookDir.cross(cameraUpDir);
@@ -208,6 +209,32 @@ void loadData(){
 		o->setShine(1);
 		// objects.push_back(o);
 	}
+
+	TransTriangle<Ftype> * tt = new TransTriangle<Ftype>();
+	tt->setRefrectionCoefficient(1.2);
+	
+	tt->setVertex(0,Vec3<Ftype>(-100,-100,50));
+	tt->setVertex(1,Vec3<Ftype>(100,-100,50));
+	tt->setVertex(2,Vec3<Ftype>(0,100,50));
+
+	tt->setColor(Color<Ftype> (0.5,0.5,0.5));
+	tt->setAmbient(0.5);
+	tt->setDiffuse(0.2);
+	tt->setSpecular(0.2);
+	tt->setReflection(0.2);
+	tt->setShine(1);
+
+	objects.push_back(tt);
+
+
+	SpotLight<Ftype> * sl = new SpotLight<Ftype>();
+	sl->setDirection(Vec3<Ftype>(0,0,-1));
+	sl->setCuttoffAngleDegree(10);
+
+	sl->setPosition(Vec3<Ftype>(0,0,200));	
+	sl->setColor(Color<Ftype> (1,1,1));
+
+	lights.push_back(sl);
 
 	DBG(objects.size());
 	for(Object<Ftype> * o: objects)

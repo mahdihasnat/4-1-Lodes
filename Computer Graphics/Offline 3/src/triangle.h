@@ -13,6 +13,7 @@ T getTriangleArea(Vec3<T> const &a, Vec3<T> const &b, Vec3<T> const &c)
 template <class T>
 class Triangle: public Object<T>
 {
+protected:	
 	Vec3<T> v[3];
 public:
 	void draw()
@@ -64,6 +65,10 @@ public:
 			normal = -normal;
 		return normal;
 	}
+	virtual bool isTransparent() override
+	{
+		return false;
+	}
 	
 	virtual istream & read(istream & is)
 	{
@@ -76,5 +81,11 @@ public:
 		os<<"[t: [v: "<<v[0]<<" "<<v[1]<<" "<<v[2]<<"]";
 		return Object<T>::write(os)<<" ]";
 	}
+
+	void setVertex(int i,Vec3<T> vi)
+	{
+		v[i]=vi;
+	}
+
 };
 #endif /* D19651B0_6552_4A20_8663_D0DEA6FB1CA3 */

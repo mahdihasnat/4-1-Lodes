@@ -6,7 +6,7 @@
 #include "light.h"
 #include "variables.h"
 #include "bitmap_image.hpp"
-
+#include "transObject.h"
 
 #include <chrono>
 using namespace std::chrono;
@@ -37,7 +37,7 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	Ftype currentT = object->getIntersectingT(incidentRay);
 	if(currentT<0)
 	{
-		DBG(currentT);
+		// DBG(currentT);
 		// DBG(*object);
 		// DBG(incidentRay);
 		// DBG(cameraPos);
@@ -84,6 +84,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 	{
 		Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
 		const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
+		if(level == recursionLevel)
 		color += intersectionPointColor*closestObject->getAmbientCoef();
 		Ray<Ftype> viewRay(point,cameraPos-point);
 		// assert(-ray.getDirection() == viewRay.getDirection());
@@ -106,6 +107,16 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		Ray<Ftype> reflectedRay(point + reflectedRayDirection*1e-5,reflectedRayDirection);
 		Color<Ftype> colorReflected = illuminateRecursive(reflectedRay,level-1);
 		color += colorReflected * closestObject->getReflectionCoef();
+		TransObject<Ftype> * transObject = dynamic_cast<TransObject<Ftype> *>(closestObject);
+		if(transObject)
+		{
+			assert(transObject);
+			Ray<Ftype> refractedRay;
+			if(transObject->getRefractedRay(ray,color,refractedRay))
+			{
+				DBG(1);
+			}
+		}
 	}
 	
 	// DBG(color);
