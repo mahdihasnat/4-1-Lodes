@@ -30,7 +30,6 @@ class GeneralQuadraticSurface: public Object<T>
 
 	virtual T getIntersectingT(Ray<T> const& ray)
 	{
-		// TODO: fix equation to xy,xz,yz
 		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Exz + Fyz + Gx + Hy + Iz = 0
 		// A = v[0], B = v[1], C = v[2], D = v[3], E = v[4], F = v[5], G = v[6], H = v[7], I = v[8], J = v[9]
 

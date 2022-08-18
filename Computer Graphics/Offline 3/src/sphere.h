@@ -96,11 +96,6 @@ public:
 	{
 		Vec3<T> normal  = (point - center);
 		normal.normalize();
-		// if((incidentRay.getOrigin()-center).length() <= radius){
-		// 	// TODO: handle corner case
-		// 	normal=-normal;
-		// }
-		
 		if(normal.dot(viewRay.getDirection())<0)
 		{
 			normal = -normal;
