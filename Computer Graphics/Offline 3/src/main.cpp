@@ -105,13 +105,14 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<Ftype>(27.253 ,-102.934, 47.588);
+	cameraPos=Vec3<Ftype>(100 ,100, 50);
 	// maintain r cross l = u
-	cameraUpDir= Vec3<Ftype>(0.0312734 ,0.099422 ,0.994554);
-	cameraRightDir= Vec3<Ftype>(0.969694, 0.238213, -0.0543049);
+	cameraUpDir= Vec3<Ftype>(0 ,0,1);
+	cameraLookDir= Vec3<Ftype>(-1,-1,0);
+	cameraLookDir.normalize();
 	cameraUpDir.normalize();
+	cameraRightDir= cameraLookDir.cross(cameraUpDir);
 	cameraRightDir.normalize();
-	cameraLookDir= cameraUpDir.cross(cameraRightDir);
 	angle=0;
 }
 

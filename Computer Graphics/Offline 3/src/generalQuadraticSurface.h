@@ -162,8 +162,8 @@ class GeneralQuadraticSurface: public Object<T>
 			Vec3<T> (v[4], v[5], 2*v[2]).dot(point) + v[8]
 		);
 		normal.normalize();
-		// TODO: check condition for reverse
-		if(normal.dot(viewRay.getDirection())>0)
+		
+		if(normal.dot(viewRay.getDirection())<0)
 			normal = -normal;
 		return normal;
 	}
