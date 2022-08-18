@@ -37,22 +37,22 @@ public:
 		Vec3<T> h = ray.getDirection().cross(edge2);
 		a = edge1.dot(h);
 		if (abs(a) < EPS)
-			return false;    // This ray is parallel to this triangle.
+			return T(-1);    // This ray is parallel to this triangle.
 		f = 1.0/a;
 		Vec3<T> s = ray.getOrigin() - v[0];
 		u = f * s.dot(h);
 		if (u < 0.0 || u > 1.0)
-			return false;
+			return T(-1);
 
 		Vec3<T> q = s.cross(edge1);
 		vv = f * ray.getDirection().dot(q);
 		if (vv < 0.0 || u + vv > 1.0)
-			return false;
+			return T(-1);
 
 		// At this stage we can compute t to find out where the intersection point is on the line.
 		T tMin = f * edge2.dot(q);
 		if(tMin<EPS)
-			tMin = T(-1);
+			return T(-1);
 
 		return tMin;
 	}
