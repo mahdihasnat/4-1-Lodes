@@ -37,7 +37,7 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	Ftype currentT = object->getIntersectingT(incidentRay);
 	if(currentT<0)
 	{
-		// DBG(currentT);
+		DBG(currentT);
 		// DBG(*object);
 		// DBG(incidentRay);
 		// DBG(cameraPos);

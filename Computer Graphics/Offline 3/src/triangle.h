@@ -25,29 +25,35 @@ public:
 		}
 		glEnd();
 	}
-	virtual T getIntersectingT(Ray<T> const& ray)
+	virtual T getIntersectingT(Ray<T> const& ray) override
 	{
+		// Möller–Trumbore_intersection_algorithm
+		// pseudo code from wikipedia
+		// https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
+		T a,f,u,vv;
+		Vec3<T> edge1 = v[1] - v[0];
+		Vec3<T> edge2 = v[2] - v[0];
+		
+		Vec3<T> h = ray.getDirection().cross(edge2);
+		a = edge1.dot(h);
+		if (abs(a) < EPS)
+			return false;    // This ray is parallel to this triangle.
+		f = 1.0/a;
+		Vec3<T> s = ray.getOrigin() - v[0];
+		u = f * s.dot(h);
+		if (u < 0.0 || u > 1.0)
+			return false;
 
-		Vec3<T> normal = (v[1]-v[0]).cross(v[2]-v[0]);
-		normal.normalize();
-		// T tMin = (v[0]-ray.getOrigin()).dot(normal)/ray.getDirection().dot(normal);
-		T niche = ray.getDirection().dot(normal);
-		if(abs(niche)<EPS)
-		{
-			return T(-1);
-		}
-		T tMin = (v[0]-ray.getOrigin()).dot(normal)/niche;
-		
-		Vec3<T> point = ray.getOrigin()+ray.getDirection()*tMin;
-		// check if point is within triangle
-		
-		if( abs(
-			getTriangleArea(v[0],v[1],v[2])
-			-getTriangleArea(v[0],v[1],point) 
-			-getTriangleArea(v[1],v[2],point) 
-			-getTriangleArea(v[2],v[0],point)
-			) > EPS)
+		Vec3<T> q = s.cross(edge1);
+		vv = f * ray.getDirection().dot(q);
+		if (vv < 0.0 || u + vv > 1.0)
+			return false;
+
+		// At this stage we can compute t to find out where the intersection point is on the line.
+		T tMin = f * edge2.dot(q);
+		if(tMin<EPS)
 			tMin = T(-1);
+
 		return tMin;
 	}
 	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
