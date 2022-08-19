@@ -114,7 +114,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 			Ray<Ftype> refractedRay;
 			if(transObject->getRefractedRay(ray,color,refractedRay))
 			{
-				DBG(1);
+				color+= illuminateRecursive(refractedRay,level-1)*(1-closestObject->getReflectionCoef());
 			}
 		}
 	}
