@@ -84,7 +84,8 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 	{
 		Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
 		const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
-		color += intersectionPointColor*closestObject->getAmbientCoef();
+		if(level == recursionLevel)
+			color += intersectionPointColor*closestObject->getAmbientCoef();
 		Ray<Ftype> viewRay(point,cameraPos-point);
 		// assert(-ray.getDirection() == viewRay.getDirection());
 		Vec3<Ftype> normal = closestObject->getNormalAt(point);
@@ -95,7 +96,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		{
 			Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
 			if(!l->isReachable(point)) continue;
-			if(incidentRay.getDirection().dot(normal)>0) continue;
+			if(incidentRay.getDirection().dot(normal)>=0) continue;
 			if(isInShadow(closestObject,incidentRay)) continue;
 			Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
 			color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
