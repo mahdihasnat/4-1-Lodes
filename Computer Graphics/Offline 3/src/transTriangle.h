@@ -13,11 +13,14 @@ public:
 	{
 		return true;
 	}
-	virtual bool getRefractedRay(Ray<T> const &incidentRay, Color<T> const&color, Ray<T> &refractedRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
 	{
-		
-		refractedRay = incidentRay;
-		return true;
+		return Triangle<T>::getNormalAt(point, viewRay);
+	}
+	virtual T getItaTOverItaI(Vec3<T> const& transmittedRay) override
+	{
+		// TODO : implement carefully
+		return refractionCoefficient;
 	}
 	void setRefrectionCoefficient(T refractionCoefficient)
 	{

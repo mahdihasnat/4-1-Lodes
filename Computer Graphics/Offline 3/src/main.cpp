@@ -158,9 +158,9 @@ void addPrism()
 
 	tt->setColor(Color<Ftype> (0,0,0));
 	tt->setAmbient(0);
-	tt->setDiffuse(0.2);
-	tt->setSpecular(0.2);
-	tt->setReflection(0.2);
+	tt->setDiffuse(0.1);
+	tt->setSpecular(0);
+	tt->setReflection(1);
 	tt->setShine(1);
 
 	objects.emplace_back(tt);
@@ -254,15 +254,16 @@ void loadData(){
 
 
 
-
+	// for prism
 	SpotLight<Ftype> * sl = new SpotLight<Ftype>();
 	sl->setDirection(Vec3<Ftype>(0,0,-1));
-	sl->setCuttoffAngleDegree(0.5);
+	sl->setCuttoffAngleDegree(0.001);
 
 	sl->setPosition(Vec3<Ftype>(0,0,200));	
 	sl->setColor(Color<Ftype> (1,1,1));
 
 	lights.push_back(sl);
+
 
 	DBG(objects.size());
 	for(auto const& o: objects)

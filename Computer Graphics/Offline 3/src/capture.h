@@ -84,7 +84,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 	{
 		Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
 		const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
-		// if(level == recursionLevel)
+		if(level == recursionLevel)
 			color += intersectionPointColor*closestObject->getAmbientCoef();
 		Ray<Ftype> viewRay(point,cameraPos-point);
 		// assert(-ray.getDirection() == viewRay.getDirection());
@@ -114,7 +114,9 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 			Ray<Ftype> refractedRay;
 			if(transObject->getRefractedRay(ray,color,refractedRay))
 			{
-				color+= illuminateRecursive(refractedRay,level-1)*(1-closestObject->getReflectionCoef()) *0.8;
+				// DBG(refractedRay);
+				refractedRay.setOrigin(point + refractedRay.getDirection()*1e-5);
+				color+= illuminateRecursive(refractedRay,level-1);
 			}
 		}
 	}
