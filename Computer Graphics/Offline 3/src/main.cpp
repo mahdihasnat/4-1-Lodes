@@ -259,7 +259,7 @@ void loadData(){
 	sl->setDirection(Vec3<Ftype>(0,0,-1));
 	sl->setCuttoffAngleDegree(0.001);
 
-	sl->setPosition(Vec3<Ftype>(0,0,200));	
+	sl->setPosition(Vec3<Ftype>(0,-15,200));	
 	sl->setColor(Color<Ftype> (1,1,1));
 
 	lights.push_back(sl);
