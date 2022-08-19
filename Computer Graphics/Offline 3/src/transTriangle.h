@@ -7,7 +7,7 @@
 template<typename T>
 class TransTriangle : public Triangle<T>, public TransObject<T>
 {
-	T refractionCoefficient = 1.0;
+	T refractionCoefficient = 1;
 public:
 	virtual bool isTransparent() override
 	{
@@ -15,6 +15,7 @@ public:
 	}
 	virtual bool getRefractedRay(Ray<T> const &incidentRay, Color<T> const&color, Ray<T> &refractedRay) override
 	{
+		
 		refractedRay = incidentRay;
 		return true;
 	}

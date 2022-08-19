@@ -109,10 +109,10 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<Ftype>(0 ,0, 20);
+	cameraPos=Vec3<Ftype>(0 ,50, 5);
 	// maintain r cross l = u
-	cameraUpDir= Vec3<Ftype>(1,1,0);
-	cameraLookDir= Vec3<Ftype>(0,0,1);
+	cameraUpDir= Vec3<Ftype>(0,0,1);
+	cameraLookDir= Vec3<Ftype>(0,-1,0);
 	cameraLookDir.normalize();
 	cameraUpDir.normalize();
 	cameraRightDir= cameraLookDir.cross(cameraUpDir);
@@ -144,6 +144,27 @@ void init(){
 	//aspect ratio that determines the field of view in the X direction (horizontally)
 	//near distance
 	//far distance
+}
+
+
+void addPrism()
+{
+	TransTriangle<Ftype> *tt = new TransTriangle<Ftype>();
+	tt->setRefrectionCoefficient(1.2);
+	
+	tt->setVertex(0,Vec3<Ftype>(20,5,0));
+	tt->setVertex(1,Vec3<Ftype>(-20,5,0));
+	tt->setVertex(2,Vec3<Ftype>(-20,0,10));
+
+	tt->setColor(Color<Ftype> (0,0,0));
+	tt->setAmbient(0);
+	tt->setDiffuse(0.2);
+	tt->setSpecular(0.2);
+	tt->setReflection(0.2);
+	tt->setShine(1);
+
+	objects.emplace_back(tt);
+
 }
 
 void loadData(){
@@ -214,26 +235,29 @@ void loadData(){
 		// objects.push_back(o);
 	}
 
-	TransTriangle<Ftype> * tt = new TransTriangle<Ftype>();
-	tt->setRefrectionCoefficient(1.2);
+	// TransTriangle<Ftype> * tt = new TransTriangle<Ftype>();
+	// tt->setRefrectionCoefficient(1.2);
 	
-	tt->setVertex(0,Vec3<Ftype>(-100,-100,50));
-	tt->setVertex(1,Vec3<Ftype>(100,-100,50));
-	tt->setVertex(2,Vec3<Ftype>(0,100,50));
+	// tt->setVertex(0,Vec3<Ftype>(-10,-10,20));
+	// tt->setVertex(1,Vec3<Ftype>(10,-10,20));
+	// tt->setVertex(2,Vec3<Ftype>(0,10,20));
 
-	tt->setColor(Color<Ftype> (0.5,0.5,0.5));
-	tt->setAmbient(0.5);
-	tt->setDiffuse(0.2);
-	tt->setSpecular(0.2);
-	tt->setReflection(0.2);
-	tt->setShine(1);
+	// tt->setColor(Color<Ftype> (0.5,0.5,0.5));
+	// tt->setAmbient(0.5);
+	// tt->setDiffuse(0.2);
+	// tt->setSpecular(0.2);
+	// tt->setReflection(0.2);
+	// tt->setShine(1);
+	// objects.push_back(tt);
 
-	objects.push_back(tt);
+	addPrism();
+
+
 
 
 	SpotLight<Ftype> * sl = new SpotLight<Ftype>();
 	sl->setDirection(Vec3<Ftype>(0,0,-1));
-	sl->setCuttoffAngleDegree(10);
+	sl->setCuttoffAngleDegree(0.5);
 
 	sl->setPosition(Vec3<Ftype>(0,0,200));	
 	sl->setColor(Color<Ftype> (1,1,1));
