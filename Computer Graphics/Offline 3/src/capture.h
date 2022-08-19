@@ -48,9 +48,9 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	{
 		return true;
 	}
-	for(Object<Ftype> * obj: objects)
+	for(auto const& obj: objects)
 	{
-		if(obj!= object)
+		if(obj.get() != object)
 		{
 			Ftype t = obj->getIntersectingT(incidentRay);
 			if(t >= 0 && t < currentT)
@@ -71,13 +71,13 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 	}
 	Object<Ftype> * closestObject = 0;
 	Ftype minimumPositiveT = numeric_limits<Ftype>::max();
-	for(Object<Ftype> * object: objects)
+	for(auto const& object: objects)
 	{
 		Ftype t = object->getIntersectingT(ray);
 		if(t>Ftype(0) and t < minimumPositiveT)
 		{
 			minimumPositiveT = t;
-			closestObject = object;
+			closestObject = object.get();
 		}
 	}
 	if(closestObject)
@@ -90,7 +90,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		// assert(-ray.getDirection() == viewRay.getDirection());
 		Vec3<Ftype> normal = closestObject->getNormalAt(point,viewRay);
 		
-		for(Light<Ftype> * l: lights)
+		for(auto const & l: lights)
 		{
 			Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
 			if(!l->isReachable(point)) continue;
