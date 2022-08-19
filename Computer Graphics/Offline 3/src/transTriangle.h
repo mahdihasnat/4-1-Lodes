@@ -13,9 +13,9 @@ public:
 	{
 		return true;
 	}
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point) override
 	{
-		return Triangle<T>::getNormalAt(point, viewRay);
+		return Triangle<T>::getNormalAt(point);
 	}
 	virtual T getItaTOverItaI(Vec3<T> const& transmittedRay) override
 	{

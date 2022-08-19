@@ -5,7 +5,7 @@ template<typename T>
 class TransObject
 {
 public:
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) = 0;
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point) = 0;
 	virtual bool getRefractedRay(
 		Ray<T> const &transmittedRay,
 		Color<T> const&color,
