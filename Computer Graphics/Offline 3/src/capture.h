@@ -114,10 +114,11 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		{
 			assert(transObject);
 			Ray<Ftype> refractedRay;
-			if(transObject->getRefractedRay(ray,color,refractedRay))
+			Ray<Ftype> transmittedRay(point,cameraPos - point);
+			// color = Color<Ftype>();
+			if(transObject->getRefractedRay(transmittedRay,color,refractedRay))
 			{
-				// DBG(refractedRay);
-				refractedRay.setOrigin(point + refractedRay.getDirection()*1e-5);
+				refractedRay.setOrigin( refractedRay.getPoint(1e-5));
 				color+= illuminateRecursive(refractedRay,level-1);
 			}
 		}

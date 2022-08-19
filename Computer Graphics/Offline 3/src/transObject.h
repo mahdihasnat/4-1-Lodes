@@ -39,7 +39,7 @@ public:
         // ~I = N (sqrt(1-(itaTOverItaI*itaTOverItaI) * (1 - (-N dot T )^2))) 
         // 	+ ItaTOverItaI * ( - T - N ( - N dot T ));
         Vec3<T> normal = getNormalAt(transmittedRay.getOrigin());
-        if(normal.dot(transmittedRay.getDirection()) < 0)
+        if(normal.dot(transmittedRay.getDirection())  >0)
         {
             normal = -normal;
         }
@@ -49,7 +49,7 @@ public:
         T cosThetaTSquare = cosThetaT * cosThetaT;
         T sinThetaTSquare = 1 - cosThetaTSquare;
         T temp = sinThetaTSquare * itaTOverItaI * itaTOverItaI;
-        if(temp > 1)
+        if(temp > T(1))
         {
             return false;
         }

@@ -150,7 +150,7 @@ void init(){
 void addPrism()
 {
 	TransTriangle<Ftype> *tt = new TransTriangle<Ftype>();
-	tt->setRefrectionCoefficient(1.2);
+	tt->setRefrectionCoefficient(1.0);
 	
 	tt->setVertex(0,Vec3<Ftype>(20,5,0));
 	tt->setVertex(1,Vec3<Ftype>(-20,5,0));
