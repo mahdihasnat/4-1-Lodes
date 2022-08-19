@@ -5,6 +5,9 @@ using namespace std;
 #define DBG(x) cout<<__FILE__<<":"<<__LINE__<<" "<<#x" = "<<x<<endl;
 #define NL cout<<endl;
 
+#include "uniquePtr.h"
+
+
 // ordered 
 #include "constants.h"
 
@@ -33,7 +36,6 @@ using namespace std;
 
 #include "capture.h"
 #include "inputListener.h"
-
 
 
 
@@ -82,7 +84,7 @@ void display(){
 
     // drawSS();
 	
-	for(Object<Ftype> * obj : objects)
+	for(auto const & obj : objects)
 		obj->draw();
 
     // drawCircle(30,24);
@@ -173,18 +175,19 @@ void loadData(){
 		}
 		else assert(0);
 		in>>*pObject;
-		objects.push_back(pObject);
+		objects.emplace_back(UniquePtr<Object<Ftype> >(pObject));
 	}
 	
 	nObjects++;
-	objects.push_back(new Floor<Ftype>());
+	// objects.push_back(new Floor<Ftype>());
+	objects.emplace_back(UniquePtr<Object<Ftype> >(new Floor<Ftype>()));
 	int nPointLights;
 	in>>nPointLights;
 	for(int i=0;i<nPointLights;i++)
 	{
 		Light<Ftype> * light = new PointLight<Ftype>();
 		in>>*light;
-		lights.push_back(light);
+		lights.emplace_back(UniquePtr<Light<Ftype> >(light));
 	}
 	int nSpotLights;
 	in>>nSpotLights;
@@ -192,10 +195,10 @@ void loadData(){
 	{
 		Light<Ftype> * light = new SpotLight<Ftype>();
 		in>>*light;
-		lights.push_back(light);
+		lights.push_back(UniquePtr<Light<Ftype> >(light));
 	}
 	
-	for(Light<Ftype> * l: lights)
+	for(auto const& l: lights)
 	{
 		Sphere<Ftype> * o = new Sphere<Ftype>();
 		Ftype r = 1;
@@ -210,16 +213,17 @@ void loadData(){
 	}
 
 	DBG(objects.size());
-	for(Object<Ftype> * o: objects)
+	for(auto const& o: objects)
 	{
 		cerr<<*o<<endl;
 	}
 	DBG(lights.size());
-	for(Light<Ftype> * l: lights)
+	for(auto const& l: lights)
 	{
 		cerr<<*l<<endl;
 	}
 }	
+
 
 int main(int argc, char **argv){
 	

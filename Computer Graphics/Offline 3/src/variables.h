@@ -14,8 +14,8 @@ class Vec3;
 template<typename T>
 class Light;
 
-vector< Object<Ftype> * > objects;
-vector< Light<Ftype> * > lights;
+vector< UniquePtr<Object<Ftype> > > objects;
+vector< UniquePtr<Light<Ftype> > > lights;
 int recursionLevel;
 int imageWidth;
 int imageHeight;
