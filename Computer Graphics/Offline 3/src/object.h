@@ -20,7 +20,7 @@ public:
 	{
 		return T(-1);
 	}
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) = 0;
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point) = 0;
 	
 	void setColor(Color<T> c)
 	{

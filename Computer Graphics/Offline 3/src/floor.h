@@ -74,12 +74,9 @@ public:
 		return tMin;
 	}
 
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point) override
 	{
-		if(viewRay.getDirection()[2] <0)
-			return Vec3<T>(0,0,T(-1));
-		else
-			return Vec3<T>(0,0,T(+1));
+		return Vec3<T>(0,0,T(+1));
 	}
 	
 	Floor()

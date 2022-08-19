@@ -92,15 +92,10 @@ public:
 		return tMin;
 	}
 
-	virtual Vec3<T> getNormalAt(Vec3<T> const& point, Ray<T> const & viewRay) override
+	virtual Vec3<T> getNormalAt(Vec3<T> const& point)  override
 	{
 		Vec3<T> normal  = (point - center);
 		normal.normalize();
-		if(normal.dot(viewRay.getDirection())<0)
-		{
-			normal = -normal;
-		}
-
 		return normal;
 	}
 

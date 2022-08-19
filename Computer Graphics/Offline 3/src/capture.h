@@ -87,7 +87,9 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		color += intersectionPointColor*closestObject->getAmbientCoef();
 		Ray<Ftype> viewRay(point,cameraPos-point);
 		// assert(-ray.getDirection() == viewRay.getDirection());
-		Vec3<Ftype> normal = closestObject->getNormalAt(point,viewRay);
+		Vec3<Ftype> normal = closestObject->getNormalAt(point);
+		if(normal.dot(viewRay.getDirection()) <0)
+			normal = - normal;
 		
 		for(auto const & l: lights)
 		{
