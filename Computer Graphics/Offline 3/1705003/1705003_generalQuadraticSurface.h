@@ -1,8 +1,8 @@
 #ifndef A5B67414_B4F9_4255_A5C8_E3A99F99022B
 #define A5B67414_B4F9_4255_A5C8_E3A99F99022B
 
-#include "object.h"
-#include "vec3.h"
+#include "1705003_object.h"
+#include "1705003_vec3.h"
 
 template<typename T>
 class GeneralQuadraticSurface: public Object<T>

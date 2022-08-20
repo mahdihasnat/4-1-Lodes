@@ -1,7 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
-#include "vec4.h"
-#include "constants.h"
+#include "1705003_vec4.h"
+#include "1705003_constants.h"
 
 #include<bits/stdc++.h>
 using namespace std;

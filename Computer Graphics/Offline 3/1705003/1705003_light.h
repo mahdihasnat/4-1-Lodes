@@ -1,8 +1,8 @@
 #ifndef CF462996_4F29_4A1C_BF80_551D39096B13
 #define CF462996_4F29_4A1C_BF80_551D39096B13
-#include "object.h"
-#include "vec3.h"
-#include "color.h"
+#include "1705003_object.h"
+#include "1705003_vec3.h"
+#include "1705003_color.h"
 
 
 template<typename T>

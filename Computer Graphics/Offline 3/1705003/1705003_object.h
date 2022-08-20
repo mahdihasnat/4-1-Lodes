@@ -1,8 +1,8 @@
 #ifndef D2050A98_D2A4_42BD_9FE4_832315B4365E
 #define D2050A98_D2A4_42BD_9FE4_832315B4365E
 
-#include "color.h"
-#include "ray.h"
+#include "1705003_color.h"
+#include "1705003_ray.h"
 
 template<typename T>
 class Object

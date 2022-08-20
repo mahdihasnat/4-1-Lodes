@@ -2,7 +2,7 @@
 
 #define INPUTLISTENER_H
 #include <GL/glut.h>
-#include "capture.h"
+#include "1705003_capture.h"
 
 
 void keyboardListener(unsigned char key, int x,int y){

@@ -1,7 +1,7 @@
 #ifndef FB5DDE1F_8D91_4F02_A735_C37A7016D910
 #define FB5DDE1F_8D91_4F02_A735_C37A7016D910
 
-#include "object.h"
+#include "1705003_object.h"
 
 template<typename T>
 class Floor: public Object<T>

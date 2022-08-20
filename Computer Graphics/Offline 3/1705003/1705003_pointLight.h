@@ -1,7 +1,7 @@
 #ifndef CA216431_319D_4CC3_8B03_D9197686F9BD
 #define CA216431_319D_4CC3_8B03_D9197686F9BD
 
-#include "light.h"
+#include "1705003_light.h"
 
 template<typename T>
 class PointLight: public Light<T>

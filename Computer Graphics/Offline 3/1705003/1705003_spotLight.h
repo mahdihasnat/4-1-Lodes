@@ -1,7 +1,7 @@
 #ifndef B7F60605_FA8A_4E1A_A2D0_F33525D3C519
 #define B7F60605_FA8A_4E1A_A2D0_F33525D3C519
 
-#include "constants.h"
+#include "1705003_constants.h"
 
 template<typename T>
 class SpotLight: public Light<T>

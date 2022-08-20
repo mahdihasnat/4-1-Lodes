@@ -1,10 +1,10 @@
 #ifndef C6E292E4_7E6B_4D02_93A3_71317D11FCD6
 #define C6E292E4_7E6B_4D02_93A3_71317D11FCD6
 
-#include "ray.h"
-#include "object.h"
-#include "light.h"
-#include "variables.h"
+#include "1705003_ray.h"
+#include "1705003_object.h"
+#include "1705003_light.h"
+#include "1705003_variables.h"
 #include "bitmap_image.hpp"
 
 
@@ -18,7 +18,7 @@ string getNewFileName()
 	while(true)
 	{
 		string fileName = "Output_1"+to_string(fileNumber)+".bmp";
-		return fileName; // TODO: remove on submit
+		// return fileName; // TODO: remove on submit
 		ifstream ifs(fileName.c_str());
 		if(!ifs.good())
 		{

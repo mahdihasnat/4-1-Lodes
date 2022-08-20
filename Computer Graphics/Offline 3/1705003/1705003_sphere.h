@@ -1,8 +1,8 @@
 #ifndef DBE74540_73D9_4EBD_9F04_68CA243F283A
 #define DBE74540_73D9_4EBD_9F04_68CA243F283A
 
-#include "object.h"
-#include "vec3.h"
+#include "1705003_object.h"
+#include "1705003_vec3.h"
 
 template<typename T>
 class Sphere: public Object<T>

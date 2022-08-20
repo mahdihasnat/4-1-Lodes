@@ -1,7 +1,7 @@
 #ifndef D46B3C26_2DFF_4FE7_8F21_2ECB686E278C
 #define D46B3C26_2DFF_4FE7_8F21_2ECB686E278C
 
-#include "vec3.h"
+#include "1705003_vec3.h"
 
 template<typename T>
 class Ray

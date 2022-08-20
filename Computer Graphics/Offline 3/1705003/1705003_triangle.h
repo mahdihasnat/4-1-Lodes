@@ -1,8 +1,8 @@
 #ifndef D19651B0_6552_4A20_8663_D0DEA6FB1CA3
 #define D19651B0_6552_4A20_8663_D0DEA6FB1CA3
 
-#include "object.h"
-#include "vec3.h"
+#include "1705003_object.h"
+#include "1705003_vec3.h"
 
 template <class T>
 T getTriangleArea(Vec3<T> const &a, Vec3<T> const &b, Vec3<T> const &c)
