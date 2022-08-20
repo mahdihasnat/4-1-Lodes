@@ -162,7 +162,7 @@ void addPrism()
 	tt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
 	tt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
 
-	tt->setColor(Color<Ftype> (0.7,0,0));
+	tt->setColor(Color<Ftype> (0,0,0));
 	tt->setAmbient(0);
 	tt->setDiffuse(0);
 	tt->setSpecular(0);
@@ -173,7 +173,6 @@ void addPrism()
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0.5,0,0));
 		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
 		ntt->setVertex(1,Vec3<Ftype>(dx,0,dz));
@@ -182,7 +181,6 @@ void addPrism()
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0.3,0,0));
 		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
 		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
@@ -191,7 +189,6 @@ void addPrism()
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0.1,0,0));
 		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
 		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(dx,-dy,0));
@@ -200,7 +197,6 @@ void addPrism()
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0,0.1,0));
 		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
 		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
@@ -209,7 +205,6 @@ void addPrism()
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0,0.3,0));
 		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
 		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(-dx,-dy,0));
@@ -218,7 +213,6 @@ void addPrism()
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0,0.5,0));
 		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
 		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(-dx,dy,0));
@@ -227,7 +221,6 @@ void addPrism()
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setColor(Color<Ftype> (0,0.8,0));
 		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
 		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
 		ntt->setVertex(2,Vec3<Ftype>(dx,dy,0));
