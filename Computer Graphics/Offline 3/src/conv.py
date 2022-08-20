@@ -15,6 +15,7 @@ def findReplace(directory, find, replace, filePattern):
 # get output of ls command
 output = os.popen('ls *.h').read()
 output = output.split('\n')
+output.append("main.cpp")
 for file in output:
 	print(file)
 	if len(file)==0:
