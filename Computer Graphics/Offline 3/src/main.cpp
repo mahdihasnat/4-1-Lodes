@@ -150,19 +150,20 @@ void init(){
 void addPrism()
 {
 	TransTriangle<Ftype> *tt = new TransTriangle<Ftype>();
-	tt->setRefrectionCoefficient(1.0);
+	tt->setRefrectionCoefficient(1/1.5);
 	
 	// 0->1->2 ghurle vector ta jate prism er vitore thake
 	// direction of right hand rule from going along 
 	// v0 -> v1 -> v2 align inside prism
 	const Ftype dx = 20;
 	const Ftype dy = 5;
-	const Ftype dz = 10;
-	tt->setVertex(0,Vec3<Ftype>(dx,dy,0));
-	tt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
+	const Ftype dz = 40;
+	const Vec3<Ftype> origin(0,0,5);
+	tt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+	tt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
 	tt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
 
-	tt->setColor(Color<Ftype> (0,0,0));
+	tt->setColor(Color<Ftype> (0.2,0.2,0.2));
 	tt->setAmbient(0);
 	tt->setDiffuse(0);
 	tt->setSpecular(0);
@@ -173,57 +174,57 @@ void addPrism()
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
-		ntt->setVertex(1,Vec3<Ftype>(dx,0,dz));
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,0,dz));
 		objects.push_back(ntt);
 	}
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
-		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,0,dz));
 		objects.push_back(ntt);
 	}
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
-		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,-dy,0));
 		objects.push_back(ntt);
 	}
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
-		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,0,dz));
 		objects.push_back(ntt);
 	}
 
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
-		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,-dy,0));
 		objects.push_back(ntt);
 	}
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
-		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,dy,0));
 		objects.push_back(ntt);
 	}
 	
 	{
 		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
-		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
-		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
-		ntt->setVertex(2,Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,dy,0));
 		objects.push_back(ntt);
 	}
 
