@@ -152,18 +152,55 @@ void addPrism()
 	TransTriangle<Ftype> *tt = new TransTriangle<Ftype>();
 	tt->setRefrectionCoefficient(1.0);
 	
-	tt->setVertex(0,Vec3<Ftype>(20,5,0));
-	tt->setVertex(1,Vec3<Ftype>(-20,5,0));
-	tt->setVertex(2,Vec3<Ftype>(-20,0,10));
+	// 0->1->2 ghurle vector ta jate prism er vitore thake
+	// direction of right hand rule from going along 
+	// v0 -> v1 -> v2 align inside prism
+	const Ftype dx = 20;
+	const Ftype dy = 5;
+	const Ftype dz = 10;
+	tt->setVertex(0,Vec3<Ftype>(dx,dy,0));
+	tt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
+	tt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
 
-	tt->setColor(Color<Ftype> (0,0,0));
+	tt->setColor(Color<Ftype> (0.7,0,0));
 	tt->setAmbient(0);
-	tt->setDiffuse(0.1);
+	tt->setDiffuse(0);
 	tt->setSpecular(0);
-	tt->setReflection(1);
+	tt->setReflection(0);
 	tt->setShine(1);
 
 	objects.emplace_back(tt);
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0.5,0,0));
+		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0.3,0,0));
+		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0.1,0,0));
+		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(dx,-dy,0));
+		objects.push_back(ntt);
+	}
+	for(auto const & obj: objects)
+	{
+		obj->setColor(Color<Ftype> (0,0,0));
+	}
 
 }
 
