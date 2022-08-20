@@ -155,6 +155,7 @@ void addPrism()
 	// 0->1->2 ghurle vector ta jate prism er vitore thake
 	// direction of right hand rule from going along 
 	// v0 -> v1 -> v2 align inside prism
+	// see resource/prism_coordinates.jpeg for more details
 	const Ftype dx = 20;
 	const Ftype dy = 5;
 	const Ftype dz = 40;
@@ -233,6 +234,8 @@ void addPrism()
 	{
 		// obj->setColor(Color<Ftype> (0,0,0));
 	}
+
+	
 
 }
 
