@@ -12,7 +12,7 @@ main.out : *.cpp *.h
 
 clean:
 	rm -f main.out *.bmp
-	
+
 
 # %.o : %.cpp %.h
 # 	${CC} -c $< -o $@

@@ -81,10 +81,10 @@ public:
 	
 	Floor()
 	{
-		Object<T>::coefficiants[0] = T(0.2);
-		Object<T>::coefficiants[1] = T(0.2);
-		Object<T>::coefficiants[2] = T(0.2);
-		Object<T>::coefficiants[3] = T(0.2);
+		Object<T>::coefficiants[0] = T(0.25);
+		Object<T>::coefficiants[1] = T(0.25);
+		Object<T>::coefficiants[2] = T(0.25);
+		Object<T>::coefficiants[3] = T(0.25);
 		Object<T>:: shine = 2;
 	}
 

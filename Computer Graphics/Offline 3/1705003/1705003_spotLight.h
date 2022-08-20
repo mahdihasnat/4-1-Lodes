@@ -26,6 +26,15 @@ public:
 		os<<"[sl: ";
 		return Light<T>::write(os)<<" [d: "<<direction<<"] [a: "<<cuttoffAngleDegree<<"] ]";
 	}
+	void setDirection(Vec3<T> direction)
+	{
+		this->direction = direction;
+		this->direction.normalize();
+	}
+	void setCuttoffAngleDegree(T cuttoffAngleDegree)
+	{
+		this->cuttoffAngleDegree = cuttoffAngleDegree;
+	}
 };
 
 #endif /* B7F60605_FA8A_4E1A_A2D0_F33525D3C519 */

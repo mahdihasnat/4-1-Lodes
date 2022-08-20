@@ -39,6 +39,8 @@ using namespace std;
 
 
 
+#include "1705003_transTriangle.h"
+
 void display(){
 	
 	//clear the display
@@ -109,7 +111,7 @@ void initCamera(){
 
 	cameraPos=Vec3<Ftype>(-100 ,-100, 50);
 	// maintain r cross l = u
-	cameraUpDir= Vec3<Ftype>(0 ,0,1);
+	cameraUpDir= Vec3<Ftype>(0,0,1);
 	cameraLookDir= Vec3<Ftype>(1,1,0);
 	cameraLookDir.normalize();
 	cameraUpDir.normalize();
@@ -142,6 +144,115 @@ void init(){
 	//aspect ratio that determines the field of view in the X direction (horizontally)
 	//near distance
 	//far distance
+}
+
+
+void addPrism()
+{
+	TransTriangle<Ftype> *tt = new TransTriangle<Ftype>();
+	tt->setRefrectionCoefficient(1/1.5);
+	
+	// 0->1->2 ghurle vector ta jate prism er vitore thake
+	// direction of right hand rule from going along 
+	// v0 -> v1 -> v2 align inside prism
+	// see resource/prism_coordinates.jpeg for more details
+	const Ftype dx = 20;
+	const Ftype dy = 5;
+	const Ftype dz = 40;
+	const Vec3<Ftype> origin(0,0,5);
+	tt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+	tt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
+	tt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
+
+	tt->setColor(Color<Ftype> (0.1,0.1,0.1));
+	tt->setAmbient(0);
+	tt->setDiffuse(0.001);
+	tt->setSpecular(0.01);
+	tt->setReflection(0.001);
+	tt->setShine(1);
+
+	objects.emplace_back(tt);
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,-dy,0));
+		objects.push_back(ntt);
+	}
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,-dy,0));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(-dx,dy,0));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setVertex(0,origin+Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,origin+Vec3<Ftype>(dx,dy,0));
+		objects.push_back(ntt);
+	}
+
+
+	for(auto const & obj: objects)
+	{
+		// obj->setColor(Color<Ftype> (0,0,0));
+	}
+
+	SpotLight<Ftype> * sp = new SpotLight<Ftype>();
+	sp->setPosition(origin + Vec3<Ftype>(0,dy*5,dz*0.75));
+	sp->setColor(Color<Ftype> (1,1,1));
+	sp->setDirection(Vec3<Ftype>(0,-1,0));
+	sp->setCuttoffAngleDegree(10);
+	lights.push_back(sp);
+
+	{
+		// for prism
+		SpotLight<Ftype> * sl = new SpotLight<Ftype>();
+		sl->setDirection(Vec3<Ftype>(0,0,-1));
+		sl->setCuttoffAngleDegree(0.001);
+
+		sl->setPosition(Vec3<Ftype>(0,-15,200));	
+		sl->setColor(Color<Ftype> (1,1,1));
+
+		lights.push_back(sl);
+	}
 }
 
 void loadData(){
@@ -179,8 +290,7 @@ void loadData(){
 	}
 	
 	nObjects++;
-	// objects.push_back(new Floor<Ftype>());
-	objects.emplace_back(UniquePtr<Object<Ftype> >(new Floor<Ftype>()));
+	objects.push_back(new Floor<Ftype>());
 	int nPointLights;
 	in>>nPointLights;
 	for(int i=0;i<nPointLights;i++)
@@ -211,6 +321,28 @@ void loadData(){
 		o->setShine(1);
 		// objects.push_back(o);
 	}
+
+	// TransTriangle<Ftype> * tt = new TransTriangle<Ftype>();
+	// tt->setRefrectionCoefficient(1.2);
+	
+	// tt->setVertex(0,Vec3<Ftype>(-10,-10,20));
+	// tt->setVertex(1,Vec3<Ftype>(10,-10,20));
+	// tt->setVertex(2,Vec3<Ftype>(0,10,20));
+
+	// tt->setColor(Color<Ftype> (0.5,0.5,0.5));
+	// tt->setAmbient(0.5);
+	// tt->setDiffuse(0.2);
+	// tt->setSpecular(0.2);
+	// tt->setReflection(0.2);
+	// tt->setShine(1);
+	// objects.push_back(tt);
+
+	// addPrism();
+
+
+
+	
+
 
 	DBG(objects.size());
 	for(auto const& o: objects)

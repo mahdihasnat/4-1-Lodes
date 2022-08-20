@@ -78,6 +78,7 @@ void keyboardListener(unsigned char key, int x,int y){
 	
 }
 
+	const double KEY_DISTANCE=5.0; 
 
 void specialKeyListener(int key, int x,int y){
 
@@ -87,7 +88,6 @@ void specialKeyListener(int key, int x,int y){
 	// DBG(cameraRightDir);
 	// NL;
 
-	const double KEY_DISTANCE=5.0; 
 	switch(key){
 		case GLUT_KEY_DOWN:		//down arrow key
 			cameraPos += cameraLookDir * -KEY_DISTANCE;
@@ -133,7 +133,7 @@ void specialKeyListener(int key, int x,int y){
 
 
 void mouseListener(int button, int state, int x, int y){	//x, y is the x-y of the screen (2D)
-	
+			
 	switch(button){
 		case GLUT_LEFT_BUTTON:
 			if(state == GLUT_DOWN){		// 2 times?? in ONE click? -- solution is checking DOWN or UP
@@ -148,10 +148,34 @@ void mouseListener(int button, int state, int x, int y){	//x, y is the x-y of th
 		case GLUT_MIDDLE_BUTTON:
 			//........
 			break;
-
+		case 3:
+			// zoom in
+			cameraPos += cameraLookDir * KEY_DISTANCE;
+			break;
+		case 4:
+			// zoom out
+			cameraPos += cameraLookDir * -KEY_DISTANCE;
+			break;
 		default:
 			break;
 	}
+	
+}
+
+void mouseWheelListener(int button, int dir, int x, int y)
+{
+    if (dir > 0)
+    {
+		// zoom in
+        cameraPos += cameraLookDir * 0.1;
+	}
+	else
+	{
+		// zoom out
+		cameraPos -= cameraLookDir * 0.1;
+    }
+
+    return;
 }
 
 #endif

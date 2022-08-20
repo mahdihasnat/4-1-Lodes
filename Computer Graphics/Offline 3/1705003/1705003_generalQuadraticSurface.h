@@ -28,9 +28,9 @@ class GeneralQuadraticSurface: public Object<T>
 
 	}
 
-	virtual T getIntersectingT(Ray<T> const& ray)
+	virtual T getIntersectingT(Ray<T> const& ray) override
 	{
-		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Exz + Fyz + Gx + Hy + Iz = 0
+		// Surface equation: Ax^2 + By^2 + Cz^2 + Dxy + Exz + Fyz + Gx + Hy + Iz  + J= 0
 		// A = v[0], B = v[1], C = v[2], D = v[3], E = v[4], F = v[5], G = v[6], H = v[7], I = v[8], J = v[9]
 
 		// putting x = (ray.origin.x +  t * ray.direction.x)
@@ -98,7 +98,11 @@ class GeneralQuadraticSurface: public Object<T>
 			  v[7] * ray.getOrigin()[1] +
 			  v[8] * ray.getOrigin()[2] +
 			  v[9];
-		
+		// DBG(a);
+		// DBG(b);
+		// DBG(c);
+		// NL;
+
 		T tMin =T(-1);
 		if(abs(a)<EPS) // a == 0
 		{
@@ -161,6 +165,7 @@ class GeneralQuadraticSurface: public Object<T>
 			Vec3<T> (v[4], v[5], 2*v[2]).dot(point) + v[8]
 		);
 		normal.normalize();
+		// DBG(normal);
 		return normal;
 	}
 	

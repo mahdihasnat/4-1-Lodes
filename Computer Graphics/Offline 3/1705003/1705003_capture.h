@@ -6,7 +6,7 @@
 #include "1705003_light.h"
 #include "1705003_variables.h"
 #include "bitmap_image.hpp"
-
+#include "1705003_transObject.h"
 
 #include <chrono>
 using namespace std::chrono;
@@ -37,7 +37,7 @@ bool isInShadow(Object<Ftype> * object, Ray<Ftype> &incidentRay)
 	Ftype currentT = object->getIntersectingT(incidentRay);
 	if(currentT<0)
 	{
-		DBG(currentT);
+		// DBG(currentT);
 		// DBG(*object);
 		// DBG(incidentRay);
 		// DBG(cameraPos);
@@ -84,7 +84,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 	{
 		Vec3<Ftype > point = ray.getPoint(minimumPositiveT);
 		const Color<Ftype> intersectionPointColor =closestObject->getColorAt(point);
-		if(level == recursionLevel)
+		// if(level == recursionLevel)
 			color += intersectionPointColor*closestObject->getAmbientCoef();
 		Ray<Ftype> viewRay(point,cameraPos-point);
 		// assert(-ray.getDirection() == viewRay.getDirection());
@@ -96,7 +96,7 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		{
 			Ray<Ftype> incidentRay(l->getPosition(),point-l->getPosition());
 			if(!l->isReachable(point)) continue;
-			if(incidentRay.getDirection().dot(normal)>=0) continue;
+			if(incidentRay.getDirection().dot(normal)>0) continue;
 			if(isInShadow(closestObject,incidentRay)) continue;
 			Ftype lambertValue = max(-incidentRay.getDirection().dot(normal),Ftype(0));
 			color += l->getColor()* intersectionPointColor * (closestObject->getDiffuseCoef() * lambertValue);
@@ -109,6 +109,19 @@ Color<Ftype> illuminateRecursive(Ray<Ftype> ray,int level)
 		Ray<Ftype> reflectedRay(point + reflectedRayDirection*1e-5,reflectedRayDirection);
 		Color<Ftype> colorReflected = illuminateRecursive(reflectedRay,level-1);
 		color += colorReflected * closestObject->getReflectionCoef();
+		TransObject<Ftype> * transObject = dynamic_cast<TransObject<Ftype> *>(closestObject);
+		if(transObject)
+		{
+			assert(transObject);
+			Ray<Ftype> refractedRay;
+			Ray<Ftype> transmittedRay(point,cameraPos - point);
+			// color = Color<Ftype>();
+			if(transObject->getRefractedRay(transmittedRay,color,refractedRay))
+			{
+				refractedRay.setOrigin( refractedRay.getPoint(1e-5));
+				color+= illuminateRecursive(refractedRay,level-1);
+			}
+		}
 	}
 	
 	// DBG(color);
