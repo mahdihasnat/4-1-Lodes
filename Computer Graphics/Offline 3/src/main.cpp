@@ -197,9 +197,47 @@ void addPrism()
 		ntt->setVertex(2,Vec3<Ftype>(dx,-dy,0));
 		objects.push_back(ntt);
 	}
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0,0.1,0));
+		ntt->setVertex(0,Vec3<Ftype>(dx,dy,0));
+		ntt->setVertex(1,Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(dx,0,dz));
+		objects.push_back(ntt);
+	}
+
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0,0.3,0));
+		ntt->setVertex(0,Vec3<Ftype>(-dx,0,dz));
+		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(-dx,-dy,0));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0,0.5,0));
+		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,Vec3<Ftype>(-dx,-dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(-dx,dy,0));
+		objects.push_back(ntt);
+	}
+	
+	{
+		TransTriangle<Ftype> *ntt = new TransTriangle<Ftype>(*tt);
+		ntt->setColor(Color<Ftype> (0,0.8,0));
+		ntt->setVertex(0,Vec3<Ftype>(dx,-dy,0));
+		ntt->setVertex(1,Vec3<Ftype>(-dx,dy,0));
+		ntt->setVertex(2,Vec3<Ftype>(dx,dy,0));
+		objects.push_back(ntt);
+	}
+
+
 	for(auto const & obj: objects)
 	{
-		obj->setColor(Color<Ftype> (0,0,0));
+		// obj->setColor(Color<Ftype> (0,0,0));
 	}
 
 }
@@ -239,8 +277,7 @@ void loadData(){
 	}
 	
 	nObjects++;
-	// objects.push_back(new Floor<Ftype>());
-	objects.emplace_back(UniquePtr<Object<Ftype> >(new Floor<Ftype>()));
+	objects.push_back(new Floor<Ftype>());
 	int nPointLights;
 	in>>nPointLights;
 	for(int i=0;i<nPointLights;i++)
