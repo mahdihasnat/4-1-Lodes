@@ -109,10 +109,10 @@ void animate(){
 
 void initCamera(){
 
-	cameraPos=Vec3<Ftype>(0 ,50, 5);
+	cameraPos=Vec3<Ftype>(-100 ,-100, 50);
 	// maintain r cross l = u
 	cameraUpDir= Vec3<Ftype>(0,0,1);
-	cameraLookDir= Vec3<Ftype>(0,-1,0);
+	cameraLookDir= Vec3<Ftype>(1,1,0);
 	cameraLookDir.normalize();
 	cameraUpDir.normalize();
 	cameraRightDir= cameraLookDir.cross(cameraUpDir);
@@ -164,7 +164,7 @@ void addPrism()
 	tt->setVertex(1,origin+Vec3<Ftype>(-dx,dy,0));
 	tt->setVertex(2,Vec3<Ftype>(-dx,0,dz));
 
-	tt->setColor(Color<Ftype> (0.2,0.2,0.2));
+	tt->setColor(Color<Ftype> (0.1,0.1,0.1));
 	tt->setAmbient(0);
 	tt->setDiffuse(0.001);
 	tt->setSpecular(0.01);
@@ -236,11 +236,23 @@ void addPrism()
 	}
 
 	SpotLight<Ftype> * sp = new SpotLight<Ftype>();
-	sp->setPosition(origin + Vec3<Ftype>(0,dy*5,dz/2));
+	sp->setPosition(origin + Vec3<Ftype>(0,dy*5,dz*0.75));
 	sp->setColor(Color<Ftype> (1,1,1));
 	sp->setDirection(Vec3<Ftype>(0,-1,0));
-	sp->setCuttoffAngleDegree(0.1);
+	sp->setCuttoffAngleDegree(10);
 	lights.push_back(sp);
+
+	{
+		// for prism
+		SpotLight<Ftype> * sl = new SpotLight<Ftype>();
+		sl->setDirection(Vec3<Ftype>(0,0,-1));
+		sl->setCuttoffAngleDegree(0.001);
+
+		sl->setPosition(Vec3<Ftype>(0,-15,200));	
+		sl->setColor(Color<Ftype> (1,1,1));
+
+		lights.push_back(sl);
+	}
 }
 
 void loadData(){
@@ -325,19 +337,11 @@ void loadData(){
 	// tt->setShine(1);
 	// objects.push_back(tt);
 
-	addPrism();
+	// addPrism();
 
 
 
-	// for prism
-	SpotLight<Ftype> * sl = new SpotLight<Ftype>();
-	sl->setDirection(Vec3<Ftype>(0,0,-1));
-	sl->setCuttoffAngleDegree(0.001);
-
-	sl->setPosition(Vec3<Ftype>(0,-15,200));	
-	sl->setColor(Color<Ftype> (1,1,1));
-
-	lights.push_back(sl);
+	
 
 
 	DBG(objects.size());
