@@ -22,4 +22,5 @@ for file in output:
 		continue
 	findReplace('./',file,"1705003_"+file,"*.h")
 	findReplace('./',file,"1705003_"+file,"*.cpp")
+	findReplace('./',file,"1705003_"+file,"Makefile")
 	os.rename(file, "1705003_"+file)
